@@ -1,0 +1,107 @@
+<template>
+  <div class="app-navbar">
+    <nav class="navbar" :class="navbar">
+      <div class="container-fluid">
+          <div class="navbar-header">
+            <router-link class="navbar-brand leftLink" to="/">
+                <span :class="brandTitle">PawPal</span>
+            </router-link>
+          </div>          
+          <ul class="nav navbar-nav navbar-left">
+            <li><router-link :class="rightLink" v-for="ll in leftList" :key="ll.name" :to="ll.url" >{{ll.name}}</router-link></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><router-link :class="rightLink" v-for="rl in rightList" :key="rl.name" :to="rl.url">{{rl.name}}</router-link></li>
+          </ul>
+      </div>
+    </nav>      
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'navbar',
+  created () {
+    if (this.type === 'dark') {
+      this.navbar = 'navbar-dark'
+      this.brandTitle = 'brand-title-dark'
+      this.rightLink = 'right-link-dark'
+    }
+  },
+  props: ['type'],
+  data () {
+    return {
+      navbar: '',
+      brandTitle: 'brand-title',
+      rightLink: 'right-link',
+      rightList: [
+        { name: 'สมุดวัคซีน', url: '/doctor/vaccination' },
+        { name: 'สมุดนัดหมาย', url: '/doctor/appointment' }
+      ],
+      leftList: [
+        { name: 'เพิ่มหมาที่พบ', url: '/finder' },
+        { name: 'ประกาศหมาที่พบ', url: '/found-dog' },
+        { name: 'ประกาศหมาสูญหาย', url: '/missing-dog' }
+      ]
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+  .navbar-dark {
+    background-color: #8F6853; 
+    border: 1px solid black;
+    border-radius: 0px;
+  }
+  .brand-title {
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: bold;
+    padding-left: 15px;
+  }
+  .brand-title-dark {
+    @extend .brand-title;
+    color: white;
+  }
+  .brand-title:hover {
+    color: #441002;
+  }
+  .brand-title-dark:hover {
+    color: white;
+  }
+  .left-link {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 18px;
+    color: #b1b1b1;
+  }
+  .left-link:hover {
+    color: #441002;
+  }
+  .left-link:focus {
+    color: #441002;
+  }
+  .right-link {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 18px;
+    color: #b1b1b1;
+  }
+  .right-link:hover {
+    color: #441002;
+  }
+  .right-link-dark {
+    @extend .right-link;
+    font-size: 16px;
+    color: white;
+  }
+  .right-link-dark:hover {
+    color: #441002;
+    background-color: white;
+  }
+  .right-link-dark:focus {
+    color: #441002;
+    background-color: white;
+  }
+</style>
