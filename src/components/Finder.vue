@@ -1,18 +1,18 @@
 <template>
   <div class="finder">
     <nav-bar :type = "'dark'"></nav-bar>
-    <div class="container animated-t fadeInTo">
+    <div class="container animated fadeIn">
       <h2> เพิ่มข้อมูลหมาที่พบ</h2>
       <div class="container-fluid" style="margin-top:20px">
         <!-- Top Side -->
-        <div class="col-xs-12 upload-images">
+        <div class="col-xs-12 bottom-line">
           <h3>อัพโหลดรูปภาพหมา</h3>
           <div class="alert alert-danger hide">รูปควรมีขนาดเป็นสี่เหลี่ยมจตุรัส</div>
           <input class="form-control input-lg" style="display: none;" type="file" name="pic" accept="image/*" id="input-img" @change="SelectImage"> 
           <div class="text-center" style="padding-top: 10px;">
             <div class="img-container" v-for="(image, i) in images" :key="i">
-              <img :src="image.src" :id="'img'+i" class="img-preview animated fadeIn" alt="preview-image" />
-              <span class="btn btn-danger" @click="RemoveImage(image)">ยกเลิกรูปภาพ</span>
+              <img :src="image.src" :id="'img'+i" class="img-preview animated fadeIn" alt="preview-image" @click="CroppingImage(image.src)" />
+              <span class="btn btn-danger" @click="RemoveImage(image)">ลบรูปภาพ</span>
             </div>
             <div class="img-container">
               <img id="select_picture" :src="imgPlaceholder" class="img-placeholder" @click="BrowseFile" />
@@ -23,8 +23,8 @@
         <!-- Left Side -->
         <div class="col-xs-12 col-sm-6">
           <h3>ข้อมูลสุนัข</h3>
-          <app-form :form="dogForm"></app-form> 
-          <div class="col-xs-12">
+          <app-form :form="dogForm" class="bottom-line"></app-form> 
+          <div class="col-xs-12 no-padding">
             <h3>ข้อมูลติดต่อ</h3>
             <app-form :form="finderForm"></app-form> 
           </div>
@@ -63,20 +63,39 @@
         </div>
       </div>
     </div>
+    <el-dialog
+      title = "แก้ไขรูปภาพ"
+      :visible.sync="cropModal"
+      :close-on-click-modal = "false"
+      :show-close="false"
+      size="large">
+      <div class="text-center">
+        <img id = "cropImage" :src="cropImage" width = "60%" style = "border-radius: 5px; display: none;" />
+        <vue-croppie 
+            ref="croppieRef" 
+            :enableOrientation="true">
+        </vue-croppie>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="success" @click="cropModal = false">ยืนยัน</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import appForm from '@/components/finder/Form.vue'
   import navBar from '@/components/common/Navbar.vue'
-  import vueResource from 'vue-resource'
+  import VueResource from 'vue-resource'
   import Vue from 'vue'
   import * as VueGoogleMaps from 'vue2-google-maps'
   import $ from 'jquery'
   import EXIF from 'exif-js/exif.js'
   import Datepicker from 'vuejs-datepicker'
+  import VueCroppie from 'vue-croppie'
 
-  Vue.use(vueResource)
+  Vue.use(VueResource)
+  Vue.use(VueCroppie)
   Vue.use(VueGoogleMaps, {
     load: {
       key: 'AIzaSyC5Zj99qcTk6zn3_TBnr7gMdO6oxbCxhJ8',
@@ -137,6 +156,7 @@
         var file = event.target.files[0]
         var imagefile = file.type
         var match = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif']
+        this.cropModal = true
         if (match.indexOf(imagefile) === -1) {
           alert('Please select image file (.jpg .png .gif)')
           return false
@@ -154,10 +174,18 @@
                 var allMetaData = EXIF.getAllTags(this)
                 self.images.push({detail: file, src: image.src, exif: allMetaData})
                 self.AutoFill(self.images[self.images.length - 1])
+                self.CroppingImage(image.src)
               })
             }
           }
         }
+      },
+      CroppingImage (imageSrc) {
+        this.cropModal = true
+        this.cropImage = imageSrc
+        this.$refs.croppieRef.bind({
+          url: this.cropImage
+        })
       },
       RemoveImage (image) {
         for (var i = 0; i < this.images.length; i++) {
@@ -167,12 +195,32 @@
           }
         }
       },
+      ConvertDMSToDD (degrees, minutes, seconds, direction) {
+        var dd = degrees + minutes / 60 + seconds / (60 * 60)
+        if (direction === 'S' || direction === 'W') {
+          dd = dd * -1
+        } // Don't do anything for N or E
+        return dd
+      },
       AutoFill (image) {
         if (image.exif.ExifVersion) {
           if (image.exif.DateTimeOriginal) {
             var stringDate = image.exif.DateTimeOriginal.substring(0, 10)
             stringDate = stringDate.replace(/:/g, '/')
             this.dateForm.model = new Date(stringDate)
+          }
+          if (image.exif.GPSLatitude && image.exif.GPSLongitude) {
+            var lat = []
+            var lng = []
+            for (var i = 0; i < image.exif.GPSLatitude.length; i++) {
+              lat.push(image.exif.GPSLatitude[i].numerator / image.exif.GPSLatitude[i].denominator)
+              lng.push(image.exif.GPSLongitude[i].numerator / image.exif.GPSLongitude[i].denominator)
+            }
+            this.latLng = {
+              lat: this.ConvertDMSToDD(lat[0], lat[1], lat[2], image.exif.GPSLatitudeRef),
+              lng: this.ConvertDMSToDD(lng[0], lng[1], lng[2], image.exif.GPSLongitudeRef)
+            }
+            this.MoveToLocation()
           }
         }
       }
@@ -183,6 +231,9 @@
         navigator.geolocation.getCurrentPosition(this.showPosition)
         this.first = false
       }
+      this.$refs.croppieRef.bind({
+        url: 'http://i.imgur.com/Fq2DMeH.jpg'
+      })
     },
     data () {
       return {
@@ -194,8 +245,10 @@
         position: {lat: 13.7563309, lng: 100.50176510000006},
         zoom: 12,
         first: true,
+        cropModal: false,
+        cropImage: null,
         images: [],
-        imgPlaceholder: require('@/assets/finder/picture-placeholder-300x300.png'),
+        imgPlaceholder: require('@/assets/finder/dogupload3.png'),
         dateForm: { name: 'เมื่อวันที่', placeholder: '', type: 'date', model: new Date() },
         dogForm: [
           { name: 'พันธุ์', placeholder: '', type: 'selector', model: '', options: ['Yorkshire Terrier', 'Maltese', 'French Bulldog', 'Pug', 'Chihuahua', 'Dachshund', 'Shih-Tzu', 'Papiyong', 'English Bulldog', 'Basset Hound', 'Pomeranian', 'Jack Russell Terrier', 'Shiba Inu', 'Alaskan Malamute', 'บางแก้ว', 'ไทยหลังอาน', 'Boston Terrier', 'Bull Terrier', 'Welsh Corgi', 'Cocker Spaniel', 'Dachshund', 'Cavalier King Charles Spaniel', 'Schnauzer', 'Poodle', 'French Bulldog', 'Mastiff', 'Maltese', 'Collie', 'Basset Hound', 'Akita', 'St. Bernard', 'Scottish Terrier', 'Shar-pei', 'Dalmatians', 'Chow Chow', 'Pekingese'] },
@@ -213,10 +266,13 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  .upload-images {
+<style lang="scss">
+  .finder {
+    padding-bottom: 50px;
+  }
+  .bottom-line {
     border-bottom: 3px solid #A58675;
-    padding-bottom: 20px;    
+    padding-bottom: 20px;
   }
   .input-place {
     font-weight: normal;
@@ -235,6 +291,9 @@
   .show {
     display: inline-block;
   }
+  img {
+    max-width: 100%; /* This rule is very important, please do not ignore this! */
+  }
   .img-container {
     width: 200px;
     height: 250px;
@@ -245,9 +304,11 @@
   .img-preview {
     width: 200px;
     height: 200px;
-    border-radius: 5px;
+    padding: 2px;
+    margin-bottom: 5px;
     display: inline-block;
     cursor: pointer;
+    border-radius: 5px;
     transition-duration: 0.5s;
   }
   .img-placeholder {
@@ -256,13 +317,16 @@
   }
   .img-placeholder:hover {
     border: 3px dashed #ce9e6c;
-  }
-  img {
-    margin: 5px;
-  }  
+  } 
   .alert-danger {
     font-size: 14px;
     padding-top: 10px;
     padding-bottom: 10px;
+  }
+  .dialog-footer {
+    text-align: center;
+  }
+  .el-dialog__title {
+    font-size: 24px;
   }
 </style>

@@ -28,6 +28,9 @@ export default {
 </script>
 
 <style lang='scss'>
+  .form {
+    padding-top: 5px;
+  }
   .width-100 {
     width: 100%;
   }
