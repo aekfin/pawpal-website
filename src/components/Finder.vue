@@ -11,7 +11,7 @@
           <input class="form-control input-lg" style="display: none;" type="file" name="pic" accept="image/*" id="input-img" @change="SelectImage"> 
           <div class="text-center" style="padding-top: 10px;">
             <div class="img-container" v-for="(image, i) in images" :key="i">
-              <img :src="image.src" :id="'img'+i" class="img-preview animated fadeIn" alt="preview-image" @click="CroppingImage(image.src)" />
+              <img :src="image.modified_src" :id="'img'+i" class="img-preview animated fadeIn" alt="preview-image" @click="CroppingImage(image.original_src)" />
               <span class="btn btn-danger" @click="RemoveImage(image)">ลบรูปภาพ</span>
             </div>
             <div class="img-container">
@@ -70,15 +70,14 @@
       :show-close="false"
       size="large">
       <div class="text-center">
-        <img id = "cropImage" :src="cropImage" width = "60%" style = "border-radius: 5px; display: none;" />
         <vue-croppie 
             ref="croppieRef" 
+            :viewport="{ width: 300, height: 300, type: 'square' }"
             :enableOrientation="true">
         </vue-croppie>
+        <el-button size="large" type="primary" @click="Rotate(90)"> หมุนรูปภาพ</el-button>
+        <el-button size="large" type="success" @click="Crop">ยืนยันการแก้ไข</el-button>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="success" @click="cropModal = false">ยืนยัน</el-button>
-      </span>
     </el-dialog>
   </div>
 </template>
@@ -172,20 +171,47 @@
             image.onload = function () {
               EXIF.getData(image, function () {
                 var allMetaData = EXIF.getAllTags(this)
-                self.images.push({detail: file, src: image.src, exif: allMetaData})
-                self.AutoFill(self.images[self.images.length - 1])
+                self.images.push({type: file, exif: allMetaData, original_src: image.src, modified_src: image.src})
+                self.CheckImageExif()
                 self.CroppingImage(image.src)
               })
             }
           }
         }
       },
+      FindImage () {
+        for (var i = 0; i < this.images.length; i++) {
+          if (this.images[i].original_src === this.cropImage) {
+            return i
+          }
+        }
+        return -1
+      },
       CroppingImage (imageSrc) {
         this.cropModal = true
         this.cropImage = imageSrc
-        this.$refs.croppieRef.bind({
+        var options = {
           url: this.cropImage
+        }
+        var index = this.FindImage()
+        if (this.images[index].crop) {
+          options.points = this.images[index].crop.points
+          options.zoom = this.images[index].crop.zoom
+        }
+        this.$refs.croppieRef.bind(options)
+      },
+      Crop () {
+        let options = {
+          format: 'jpeg'
+        }
+        var index = this.FindImage()
+        this.$refs.croppieRef.result(options, (output) => {
+          this.images[index].modified_src = output
         })
+        this.$refs.croppieRef.get((data) => {
+          this.images[index].crop = data
+        })
+        this.cropModal = false
       },
       RemoveImage (image) {
         for (var i = 0; i < this.images.length; i++) {
@@ -195,6 +221,9 @@
           }
         }
       },
+      Rotate (rotationAngle) {
+        this.$refs.croppieRef.rotate(rotationAngle)
+      },
       ConvertDMSToDD (degrees, minutes, seconds, direction) {
         var dd = degrees + minutes / 60 + seconds / (60 * 60)
         if (direction === 'S' || direction === 'W') {
@@ -202,26 +231,32 @@
         } // Don't do anything for N or E
         return dd
       },
+      CheckImageExif () {
+        for (var i = 0; i < this.images.length; i++) {
+          if (this.images[i].exif.ExifVersion) {
+            this.AutoFill(this.images[i])
+            break
+          }
+        }
+      },
       AutoFill (image) {
-        if (image.exif.ExifVersion) {
-          if (image.exif.DateTimeOriginal) {
-            var stringDate = image.exif.DateTimeOriginal.substring(0, 10)
-            stringDate = stringDate.replace(/:/g, '/')
-            this.dateForm.model = new Date(stringDate)
+        if (image.exif.DateTimeOriginal) {
+          var stringDate = image.exif.DateTimeOriginal.substring(0, 10)
+          stringDate = stringDate.replace(/:/g, '/')
+          this.dateForm.model = new Date(stringDate)
+        }
+        if (image.exif.GPSLatitude && image.exif.GPSLongitude) {
+          var lat = []
+          var lng = []
+          for (var i = 0; i < image.exif.GPSLatitude.length; i++) {
+            lat.push(image.exif.GPSLatitude[i].numerator / image.exif.GPSLatitude[i].denominator)
+            lng.push(image.exif.GPSLongitude[i].numerator / image.exif.GPSLongitude[i].denominator)
           }
-          if (image.exif.GPSLatitude && image.exif.GPSLongitude) {
-            var lat = []
-            var lng = []
-            for (var i = 0; i < image.exif.GPSLatitude.length; i++) {
-              lat.push(image.exif.GPSLatitude[i].numerator / image.exif.GPSLatitude[i].denominator)
-              lng.push(image.exif.GPSLongitude[i].numerator / image.exif.GPSLongitude[i].denominator)
-            }
-            this.latLng = {
-              lat: this.ConvertDMSToDD(lat[0], lat[1], lat[2], image.exif.GPSLatitudeRef),
-              lng: this.ConvertDMSToDD(lng[0], lng[1], lng[2], image.exif.GPSLongitudeRef)
-            }
-            this.MoveToLocation()
+          this.latLng = {
+            lat: this.ConvertDMSToDD(lat[0], lat[1], lat[2], image.exif.GPSLatitudeRef),
+            lng: this.ConvertDMSToDD(lng[0], lng[1], lng[2], image.exif.GPSLongitudeRef)
           }
+          this.MoveToLocation()
         }
       }
     },
@@ -231,9 +266,6 @@
         navigator.geolocation.getCurrentPosition(this.showPosition)
         this.first = false
       }
-      this.$refs.croppieRef.bind({
-        url: 'http://i.imgur.com/Fq2DMeH.jpg'
-      })
     },
     data () {
       return {
