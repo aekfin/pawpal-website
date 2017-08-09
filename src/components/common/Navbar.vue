@@ -49,8 +49,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .navbar {
+    margin-bottom: 0px;
+  }
   .navbar-dark {
-    background-color: #8F6853; 
+    background-color: #524A40; 
     border: 1px solid black;
     border-radius: 0px;
   }

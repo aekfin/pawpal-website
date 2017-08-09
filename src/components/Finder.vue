@@ -1,11 +1,15 @@
 <template>
   <div class="finder">
     <nav-bar :type = "'dark'"></nav-bar>
+    <div class="dark-brown-card">
+      <div class="container">
+        <h2> เพิ่มข้อมูลหมาที่พบ</h2>
+      </div>
+    </div>
     <div class="container animated fadeIn">
-      <h2> เพิ่มข้อมูลหมาที่พบ</h2>
-      <div class="container-fluid" style="margin-top:20px">
+      <div class="container-fluid">
         <!-- Top Side -->
-        <div class="col-xs-12 bottom-line">
+        <div class="col-xs-12 white-card">
           <h3>อัพโหลดรูปภาพหมา</h3>
           <div class="alert alert-danger hide">รูปควรมีขนาดเป็นสี่เหลี่ยมจตุรัส</div>
           <input class="form-control input-lg" style="display: none;" type="file" name="pic" accept="image/*" id="input-img" @change="SelectImage"> 
@@ -19,45 +23,49 @@
               <span class="btn btn-primary" @click="BrowseFile">เลือกรูปภาพ</span>
             </div>
           </div>
-        </div> 
+        </div>
         <!-- Left Side -->
-        <div class="col-xs-12 col-sm-6">
-          <h3>ข้อมูลสุนัข</h3>
-          <app-form :form="dogForm" class="bottom-line"></app-form> 
-          <div class="col-xs-12 no-padding">
+        <div class="col-sm-12 col-md-6 no-padding">
+          <div class="col-xs-12 white-card">
+            <h3>ข้อมูลสุนัข</h3>
+            <app-form :form="dogForm"></app-form>
+          </div> 
+          <div class="col-xs-12 white-card">
             <h3>ข้อมูลติดต่อ</h3>
             <app-form :form="finderForm"></app-form> 
           </div>
         </div>
         <!-- Right Side -->
-        <div class="col-xs-12 col-sm-6">
-          <div class="col-xs-12">
-            <h3>สถานที่ที่พบ</h3>
-          </div>
-          <div class="col-xs-12" style="padding-bottom: 10px;">
-            <div>ละติจูด : <span class="latlng-label">{{this.latLng.lat}}</span></div>
-            <div> ลองติจูด: <span class="latlng-label">{{this.latLng.lng}}</span></div>
-          </div>
-          <div class="col-xs-12">
-            <gmap-map ref="maps" :center="center" :zoom="zoom" style="width: 500px; height: 300px; margin-bottom: 20px;">
-              <gmap-marker ref="theMarker" :position="position" :clickable="true" :draggable="true" @dragend="DragEnd">
-              </gmap-marker>
-            </gmap-map>
-            <button class="btn btn-default btn-lg col-xs-5" style="background-color: whitesmoke; margin-bottom: 10px; z-index: 10" @click="ShowGooglePlace">
-              <span v-if="!showGooglePlace" class="glyphicon glyphicon-unchecked"></span>
-              <span v-if="showGooglePlace" class="glyphicon glyphicon-check"></span>
-              ค้นหาด้วยสถานที่
-            </button>
-            <div class="col-xs-7" style="padding-left: 5px;" :class="placeGoogle">
-              <gmap-place-input :default-place="place" :selectFirstOnEnter="true" :className="'form-control input-lg input-place'"
-                @place_changed="setPlace">
-              </gmap-place-input>
+        <div class="col-sm-12 col-md-6 card-right-side">
+          <div class="col-xs-12 no-padding white-card">
+            <div class="col-xs-12">
+              <h3>สถานที่ที่พบ</h3>
             </div>
-          </div>
-          <div class="col-xs-12">
-            <div class="input-group" style="width: 100%; padding-bottom: 10px">
-              <div class="input-group-addon input-lg" style="width: 120px">{{dateForm.name}}</div>
-              <datepicker v-model="dateForm.model" :bootstrapStyling="false" :input-class="'date-input width-100'" :wrapper-class="'width-100'"></datepicker>
+            <div class="col-xs-12" style="padding-bottom: 10px;">
+              <div>ละติจูด : <span class="latlng-label">{{this.latLng.lat}}</span></div>
+              <div> ลองติจูด: <span class="latlng-label">{{this.latLng.lng}}</span></div>
+            </div>
+            <div class="col-xs-12">
+              <gmap-map ref="maps" :center="center" :zoom="zoom" style="width: 500px; height: 300px; margin-bottom: 20px;">
+                <gmap-marker ref="theMarker" :position="position" :clickable="true" :draggable="true" @dragend="DragEnd">
+                </gmap-marker>
+              </gmap-map>
+              <button class="btn btn-default btn-lg col-xs-5" style="background-color: whitesmoke; margin-bottom: 10px; z-index: 10" @click="ShowGooglePlace">
+                <span v-if="!showGooglePlace" class="glyphicon glyphicon-unchecked"></span>
+                <span v-if="showGooglePlace" class="glyphicon glyphicon-check"></span>
+                ค้นหาด้วยสถานที่
+              </button>
+              <div class="col-xs-7" style="padding-left: 5px;" :class="placeGoogle">
+                <gmap-place-input :default-place="place" :selectFirstOnEnter="true" :className="'form-control input-lg input-place'"
+                  @place_changed="setPlace">
+                </gmap-place-input>
+              </div>
+            </div>
+            <div class="col-xs-12">
+              <div class="input-group" style="width: 100%; padding-bottom: 10px">
+                <div class="input-group-addon input-lg" style="width: 120px">{{dateForm.name}}</div>
+                <datepicker v-model="dateForm.model" :bootstrapStyling="false" :input-class="'date-input width-100'" :wrapper-class="'width-100'"></datepicker>
+              </div>
             </div>
           </div>
         </div>
@@ -302,9 +310,8 @@
   .finder {
     padding-bottom: 50px;
   }
-  .bottom-line {
-    border-bottom: 3px solid #A58675;
-    padding-bottom: 20px;
+  h3 {
+    margin-top: 5px;
   }
   .input-place {
     font-weight: normal;
@@ -312,10 +319,6 @@
     width: 100%;
     height: 46px;
     border-radius: 10px;
-  }
-  .no-padding {
-    padding-left: 0px;
-    padding-right: 0px;
   }
   .latlng-label {
     font-size: 12px;

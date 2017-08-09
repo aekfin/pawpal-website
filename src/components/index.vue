@@ -1,18 +1,20 @@
 <template>
   <div class="landing animated-t fadeInTo">
-    <div class="bg-op">
-      <nav-bar :type = "'default'"></nav-bar> 
-      <div class="container text-box">
-        <div class="col-xs-12 col-sm-12 text-center">
-          <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-            <h1>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.</h1>
-            <div class="col-xs-2 col-sm-2 col-xs-offset-5 col-sm-offset-5 under-line"></div>
-          </div>
-          <div class="col-xs-12 col-sm-8 col-sm-offset-2 subtitle">
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
-          </div>
-          <div class="col-xs-12 col-sm-12 btn-section animated fadeIn">
-            <router-link to="/finder" class="btn-start">เพิ่มหมาที่พบ</router-link>
+    <div class="cover">
+      <div class="cover-black">
+        <nav-bar :type = "'default'"></nav-bar> 
+        <div class="container text-box">
+          <div class="col-xs-12 col-sm-12 text-center">
+            <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+              <h1>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.</h1>
+              <div class="col-xs-2 col-sm-2 col-xs-offset-5 col-sm-offset-5 under-line"></div>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 subtitle">
+              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+            </div>
+            <div class="col-xs-12 col-sm-12 btn-section animated fadeIn">
+              <router-link to="/finder" class="btn-start">เพิ่มหมาที่พบ</router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -21,7 +23,6 @@
 </template>
 
 <script>
-// import Logo from '~components/Logo.vue'
 import navBar from '@/components/common/Navbar.vue'
 
 export default {
@@ -34,6 +35,9 @@ export default {
 
 <style lang="scss">
   .landing {
+    height: 100%;
+  }
+  .cover {
     height: 550px;
     background-image: url("../assets/landing_background.jpg");
     background-repeat: no-repeat;
@@ -41,7 +45,7 @@ export default {
     color: white;
     position: relative;
   }
-  .bg-op{
+  .cover-black{
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
     top: 0;
