@@ -50,7 +50,7 @@
                 <gmap-marker ref="theMarker" :position="position" :clickable="true" :draggable="true" @dragend="DragEnd">
                 </gmap-marker>
               </gmap-map>
-              <button class="btn btn-default btn-lg col-xs-5" style="background-color: whitesmoke; margin-bottom: 10px; z-index: 10" @click="ShowGooglePlace">
+              <button class="btn btn-default btn-dark btn-lg col-xs-5" @click="ShowGooglePlace">
                 <span v-if="!showGooglePlace" class="glyphicon glyphicon-unchecked"></span>
                 <span v-if="showGooglePlace" class="glyphicon glyphicon-check"></span>
                 ค้นหาด้วยสถานที่
@@ -363,5 +363,17 @@
   }
   .el-dialog__title {
     font-size: 24px;
+  }
+  .btn-dark {
+    margin-bottom: 10px; 
+    z-index: 10;
+    background-color: #524A40;
+    color: white;
+  }
+  .btn-dark:hover, .btn-dark:active, .btn-dark:focus {
+    margin-bottom: 10px; 
+    z-index: 10;
+    background-color: #524A40;
+    color: white;
   }
 </style>

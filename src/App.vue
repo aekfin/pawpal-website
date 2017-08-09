@@ -35,6 +35,10 @@ export default {
     color: #4c4c4c;
   }
 
+  .btn {
+    transition-duration: 0.5s;
+  }
+
   h1, h2, h3, h4, h5 {
     color: #4c4c4c;
   }

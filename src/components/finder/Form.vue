@@ -45,10 +45,34 @@ export default {
     color: #555;
     background-color: #fff;
     background-image: none;
-    border: 1px solid #ccc;
+    border: 1px solid #524A40;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
+  }
+  .date-input:hover, .date-input:active, .date-input:focus {
+    border: 1px solid black;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 74, 64, 0.6);
+  }
+  .input-group {
+    input {
+      color: #524A40;
+    }
+    select {
+      color: #524A40;
+    }
+    .form-control {
+      border: 1px solid #524A40;
+    }
+    .input-group-addon {
+      background-color: #524A40;
+      border: 1px solid #524A40;
+      color: white;
+    }
+    .form-control:focus {
+      border: 1px solid black;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 74, 64, 0.6);
+    }
   }
 </style>
