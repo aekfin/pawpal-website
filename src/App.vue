@@ -31,7 +31,7 @@ export default {
   #app {
     font-family: "Mitr", sans-serif;
     font-size: 16px;
-    background-color: #E0CDBA;
+    background-color: #7A6C5D;
     color: #4c4c4c;
   }
 
@@ -52,18 +52,37 @@ export default {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
 
-  .dark-brown-card {
-    background-color: #8F6853;
+  .dark-card {
     color: white;
     width: 100%;
     padding-top: 35px;
     height: 100px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.4);
     margin-bottom: 10px;
     h1, h2, h3, h4, h5 {
       color: white;
       margin: 0px;
     }
+  }
+
+  .dark-brown-card {
+    @extend .dark-card;
+    background-color: #524A40;
+  }
+
+  .dark-green-card {
+    @extend .dark-card;
+    background-color: #40524a;
+  }
+
+  .dark-blue-card {
+    @extend .dark-card;
+    background-color: #404952;
+  }
+
+  .dark-red-card {
+    @extend .dark-card;
+    background-color: #524140;
   }
 
   .card-right-side {
@@ -73,7 +92,7 @@ export default {
 
   .bottom-line {
     border-bottom: 3px solid #A58675;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
   }
 
   .no-padding {

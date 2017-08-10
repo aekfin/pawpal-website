@@ -28,6 +28,8 @@ export default {
 </script>
 
 <style lang='scss'>
+  $form-theme-color: #524A40;
+  
   .form {
     padding-top: 5px;
   }
@@ -45,7 +47,7 @@ export default {
     color: #555;
     background-color: #fff;
     background-image: none;
-    border: 1px solid #524A40;
+    border: 1px solid $form-theme-color;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     border-top-right-radius: 4px;
@@ -57,17 +59,17 @@ export default {
   }
   .input-group {
     input {
-      color: #524A40;
+      color: $form-theme-color;
     }
     select {
-      color: #524A40;
+      color: $form-theme-color;
     }
     .form-control {
-      border: 1px solid #524A40;
+      border: 1px solid $form-theme-color;
     }
     .input-group-addon {
-      background-color: #524A40;
-      border: 1px solid #524A40;
+      background-color: $form-theme-color;
+      border: 1px solid $form-theme-color;
       color: white;
     }
     .form-control:focus {

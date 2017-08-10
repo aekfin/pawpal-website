@@ -1,8 +1,12 @@
 <template>
   <div class="missingDog">
     <nav-bar :type = "'dark'"></nav-bar>
-    <div class="container">
-      <h2>ประกาศหมาสูญหาย</h2>
+    <div class="dark-red-card">
+      <div class="container">
+        <h2>ประกาศหมาสูญหาย</h2>
+      </div>
+    </div>
+    <div class="container animated-t fadeInTo">
       <div class="container-fluid" style="margin-top:20px">
         <dog-list :theme="'dark'" :type="'missing'" :dogs="dogs"></dog-list>
       </div>
