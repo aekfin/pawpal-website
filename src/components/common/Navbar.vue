@@ -28,16 +28,22 @@ export default {
       this.rightLink = 'right-link-dark'
     }
   },
+  mounted () {
+    this.rightList = []
+    if (this.$store.state.auth.status) {
+      this.rightList.push({ name: 'สมุดวัคซีน', url: '/doctor/vaccination' })
+      this.rightList.push({ name: 'สมุดนัดหมาย', url: '/doctor/appointment' })
+    } else {
+      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login' })
+    }
+  },
   props: ['type'],
   data () {
     return {
       navbar: '',
       brandTitle: 'brand-title',
       rightLink: 'right-link',
-      rightList: [
-        { name: 'สมุดวัคซีน', url: '/doctor/vaccination' },
-        { name: 'สมุดนัดหมาย', url: '/doctor/appointment' }
-      ],
+      rightList: [],
       leftList: [
         { name: 'เพิ่มหมาที่พบ', url: '/finder' },
         { name: 'ประกาศหมาที่พบ', url: '/found-dog' },

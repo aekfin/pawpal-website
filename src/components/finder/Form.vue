@@ -57,24 +57,4 @@ export default {
     border: 1px solid black;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 74, 64, 0.6);
   }
-  .input-group {
-    input {
-      color: $form-theme-color;
-    }
-    select {
-      color: $form-theme-color;
-    }
-    .form-control {
-      border: 1px solid $form-theme-color;
-    }
-    .input-group-addon {
-      background-color: $form-theme-color;
-      border: 1px solid $form-theme-color;
-      color: white;
-    }
-    .form-control:focus {
-      border: 1px solid black;
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 74, 64, 0.6);
-    }
-  }
 </style>

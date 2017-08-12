@@ -52,7 +52,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    box-shadow: 0 0 20px #000000;
+    border-bottom: 3px solid #524A40;
   } 
   .text-box {
     margin-top: 100px;
