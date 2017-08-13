@@ -42,7 +42,7 @@ export default {
   #app {
     font-family: "Mitr", sans-serif;
     font-size: 16px;
-    background-color: #C6AF81;
+    background-color: #B29558;
     color: #4c4c4c;
     min-height: 100%;
     overflow: hidden;
@@ -65,7 +65,7 @@ export default {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
 
-  .dark-card {
+  .title-card {
     color: white;
     width: 100%;
     padding-top: 35px;
@@ -78,29 +78,34 @@ export default {
     }
   }
 
-  .dark-brown-card {
-    @extend .dark-card;
+  .title-brown-card {
+    @extend .title-card;
     background-color: #524A40;
   }
 
-  .dark-green-card {
-    @extend .dark-card;
+  .title-green-card {
+    @extend .title-card;
+    background-color: #84bf09;
+  }
+
+  .title-blue-green-card {
+    @extend .title-card;
     background-color: #62A87C;
   }
 
-  .dark-blue-card {
-    @extend .dark-card;
-    background-color: #404952;
+  .title-blue-card {
+    @extend .title-card;
+    background-color: #69A5AD;
   }
 
-  .dark-red-card {
-    @extend .dark-card;
-    background-color: #524140;
+  .title-red-card {
+    @extend .title-card;
+    background-color: #EF3E36;
   }
 
-  .dark-purple-card {
-    @extend .dark-card;
-    background-color: #524048;
+  .title-yellow-card {
+    @extend .title-card;
+    background-color: #e4ba24;
   }
 
   .card-right-side {

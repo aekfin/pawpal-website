@@ -85,7 +85,7 @@ export default {
   .left-link {
     display: inline-block;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 16px;
     color: #b1b1b1;
   }
   .left-link:hover {
@@ -97,7 +97,7 @@ export default {
   .right-link {
     display: inline-block;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 16px;
     color: #b1b1b1;
   }
   .right-link:hover {
@@ -105,7 +105,6 @@ export default {
   }
   .right-link-dark {
     @extend .right-link;
-    font-size: 16px;
     color: white;
   }
   .right-link-dark:hover {
@@ -115,5 +114,9 @@ export default {
   .right-link-dark:focus {
     color: #441002;
     background-color: white;
+  }
+  .navbar-nav > li > a {
+    padding-top: 18px;
+    padding-bottom: 15px;
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="vaccination">
-    <div class="dark-green-card">
+    <div class="title-blue-green-card">
       <div class="container">
         <h2>สมุดวัคซีน</h2>
       </div>
@@ -12,7 +12,7 @@
           <thead>
             <tr>
               <th class="text-center" 
-                  :style="(i === tableHeader.length-1) ? 'border-bottom: 3px solid $table-color;' : 'border-bottom: 3px solid $table-color; border-right: 1px solid $table-color;' " 
+                  :style="(i === tableHeader.length-1) ? 'border-bottom: 3px solid #447A5C;' : 'border-bottom: 3px solid #447A5C; border-right: 1px solid #447A5C;' " 
                   v-for="(th, i) in tableHeader" :key="i">
                 <span class="th-header">{{th.th}}</span><br><span class="en-header">{{th.en}}</span>
               </th>

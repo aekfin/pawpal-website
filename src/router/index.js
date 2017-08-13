@@ -22,7 +22,7 @@ var router = new Router({
     { path: '/logout',
       beforeEnter: (to, from, next) => {
         store.commit('Logout')
-        next('/')
+        next('/login')
       }
     },
     { path: '/doctor',

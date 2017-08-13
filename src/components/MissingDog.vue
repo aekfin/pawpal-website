@@ -1,7 +1,7 @@
 <template>
   <div class="missingDog">
     <nav-bar :type = "'dark'"></nav-bar>
-    <div class="dark-red-card">
+    <div class="title-red-card">
       <div class="container">
         <h2>ประกาศหมาสูญหาย</h2>
       </div>

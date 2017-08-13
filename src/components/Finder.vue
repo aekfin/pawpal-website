@@ -1,7 +1,7 @@
 <template>
   <div class="finder">
     <nav-bar :type = "'dark'"></nav-bar>
-    <div class="dark-brown-card">
+    <div class="title-green-card">
       <div class="container">
         <h2> เพิ่มข้อมูลหมาที่พบ</h2>
       </div>

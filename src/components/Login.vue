@@ -1,7 +1,7 @@
 <template>
   <div class="login" @keyup.enter = "Login">
     <nav-bar :type = "'dark'"></nav-bar>
-    <div class="dark-purple-card">
+    <div class="title-blue-card">
       <div class="container">
         <h2>เข้าสู่ระบบ</h2>
       </div>
@@ -73,7 +73,7 @@ export default {
         margin-bottom: 30px;
         color: white;
         padding: 30px 10%;
-        background-color: $brown-color;
+        background-color: #477b82;
       }
       .input-label {
         font-size: 20px;
@@ -86,16 +86,16 @@ export default {
       }
       .form-control:focus,.form-control:active {
         border: 0px solid $brown-color;
-        box-shadow: 0px 0px 10px rgb(115,104,90);
+        box-shadow: 0px 0px 10px rgb(	105, 165, 173);
       }
       .btn-primary {
-        background-color: #735a65;
-        border: 1px solid #735a65;
+        background-color: #69A5AD;
+        border: 1px solid #69A5AD;
         min-width: 200px;
         transition-duration: 0.5s;
       }
       .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
-        background-color: #524048;
+        background-color: #477b82;
       }
       .alert {
         margin-bottom: 0px;

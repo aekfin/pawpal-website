@@ -1,7 +1,7 @@
 <template>
   <div class="foundDog">
     <nav-bar :type = "'dark'"></nav-bar>
-    <div class="dark-blue-card">
+    <div class="title-yellow-card">
       <div class="container">
         <h2>ประกาศหมาที่พบ</h2>
       </div>
