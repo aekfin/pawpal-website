@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  $brown-color: #524A40;
+  $brown-color: #49392C;
   
   .login {
     .white-card {

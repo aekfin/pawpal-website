@@ -12,7 +12,7 @@
           <thead>
             <tr>
               <th class="text-center" 
-                  :style="(i === tableHeader.length-1) ? 'border-bottom: 3px solid #a87d5e;' : 'border-bottom: 3px solid #a87d5e; border-right: 1px solid #a87d5e;' " 
+                  :style="(i === tableHeader.length-1) ? 'border-bottom: 3px solid $table-color;' : 'border-bottom: 3px solid $table-color; border-right: 1px solid $table-color;' " 
                   v-for="(th, i) in tableHeader" :key="i">
                 <span class="th-header">{{th.th}}</span><br><span class="en-header">{{th.en}}</span>
               </th>
@@ -193,7 +193,8 @@ export default {
 </script>
 
 <style lang="scss">
-  $page-color: #3F2D27;
+  $pagination-color: #294937;
+  $table-color: #447A5C;
 
   .vaccination {
     .white-card {
@@ -206,22 +207,22 @@ export default {
   }
   nav > ul > li.page > span {
     cursor: default;
-    background-color: $page-color;
+    background-color: $pagination-color;
     color: white;
     border: 2px solid white;
     margin-right: 10px;
   }
   nav > ul.pager > li > a {
-    color: $page-color;
+    color: $pagination-color;
     background-color: white;
     font-weight: 500;
-    border: 2px solid $page-color;
+    border: 2px solid $pagination-color;
     transition-duration: 0.5s;
   }
   nav > ul.pager > li > a:hover {
     color: white;
     border: 2px solid white;
-    background-color: $page-color;
+    background-color: $pagination-color;
   }
   .vaccination {
     padding-bottom: 40px;
@@ -251,14 +252,14 @@ export default {
     font-size: 14px;
   }
   .right-border {
-    border-right: 1px solid #9D6D4B;
+    border-right: 1px solid $table-color;
   }
   .bottom-border {
-    border-bottom: 1px solid #a87d5e;
+    border-bottom: 1px solid $table-color;
   }
   .bottom-right-border {
-    border-bottom: 1px solid #a87d5e;
-    border-right: 1px solid #a87d5e;
+    border-bottom: 1px solid $table-color;
+    border-right: 1px solid $table-color;
   }
   .width-100 {
     width: 100%;
@@ -280,13 +281,13 @@ export default {
     margin-top: 5px;
     cursor: default; 
     color: white;
-    background-color: #7C5139;
+    background-color: #62A87C;
   }
   .btn.btn-vaccines:hover {
     color: white;
   }
   .btn-vaccines > .badge {
     background-color: white;
-    color: #7C5139;
+    color: #62A87C;
   }
 </style>

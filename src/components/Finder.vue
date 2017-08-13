@@ -362,16 +362,4 @@
   .el-dialog__title {
     font-size: 24px;
   }
-  .btn-dark {
-    margin-bottom: 10px; 
-    z-index: 10;
-    background-color: #524A40;
-    color: white;
-  }
-  .btn-dark:hover, .btn-dark:active, .btn-dark:focus {
-    margin-bottom: 10px; 
-    z-index: 10;
-    background-color: #524A40;
-    color: white;
-  }
 </style>

@@ -28,7 +28,7 @@ export default {
 </script>
 
 <style lang='scss'>
-  $form-theme-color: #524A40;
+  $form-theme-color: #49392C;
   
   .form {
     padding-top: 5px;

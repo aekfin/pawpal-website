@@ -62,8 +62,8 @@ export default {
     margin-bottom: 0px;
   }
   .navbar-dark {
-    background-color: #615A51; 
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    background-color: #49392C; 
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.3);
     border-radius: 0px;
   }
   .brand-title {
