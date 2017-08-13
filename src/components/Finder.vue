@@ -297,7 +297,7 @@
         finderForm: [
           { name: 'ชื่อผู้พบ', placeholder: 'นาย สมชาย', type: 'text', model: '' },
           { name: 'เบอร์ติดต่อ', placeholder: '08x-xxx-xxxx', type: 'tel', model: '' },
-          { name: 'สุนัขยเหตุ', placeholder: 'เจอบริเวณสวนหลังวัด', type: 'text', model: '' }
+          { name: 'หมายเหตุ', placeholder: 'เจอบริเวณสวนหลังวัด', type: 'text', model: '' }
         ]
       }
     }

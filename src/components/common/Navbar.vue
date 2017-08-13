@@ -19,7 +19,7 @@
       </div>
     </nav>
     <div class="collapse" id="collapse-nav">
-      <ul class="collapse-nav">
+      <ul :class="collapse">
         <li v-for="ml in mobileList" :key="ml.name"><router-link :to="ml.url">{{ml.name}}</router-link></li>
       </ul>
     </div>      
@@ -34,6 +34,8 @@ export default {
       this.navbar = 'navbar-dark'
       this.brandTitle = 'brand-title-dark'
       this.rightLink = 'right-link-dark'
+    } else {
+      this.collapse = 'collapse-nav tranparent'
     }
   },
   mounted () {
@@ -60,6 +62,7 @@ export default {
       navbar: '',
       brandTitle: 'brand-title',
       rightLink: 'right-link',
+      collapse: 'collapse-nav',
       mobileList: [],
       rightList: [],
       leftList: [
@@ -167,4 +170,8 @@ export default {
       background-color: #795e49;
     }
   }
+  .tranparent {
+    background-color: transparent;
+  }
+
 </style>

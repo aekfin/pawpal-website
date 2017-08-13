@@ -42,7 +42,7 @@ export default {
   #app {
     font-family: "Mitr", sans-serif;
     font-size: 16px;
-    background-color: #B29558;
+    background-color: #CEBB94;
     color: #4c4c4c;
     min-height: 100%;
     overflow: hidden;
