@@ -38,6 +38,7 @@ export default new Vuex.Store({
     Logout (state) {
       state.user = []
       Cookies.remove('uid')
+      window.location.reload()
     }
   }
 })

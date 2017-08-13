@@ -8,10 +8,10 @@
             </router-link>
           </div>          
           <ul class="nav navbar-nav navbar-left">
-            <li v-for="ll in leftList" :key="ll.name" @click="OnClickLink(ll.action)"><router-link :class="rightLink" :to="ll.url" >{{ll.name}}</router-link></li>
+            <li v-for="ll in leftList" :key="ll.name"><router-link :class="rightLink" :to="ll.url" >{{ll.name}}</router-link></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li v-for="rl in rightList" :key="rl.name" @click="OnClickLink(rl.action)"><router-link :class="rightLink" :to="rl.url">{{rl.name}}</router-link></li>
+            <li v-for="rl in rightList" :key="rl.name"><router-link :class="rightLink" :to="rl.url">{{rl.name}}</router-link></li>
           </ul>
       </div>
     </nav>      
@@ -31,24 +31,14 @@ export default {
   mounted () {
     this.rightList = []
     if (this.$store.getters.IsLogin) {
-      this.rightList.push({ name: 'สมุดวัคซีน', url: '/doctor/vaccination', action: null })
-      this.rightList.push({ name: 'สมุดนัดหมาย', url: '/doctor/appointment', action: null })
+      this.rightList.push({ name: 'สมุดวัคซีน', url: '/doctor/vaccination' })
+      this.rightList.push({ name: 'สมุดนัดหมาย', url: '/doctor/appointment' })
       this.rightList.push({ name: 'ออกจากระบบ', url: '/logout', action: 'logout' })
     } else {
-      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login', action: null })
+      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login' })
     }
   },
   methods: {
-    OnClickLink (action) {
-      switch (action) {
-        case 'logout':
-          this.$store.commit('Logout')
-          window.location.reload()
-          break
-        default:
-          break
-      }
-    }
   },
   props: ['type'],
   data () {
@@ -58,9 +48,9 @@ export default {
       rightLink: 'right-link',
       rightList: [],
       leftList: [
-        { name: 'เพิ่มหมาที่พบ', url: '/finder', action: null },
-        { name: 'ประกาศหมาที่พบ', url: '/found-dog', action: null },
-        { name: 'ประกาศหมาสูญหาย', url: '/missing-dog', action: null }
+        { name: 'เพิ่มหมาที่พบ', url: '/finder' },
+        { name: 'ประกาศหมาที่พบ', url: '/found-dog' },
+        { name: 'ประกาศหมาสูญหาย', url: '/missing-dog' }
       ]
     }
   }

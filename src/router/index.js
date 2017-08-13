@@ -19,7 +19,12 @@ var router = new Router({
     { path: '/found-dog', name: 'FoundPage', component: FoundDogPage },
     { path: '/missing-dog', name: 'MissingPage', component: MissingDogPage },
     { path: '/login', name: 'LoginPage', component: LoginPage },
-    { path: '/logout', redirect: '/' },
+    { path: '/logout',
+      beforeEnter: (to, from, next) => {
+        store.commit('Logout')
+        next('/')
+      }
+    },
     { path: '/doctor',
       name: 'DoctorPage',
       component: DoctorPage,

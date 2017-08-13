@@ -40,6 +40,7 @@ export default {
   methods: {
     Login () {
       this.$store.commit('Login', this.user)
+      window.location.reload()
       this.$router.replace('/')
     }
   },
