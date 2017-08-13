@@ -15,8 +15,7 @@
   import 'bootstrap/dist/js/bootstrap.js'
   import 'font-awesome/css/font-awesome.min.css'
   import locale from 'element-ui/lib/locale/lang/en'
-  import Cookies from 'js-cookie'
-
+  
   Vue.use(Bootstrap)
   Vue.use(Animate)
   Vue.use(ElementUI, { locale })
@@ -24,7 +23,7 @@
 export default {
     name: 'app',
     created () {
-      if (Cookies.get('uid')) {
+      if (this.$store.getters.IsLogin) {
         var user = []
         this.$store.commit('Login', user)
       }

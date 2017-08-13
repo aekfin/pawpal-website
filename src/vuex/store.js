@@ -8,9 +8,22 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     count: 0,
-    auth: {
-      status: false,
-      user: { email: '' }
+    user: { email: '' }
+  },
+  getters: {
+    IsLogin () {
+      if (Cookies.get('uid')) {
+        return true
+      } else {
+        return false
+      }
+    },
+    GetUID () {
+      if (Cookies.get('uid')) {
+        return Cookies.get('uid')
+      } else {
+        return null
+      }
     }
   },
   mutations: {
@@ -18,15 +31,12 @@ export default new Vuex.Store({
       state.count++
     },
     Login (state, user) {
-      state.auth.status = true
-      state.auth.user = user
+      state.user = user
       Cookies.remove('uid')
       Cookies.set('uid', 2255412, { expires: 1 })
     },
     Logout (state) {
-      state.auth.status = false
-      state.auth.user = []
-      console.log('Do')
+      state.user = []
       Cookies.remove('uid')
     }
   }

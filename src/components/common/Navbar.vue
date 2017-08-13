@@ -30,7 +30,7 @@ export default {
   },
   mounted () {
     this.rightList = []
-    if (this.$store.state.auth.status) {
+    if (this.$store.getters.IsLogin) {
       this.rightList.push({ name: 'สมุดวัคซีน', url: '/doctor/vaccination', action: null })
       this.rightList.push({ name: 'สมุดนัดหมาย', url: '/doctor/appointment', action: null })
       this.rightList.push({ name: 'ออกจากระบบ', url: '/logout', action: 'logout' })

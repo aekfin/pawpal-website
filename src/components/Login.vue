@@ -39,8 +39,6 @@ export default {
   },
   methods: {
     Login () {
-      console.log(this.user.email)
-      console.log(this.user.password)
       this.$store.commit('Login', this.user)
       this.$router.replace('/')
     }

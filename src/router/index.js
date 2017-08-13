@@ -7,7 +7,7 @@ import MissingDogPage from '@/components/MissingDog.vue'
 import VaccinationPage from '@/components/Vaccination.vue'
 import LoginPage from '@/components/Login.vue'
 import DoctorPage from '@/components/Doctor.vue'
-import Cookies from 'js-cookie'
+import store from '../vuex/store'
 
 Vue.use(Router)
 
@@ -27,7 +27,7 @@ var router = new Router({
         { path: 'vaccination', name: 'VaccinationPage', component: VaccinationPage }
       ],
       beforeEnter: (to, from, next) => {
-        if (Cookies.get('uid')) {
+        if (store.getters.IsLogin) {
           next()
         } else {
           next('/login')
