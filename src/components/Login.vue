@@ -8,20 +8,20 @@
     </div>
     <div class="container col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 white-card animated fadeIn">
       <div class="banner col-xs-12">
-        <span>หากท่านต้องการสมัครใช้งานหรือไม่สามารถเข้าสู่ระบบได้ กรุณาติดต่อผู้ดูแลระบบ</span>
+        <span>หากท่านไม่สามารถเข้าสู่ระบบได้หรือต้องการสมัครใช้งาน กรุณาติดต่อผู้ดูแลระบบ</span>
       </div>
       <div class="card-content">
-        <div class="input-group col-xs-12">
-          <div class="input-group-addon input-lg">อีเมลล์</div>
+        <div class="col-xs-12">
+          <div class="input-label">อีเมลล์</div>
           <input type="email" class="form-control input-lg" v-model="user.email">
         </div>
-        <div class="input-group col-xs-12 margin-t-10">
-          <div class="input-group-addon input-lg">รหัสผ่าน</div>
+        <div class="col-xs-12 margin-t-10">
+          <div class="input-label">รหัสผ่าน</div>
           <input type="password" class="form-control input-lg" v-model="user.password">
         </div>
         <div class="alert alert-danger margin-t-10" v-if="alert">คุณกรอกอีเมลล์หรือรหัสผ่านไม่ถูกต้อง</div>
-        <div class="col-xs-12 margin-t-20 text-right no-padding">
-          <div class="btn btn-primary btn-lg" @click="Login">เข้าสู่ระบบ</div>
+        <div class="col-xs-12 margin-t-20 text-right">
+          <input class="btn btn-primary btn-lg" @click="Login" value="เข้าสู่ระบบ" />
         </div>
       </div>
     </div>
@@ -42,6 +42,7 @@ export default {
       console.log(this.user.email)
       console.log(this.user.password)
       this.$store.commit('Login', this.user)
+      this.$router.replace('/')
     }
   },
   data () {
@@ -56,6 +57,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  $brown-color: #524A40;
+  
   .login {
     .white-card {
       margin-top: 3%;
@@ -71,10 +74,20 @@ export default {
         margin-bottom: 30px;
         color: white;
         padding: 30px 10%;
-        background-color: #524A40;
+        background-color: $brown-color;
       }
-      .input-group-addon {
-        width: 200px;
+      .input-label {
+        font-size: 20px;
+        font-weight: 500;
+        color: $brown-color;
+      }
+      .form-control {
+        border: 1px solid $brown-color;
+        color: $brown-color;
+      }
+      .form-control:focus,.form-control:active {
+        border: 0px solid $brown-color;
+        box-shadow: 0px 0px 10px rgb(115,104,90);
       }
       .btn-primary {
         background-color: #735a65;
