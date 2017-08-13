@@ -88,4 +88,9 @@ export default {
   h1 {
     color: white;
   }
+  @media screen and (max-width: 992px) {
+    .cover {
+      height: 750px;
+    }
+  }
 </style>
