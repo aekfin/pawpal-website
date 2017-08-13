@@ -5,16 +5,41 @@ import FinderPage from '@/components/Finder.vue'
 import FoundDogPage from '@/components/FoundDog.vue'
 import MissingDogPage from '@/components/MissingDog.vue'
 import VaccinationPage from '@/components/Vaccination.vue'
+import LoginPage from '@/components/Login.vue'
+import DoctorPage from '@/components/Doctor.vue'
+import store from '../vuex/store'
 
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
   mode: 'history',
   routes: [
-    { path: '/', name: 'landingPage', component: LandingPage },
-    { path: '/finder', name: 'finderPage', component: FinderPage },
-    { path: '/found-dog', name: 'foundPage', component: FoundDogPage },
-    { path: '/missing-dog', name: 'missingPage', component: MissingDogPage },
-    { path: '/doctor/vaccination', name: 'vaccinationPage', component: VaccinationPage }
+    { path: '/', name: 'LandingPage', component: LandingPage },
+    { path: '/finder', name: 'FinderPage', component: FinderPage },
+    { path: '/found-dog', name: 'FoundPage', component: FoundDogPage },
+    { path: '/missing-dog', name: 'MissingPage', component: MissingDogPage },
+    { path: '/login', name: 'LoginPage', component: LoginPage },
+    { path: '/logout',
+      beforeEnter: (to, from, next) => {
+        store.commit('Logout')
+        next('/')
+      }
+    },
+    { path: '/doctor',
+      name: 'DoctorPage',
+      component: DoctorPage,
+      children: [
+        { path: 'vaccination', name: 'VaccinationPage', component: VaccinationPage }
+      ],
+      beforeEnter: (to, from, next) => {
+        if (store.getters.IsLogin) {
+          next()
+        } else {
+          next('/login')
+        }
+      }
+    }
   ]
 })
+
+export default router

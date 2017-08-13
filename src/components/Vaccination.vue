@@ -1,7 +1,6 @@
 <template>
   <div class="vaccination">
-    <nav-bar :type = "'dark'"></nav-bar>
-    <div class="dark-blue-card">
+    <div class="dark-green-card">
       <div class="container">
         <h2>สมุดวัคซีน</h2>
       </div>
@@ -14,13 +13,13 @@
             <tr>
               <th class="text-center" 
                   :style="(i === tableHeader.length-1) ? 'border-bottom: 3px solid #a87d5e;' : 'border-bottom: 3px solid #a87d5e; border-right: 1px solid #a87d5e;' " 
-                  v-for="(th, i) in tableHeader" :key="th">
+                  v-for="(th, i) in tableHeader" :key="i">
                 <span class="th-header">{{th.th}}</span><br><span class="en-header">{{th.en}}</span>
               </th>
             </tr>
           </thead>
           <tbody style="cursor: pointer">
-            <tr v-for="(vl, i) in vaccineLog" :key="vl" data-toggle="modal" data-target="#form_modal" @click="OpenForm(i)" :class="vl.class">
+            <tr v-for="(vl, i) in vaccineLog" :key="i" data-toggle="modal" data-target="#form_modal" @click="OpenForm(i)" :class="vl.class">
               <td class="text-center" style="width: 25%" :class="(i !== vaccineLog.length-1) ? 'bottom-right-border' : 'right-border'">
                 <div class="th-tr-body">{{vl.vaccinationFor.th}}</div>
                 <span class="en-tr-body">({{vl.vaccinationFor.en}})</span>
@@ -64,7 +63,7 @@
             </div>
           </div>
           <div class="modal-body">
-            <div v-for="(th, i) in tableHeader" :key="th">
+            <div v-for="(th, i) in tableHeader" :key="i">
               <div v-if="i!=0" style="width: 50%; text-align: right; display: inline-block; padding-right: 5%;"> 
                 <h4>{{th.th}}</h4>
               </div>
@@ -93,13 +92,12 @@
 
 <script>
 import DogList from '@/components/dog/DogList.vue'
-import NavBar from '@/components/common/Navbar.vue'
 import $ from 'jquery'
 import Datepicker from 'vuejs-datepicker'
 
 export default {
   components: {
-    DogList, NavBar, Datepicker
+    DogList, Datepicker
   },
   methods: {
     DateFormat (date) {
