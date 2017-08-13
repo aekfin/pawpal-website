@@ -1,7 +1,7 @@
 <template>
   <div class="dog-list">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(dog, i) in dogs" :key="i">
-      <div class="card" data-toggle="modal" data-target="#detail_modal" @click="selected_dog = dog">
+      <div :class="card" data-toggle="modal" data-target="#detail_modal" @click="selected_dog = dog">
         <img :src="dog.img" class="img-dog">
         <div :class="cardDetail">
           <h4 class="text-center">{{dog.breed}}</h4>
@@ -43,8 +43,10 @@ export default {
   created () {
     if (this.theme && this.theme.toLowerCase() === 'light') {
       this.cardDetail = 'card-light-detail'
+      this.card = 'card'
     } else {
       this.cardDetail = 'card-dark-detail'
+      this.card = 'card dark'
     }
     console.log(this.type)
   },
@@ -62,6 +64,7 @@ export default {
   },
   data () {
     return {
+      card: 'card',
       cardDetail: 'card-detail',
       selected_dog: this.dogs[0],
       dialogVisible: false
@@ -77,11 +80,14 @@ export default {
   }
   .card {
     margin-bottom: 30px;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
   }
   .card:hover {
-    box-shadow: 0 0 20px black;
+    box-shadow: 0 0 28px white;
+  }
+  .dark:hover {
+    box-shadow: 0 0 28px black;
   }
   .card-detail {
     margin-top: -1px;
@@ -90,8 +96,8 @@ export default {
     border-left: 1px solid lightgrey;
     border-right: 1px solid lightgrey;
     border-bottom: 1px solid lightgrey;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
   .card-dark-detail {    
     @extend .card-detail; 
@@ -110,8 +116,8 @@ export default {
     background-color: #E1C4A5;
   }
   .img-dog {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     width: 100%;
     height: 250px;
   }

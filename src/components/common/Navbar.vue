@@ -8,10 +8,10 @@
             </router-link>
           </div>          
           <ul class="nav navbar-nav navbar-left">
-            <li><router-link :class="rightLink" v-for="ll in leftList" :key="ll.name" :to="ll.url" >{{ll.name}}</router-link></li>
+            <li v-for="ll in leftList" :key="ll.name"><router-link :class="rightLink" :to="ll.url" >{{ll.name}}</router-link></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><router-link :class="rightLink" v-for="rl in rightList" :key="rl.name" :to="rl.url">{{rl.name}}</router-link></li>
+            <li v-for="rl in rightList" :key="rl.name"><router-link :class="rightLink" :to="rl.url">{{rl.name}}</router-link></li>
           </ul>
       </div>
     </nav>      
@@ -28,16 +28,25 @@ export default {
       this.rightLink = 'right-link-dark'
     }
   },
+  mounted () {
+    this.rightList = []
+    if (this.$store.getters.IsLogin) {
+      this.rightList.push({ name: 'สมุดวัคซีน', url: '/doctor/vaccination' })
+      this.rightList.push({ name: 'สมุดนัดหมาย', url: '/doctor/appointment' })
+      this.rightList.push({ name: 'ออกจากระบบ', url: '/logout', action: 'logout' })
+    } else {
+      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login' })
+    }
+  },
+  methods: {
+  },
   props: ['type'],
   data () {
     return {
       navbar: '',
       brandTitle: 'brand-title',
       rightLink: 'right-link',
-      rightList: [
-        { name: 'สมุดวัคซีน', url: '/doctor/vaccination' },
-        { name: 'สมุดนัดหมาย', url: '/doctor/appointment' }
-      ],
+      rightList: [],
       leftList: [
         { name: 'เพิ่มหมาที่พบ', url: '/finder' },
         { name: 'ประกาศหมาที่พบ', url: '/found-dog' },
@@ -53,8 +62,8 @@ export default {
     margin-bottom: 0px;
   }
   .navbar-dark {
-    background-color: #524A40; 
-    border: 1px solid black;
+    background-color: #615A51; 
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     border-radius: 0px;
   }
   .brand-title {

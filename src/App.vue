@@ -15,24 +15,41 @@
   import 'bootstrap/dist/js/bootstrap.js'
   import 'font-awesome/css/font-awesome.min.css'
   import locale from 'element-ui/lib/locale/lang/en'
-
+  
   Vue.use(Bootstrap)
   Vue.use(Animate)
   Vue.use(ElementUI, { locale })
 
 export default {
-    name: 'app'
+    name: 'app',
+    created () {
+      if (this.$store.getters.IsLogin) {
+        var user = []
+        this.$store.commit('Login', user)
+      }
+    }
 }
 </script>
 
 <style lang="scss">
   @import url("https://fonts.googleapis.com/css?family=Mitr:200,300,400,500,600,700&amp;subset=latin-ext,thai,vietnamese");
+  $form-theme-color: #524A40;
+
+  body, html {
+    height: 100%;
+  }
 
   #app {
     font-family: "Mitr", sans-serif;
     font-size: 16px;
-    background-color: #E0CDBA;
+    background-color: #C6AF81;
     color: #4c4c4c;
+    min-height: 100%;
+    overflow: hidden;
+  }
+
+  .btn {
+    transition-duration: 0.5s;
   }
 
   h1, h2, h3, h4, h5 {
@@ -48,18 +65,42 @@ export default {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
 
-  .dark-brown-card {
-    background-color: #8F6853;
+  .dark-card {
     color: white;
     width: 100%;
     padding-top: 35px;
     height: 100px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.7);
     margin-bottom: 10px;
     h1, h2, h3, h4, h5 {
       color: white;
       margin: 0px;
     }
+  }
+
+  .dark-brown-card {
+    @extend .dark-card;
+    background-color: #524A40;
+  }
+
+  .dark-green-card {
+    @extend .dark-card;
+    background-color: #40524a;
+  }
+
+  .dark-blue-card {
+    @extend .dark-card;
+    background-color: #404952;
+  }
+
+  .dark-red-card {
+    @extend .dark-card;
+    background-color: #524140;
+  }
+
+  .dark-purple-card {
+    @extend .dark-card;
+    background-color: #524048;
   }
 
   .card-right-side {
@@ -69,12 +110,40 @@ export default {
 
   .bottom-line {
     border-bottom: 3px solid #A58675;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
   }
 
   .no-padding {
     padding-left: 0px;
     padding-right: 0px;
+  }
+
+  .margin-t-10 {
+    margin-top: 10px;
+  }
+  .margin-t-20 {
+    margin-top: 20px;
+  }
+
+  .input-group {
+    input {
+      color: $form-theme-color;
+    }
+    select {
+      color: $form-theme-color;
+    }
+    .form-control {
+      border: 1px solid $form-theme-color;
+    }
+    .input-group-addon {
+      background-color: $form-theme-color;
+      border: 1px solid $form-theme-color;
+      color: white;
+    }
+    .form-control:focus {
+      border: 1px solid black;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 74, 64, 0.6);
+    }
   }
 
   @keyframes fadeInTo {

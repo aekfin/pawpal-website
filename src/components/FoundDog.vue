@@ -1,8 +1,12 @@
 <template>
   <div class="foundDog">
     <nav-bar :type = "'dark'"></nav-bar>
+    <div class="dark-blue-card">
+      <div class="container">
+        <h2>ประกาศหมาที่พบ</h2>
+      </div>
+    </div>
     <div class="container animated-t fadeInTo">
-      <h2>ประกาศหมาที่พบ</h2>
       <div class="container-fluid" style="margin-top:20px">
         <dog-list :theme="'light'" :type="'found'" :dogs="dogs"></dog-list>
       </div>

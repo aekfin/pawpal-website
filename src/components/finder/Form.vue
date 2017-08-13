@@ -28,6 +28,8 @@ export default {
 </script>
 
 <style lang='scss'>
+  $form-theme-color: #524A40;
+  
   .form {
     padding-top: 5px;
   }
@@ -45,10 +47,14 @@ export default {
     color: #555;
     background-color: #fff;
     background-image: none;
-    border: 1px solid #ccc;
+    border: 1px solid $form-theme-color;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
+  }
+  .date-input:hover, .date-input:active, .date-input:focus {
+    border: 1px solid black;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 74, 64, 0.6);
   }
 </style>

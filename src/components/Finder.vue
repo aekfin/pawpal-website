@@ -7,65 +7,63 @@
       </div>
     </div>
     <div class="container animated fadeIn">
-      <div class="container-fluid">
-        <!-- Top Side -->
+      <!-- Top Side -->
+      <div class="col-xs-12 white-card">
+        <h3>อัพโหลดรูปภาพหมา</h3>
+        <div class="alert alert-danger hide">รูปควรมีขนาดเป็นสี่เหลี่ยมจตุรัส</div>
+        <input class="form-control input-lg" style="display: none;" type="file" name="pic" accept="image/*" id="input-img" @change="SelectImage"> 
+        <div class="text-center" style="padding-top: 10px;">
+          <div class="img-container" v-for="(image, i) in images" :key="i">
+            <img :src="image.modified_src" :id="'img'+i" class="img-preview animated fadeIn" alt="preview-image" @click="CroppingImage(image.original_src)" />
+            <span class="btn btn-danger" @click="RemoveImage(image)">ลบรูปภาพ</span>
+          </div>
+          <div class="img-container">
+            <img id="select_picture" :src="imgPlaceholder" class="img-placeholder" @click="BrowseFile" />
+            <span class="btn btn-primary" @click="BrowseFile">เลือกรูปภาพ</span>
+          </div>
+        </div>
+      </div>
+      <!-- Left Side -->
+      <div class="col-sm-12 col-md-6 no-padding">
         <div class="col-xs-12 white-card">
-          <h3>อัพโหลดรูปภาพหมา</h3>
-          <div class="alert alert-danger hide">รูปควรมีขนาดเป็นสี่เหลี่ยมจตุรัส</div>
-          <input class="form-control input-lg" style="display: none;" type="file" name="pic" accept="image/*" id="input-img" @change="SelectImage"> 
-          <div class="text-center" style="padding-top: 10px;">
-            <div class="img-container" v-for="(image, i) in images" :key="i">
-              <img :src="image.modified_src" :id="'img'+i" class="img-preview animated fadeIn" alt="preview-image" @click="CroppingImage(image.original_src)" />
-              <span class="btn btn-danger" @click="RemoveImage(image)">ลบรูปภาพ</span>
-            </div>
-            <div class="img-container">
-              <img id="select_picture" :src="imgPlaceholder" class="img-placeholder" @click="BrowseFile" />
-              <span class="btn btn-primary" @click="BrowseFile">เลือกรูปภาพ</span>
+          <h3>ข้อมูลสุนัข</h3>
+          <app-form :form="dogForm"></app-form>
+        </div> 
+        <div class="col-xs-12 white-card">
+          <h3>ข้อมูลติดต่อ</h3>
+          <app-form :form="finderForm"></app-form> 
+        </div>
+      </div>
+      <!-- Right Side -->
+      <div class="col-sm-12 col-md-6 card-right-side">
+        <div class="col-xs-12 no-padding white-card">
+          <div class="col-xs-12">
+            <h3>สถานที่ที่พบ</h3>
+          </div>
+          <div class="col-xs-12" style="padding-bottom: 10px;">
+            <div>ละติจูด : <span class="latlng-label">{{this.latLng.lat}}</span></div>
+            <div> ลองติจูด: <span class="latlng-label">{{this.latLng.lng}}</span></div>
+          </div>
+          <div class="col-xs-12">
+            <gmap-map ref="maps" :center="center" :zoom="zoom" style="width: 500px; height: 300px; margin-bottom: 20px;">
+              <gmap-marker ref="theMarker" :position="position" :clickable="true" :draggable="true" @dragend="DragEnd">
+              </gmap-marker>
+            </gmap-map>
+            <button class="btn btn-default btn-dark btn-lg col-xs-5" @click="ShowGooglePlace">
+              <span v-if="!showGooglePlace" class="glyphicon glyphicon-unchecked"></span>
+              <span v-if="showGooglePlace" class="glyphicon glyphicon-check"></span>
+              ค้นหาด้วยสถานที่
+            </button>
+            <div class="col-xs-7" style="padding-left: 5px;" :class="placeGoogle">
+              <gmap-place-input :default-place="place" :selectFirstOnEnter="true" :className="'form-control input-lg input-place'"
+                @place_changed="setPlace">
+              </gmap-place-input>
             </div>
           </div>
-        </div>
-        <!-- Left Side -->
-        <div class="col-sm-12 col-md-6 no-padding">
-          <div class="col-xs-12 white-card">
-            <h3>ข้อมูลสุนัข</h3>
-            <app-form :form="dogForm"></app-form>
-          </div> 
-          <div class="col-xs-12 white-card">
-            <h3>ข้อมูลติดต่อ</h3>
-            <app-form :form="finderForm"></app-form> 
-          </div>
-        </div>
-        <!-- Right Side -->
-        <div class="col-sm-12 col-md-6 card-right-side">
-          <div class="col-xs-12 no-padding white-card">
-            <div class="col-xs-12">
-              <h3>สถานที่ที่พบ</h3>
-            </div>
-            <div class="col-xs-12" style="padding-bottom: 10px;">
-              <div>ละติจูด : <span class="latlng-label">{{this.latLng.lat}}</span></div>
-              <div> ลองติจูด: <span class="latlng-label">{{this.latLng.lng}}</span></div>
-            </div>
-            <div class="col-xs-12">
-              <gmap-map ref="maps" :center="center" :zoom="zoom" style="width: 500px; height: 300px; margin-bottom: 20px;">
-                <gmap-marker ref="theMarker" :position="position" :clickable="true" :draggable="true" @dragend="DragEnd">
-                </gmap-marker>
-              </gmap-map>
-              <button class="btn btn-default btn-lg col-xs-5" style="background-color: whitesmoke; margin-bottom: 10px; z-index: 10" @click="ShowGooglePlace">
-                <span v-if="!showGooglePlace" class="glyphicon glyphicon-unchecked"></span>
-                <span v-if="showGooglePlace" class="glyphicon glyphicon-check"></span>
-                ค้นหาด้วยสถานที่
-              </button>
-              <div class="col-xs-7" style="padding-left: 5px;" :class="placeGoogle">
-                <gmap-place-input :default-place="place" :selectFirstOnEnter="true" :className="'form-control input-lg input-place'"
-                  @place_changed="setPlace">
-                </gmap-place-input>
-              </div>
-            </div>
-            <div class="col-xs-12">
-              <div class="input-group" style="width: 100%; padding-bottom: 10px">
-                <div class="input-group-addon input-lg" style="width: 120px">{{dateForm.name}}</div>
-                <datepicker v-model="dateForm.model" :bootstrapStyling="false" :input-class="'date-input width-100'" :wrapper-class="'width-100'"></datepicker>
-              </div>
+          <div class="col-xs-12">
+            <div class="input-group" style="width: 100%; padding-bottom: 10px">
+              <div class="input-group-addon input-lg" style="width: 120px">{{dateForm.name}}</div>
+              <datepicker v-model="dateForm.model" :bootstrapStyling="false" :input-class="'date-input width-100'" :wrapper-class="'width-100'"></datepicker>
             </div>
           </div>
         </div>
@@ -363,5 +361,17 @@
   }
   .el-dialog__title {
     font-size: 24px;
+  }
+  .btn-dark {
+    margin-bottom: 10px; 
+    z-index: 10;
+    background-color: #524A40;
+    color: white;
+  }
+  .btn-dark:hover, .btn-dark:active, .btn-dark:focus {
+    margin-bottom: 10px; 
+    z-index: 10;
+    background-color: #524A40;
+    color: white;
   }
 </style>
