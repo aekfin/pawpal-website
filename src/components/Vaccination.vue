@@ -169,7 +169,7 @@ export default {
         { th: 'วันที่ฉีด', en: 'Date of Vaccination' },
         { th: 'นัดครั้งต่อไป', en: 'Next Vaccination' },
         { th: 'สัตวแพทย์/เลขที่ใบอนุญาติ', en: 'Veteinary / License No.' },
-        { th: 'ชื่อวัคซีน/หมายเลขชุดการผลิต', en: 'Name / Lot No.' }
+        { th: 'ชื่อวัคซีน/สุนัขยเลขชุดการผลิต', en: 'Name / Lot No.' }
       ],
       vaccineLog: [
         { vaccinationFor: { th: 'วัคซีนป้องกันโรคหลอดลมอักเสบติดต่อ', en: 'Canine Cough' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },

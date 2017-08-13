@@ -3,7 +3,7 @@
     <nav-bar :type = "'dark'"></nav-bar>
     <div class="title-red-card">
       <div class="container">
-        <h2>ประกาศหมาสูญหาย</h2>
+        <h2>ประกาศสุนัขสูญหาย</h2>
       </div>
     </div>
     <div class="container animated-t fadeInTo">

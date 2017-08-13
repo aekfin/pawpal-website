@@ -3,13 +3,13 @@
     <nav-bar :type = "'dark'"></nav-bar>
     <div class="title-green-card">
       <div class="container">
-        <h2> เพิ่มข้อมูลหมาที่พบ</h2>
+        <h2> เพิ่มข้อมูลสุนัขที่พบ</h2>
       </div>
     </div>
     <div class="container animated fadeIn">
       <!-- Top Side -->
       <div class="col-xs-12 white-card">
-        <h3>อัพโหลดรูปภาพหมา</h3>
+        <h3>อัพโหลดรูปภาพสุนัข</h3>
         <div class="alert alert-danger hide">รูปควรมีขนาดเป็นสี่เหลี่ยมจตุรัส</div>
         <input class="form-control input-lg" style="display: none;" type="file" name="pic" accept="image/*" id="input-img" @change="SelectImage"> 
         <div class="text-center" style="padding-top: 10px;">
@@ -297,7 +297,7 @@
         finderForm: [
           { name: 'ชื่อผู้พบ', placeholder: 'นาย สมชาย', type: 'text', model: '' },
           { name: 'เบอร์ติดต่อ', placeholder: '08x-xxx-xxxx', type: 'tel', model: '' },
-          { name: 'หมายเหตุ', placeholder: 'เจอบริเวณสวนหลังวัด', type: 'text', model: '' }
+          { name: 'สุนัขยเหตุ', placeholder: 'เจอบริเวณสวนหลังวัด', type: 'text', model: '' }
         ]
       }
     }
