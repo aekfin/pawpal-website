@@ -28,7 +28,7 @@ export default {
         var user = []
         this.$store.commit('Login', user)
       }
-      axios.get('http://127.0.0.1:8000/api/?format=json')
+      axios.get('/api/?format=json')
         .then(function (response) {
           console.log(response)
         })
