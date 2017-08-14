@@ -33,7 +33,7 @@ export default {
 
 <style lang="scss">
   @import url("https://fonts.googleapis.com/css?family=Mitr:200,300,400,500,600,700&amp;subset=latin-ext,thai,vietnamese");
-  $form-theme-color: #524A40;
+  $form-theme-color: #49392C;
 
   body, html {
     height: 100%;
@@ -42,7 +42,7 @@ export default {
   #app {
     font-family: "Mitr", sans-serif;
     font-size: 16px;
-    background-color: #C6AF81;
+    background-color: #CEBB94;
     color: #4c4c4c;
     min-height: 100%;
     overflow: hidden;
@@ -65,12 +65,12 @@ export default {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
 
-  .dark-card {
+  .title-card {
     color: white;
     width: 100%;
     padding-top: 35px;
     height: 100px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.7);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.4);
     margin-bottom: 10px;
     h1, h2, h3, h4, h5 {
       color: white;
@@ -78,34 +78,52 @@ export default {
     }
   }
 
-  .dark-brown-card {
-    @extend .dark-card;
+  .title-brown-card {
+    @extend .title-card;
     background-color: #524A40;
   }
 
-  .dark-green-card {
-    @extend .dark-card;
-    background-color: #40524a;
+  .title-green-card {
+    @extend .title-card;
+    background-color: #84bf09;
   }
 
-  .dark-blue-card {
-    @extend .dark-card;
-    background-color: #404952;
+  .title-blue-green-card {
+    @extend .title-card;
+    background-color: #62A87C;
   }
 
-  .dark-red-card {
-    @extend .dark-card;
-    background-color: #524140;
+  .title-blue-card {
+    @extend .title-card;
+    background-color: #69A5AD;
   }
 
-  .dark-purple-card {
-    @extend .dark-card;
-    background-color: #524048;
+  .title-red-card {
+    @extend .title-card;
+    background-color: #EF3E36;
+  }
+
+  .title-yellow-card {
+    @extend .title-card;
+    background-color: #e4ba24;
   }
 
   .card-right-side {
     padding-left: 20px;
     padding-right: 0px;
+  }
+
+  .btn-dark {
+    margin-bottom: 10px; 
+    z-index: 10;
+    background-color: $form-theme-color;
+    color: white;
+  }
+  .btn-dark:hover, .btn-dark:active, .btn-dark:focus {
+    margin-bottom: 10px; 
+    z-index: 10;
+    background-color: $form-theme-color;
+    color: white;
   }
 
   .bottom-line {

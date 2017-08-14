@@ -7,6 +7,7 @@ import MissingDogPage from '@/components/MissingDog.vue'
 import VaccinationPage from '@/components/Vaccination.vue'
 import LoginPage from '@/components/Login.vue'
 import DoctorPage from '@/components/Doctor.vue'
+import AppointmentPage from '@/components/Appointment.vue'
 import store from '../vuex/store'
 
 Vue.use(Router)
@@ -22,14 +23,15 @@ var router = new Router({
     { path: '/logout',
       beforeEnter: (to, from, next) => {
         store.commit('Logout')
-        next('/')
+        next('/login')
       }
     },
     { path: '/doctor',
       name: 'DoctorPage',
       component: DoctorPage,
       children: [
-        { path: 'vaccination', name: 'VaccinationPage', component: VaccinationPage }
+        { path: 'vaccination', name: 'VaccinationPage', component: VaccinationPage },
+        { path: 'appointment', name: 'AppointmentPage', component: AppointmentPage }
       ],
       beforeEnter: (to, from, next) => {
         if (store.getters.IsLogin) {

@@ -1,15 +1,15 @@
 <template>
   <div class="finder">
     <nav-bar :type = "'dark'"></nav-bar>
-    <div class="dark-brown-card">
+    <div class="title-green-card">
       <div class="container">
-        <h2> เพิ่มข้อมูลหมาที่พบ</h2>
+        <h2> เพิ่มข้อมูลสุนัขที่พบ</h2>
       </div>
     </div>
     <div class="container animated fadeIn">
       <!-- Top Side -->
       <div class="col-xs-12 white-card">
-        <h3>อัพโหลดรูปภาพหมา</h3>
+        <h3>อัพโหลดรูปภาพสุนัข</h3>
         <div class="alert alert-danger hide">รูปควรมีขนาดเป็นสี่เหลี่ยมจตุรัส</div>
         <input class="form-control input-lg" style="display: none;" type="file" name="pic" accept="image/*" id="input-img" @change="SelectImage"> 
         <div class="text-center" style="padding-top: 10px;">
@@ -361,17 +361,5 @@
   }
   .el-dialog__title {
     font-size: 24px;
-  }
-  .btn-dark {
-    margin-bottom: 10px; 
-    z-index: 10;
-    background-color: #524A40;
-    color: white;
-  }
-  .btn-dark:hover, .btn-dark:active, .btn-dark:focus {
-    margin-bottom: 10px; 
-    z-index: 10;
-    background-color: #524A40;
-    color: white;
   }
 </style>

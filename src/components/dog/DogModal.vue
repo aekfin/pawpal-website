@@ -6,7 +6,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-            <h3>รายละเอียดหมา</h3>
+            <h3>รายละเอียดสุนัข</h3>
           </div>
           <div class="modal-body">
             <div class="row">
@@ -25,7 +25,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <h4>หมาที่มีลักษณะคล้ายๆคลึงกัน</h4>
+            <h4>สุนัขที่มีลักษณะคล้ายๆคลึงกัน</h4>
             <div v-for="sd in similar_dog" :key="sd.name" style="width: 20%; display: inline-block; padding-left: 5px; padding-right: 5px;">
               <img class="img-rounded img-rounded-sm" :src="sd.img">
             </div>
