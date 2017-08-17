@@ -15,7 +15,8 @@
   import 'bootstrap/dist/js/bootstrap.js'
   import 'font-awesome/css/font-awesome.min.css'
   import locale from 'element-ui/lib/locale/lang/en'
-  
+  import axios from 'axios'
+
   Vue.use(Bootstrap)
   Vue.use(Animate)
   Vue.use(ElementUI, { locale })
@@ -27,6 +28,13 @@ export default {
         var user = []
         this.$store.commit('Login', user)
       }
+      axios.get('/api/?format=json')
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
 }
 </script>
