@@ -13,11 +13,11 @@
       <div class="card-content">
         <div class="col-xs-12">
           <div class="input-label">อีเมลล์</div>
-          <input type="email" class="form-control input-lg" v-model="user.email">
+          <input type="email" class="form-control input-lg" name="email" v-model="user.email">
         </div>
         <div class="col-xs-12 margin-t-10">
           <div class="input-label">รหัสผ่าน</div>
-          <input type="password" class="form-control input-lg" v-model="user.password">
+          <input type="password" class="form-control input-lg" name="password" v-model="user.password">
         </div>
         <div class="alert alert-danger margin-t-10" v-if="alert">คุณกรอกอีเมลล์หรือรหัสผ่านไม่ถูกต้อง</div>
         <div class="col-xs-12 margin-t-20 text-right">
@@ -30,6 +30,7 @@
 
 <script>
 import NavBar from '@/components/common/Navbar.vue'
+import axios from 'axios'
 
 export default {
   components: {
@@ -39,9 +40,17 @@ export default {
   },
   methods: {
     Login () {
-      this.$store.commit('Login', this.user)
-      window.location.reload()
-      this.$router.replace('/')
+      // this.$store.commit('Login', 'aek')
+      axios.post('/api/login/', this.user)
+        .then(function (response) {
+          console.log(response)
+          this.$store.commit('Login', response.email)
+          // window.location.reload()
+          // this.$router.replace('/')
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   },
   data () {
