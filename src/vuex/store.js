@@ -32,7 +32,7 @@ export default new Vuex.Store({
       state.count++
     },
     Login (state, auth) {
-      localStorage.setItem('auth', auth)
+      localStorage.setItem('auth', auth.email)
     },
     Logout (state) {
       state.user = []

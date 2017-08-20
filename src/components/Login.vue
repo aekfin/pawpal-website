@@ -40,13 +40,13 @@ export default {
   },
   methods: {
     Login () {
-      // this.$store.commit('Login', 'aek')
+      var self = this
       axios.post('/api/login/', this.user)
         .then(function (response) {
           console.log(response)
-          this.$store.commit('Login', response.email)
-          // window.location.reload()
-          // this.$router.replace('/')
+          self.$store.commit('Login', response.data)
+          window.location.reload()
+          this.$router.replace('/')
         })
         .catch(function (error) {
           console.log(error)
