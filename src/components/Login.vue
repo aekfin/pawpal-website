@@ -30,7 +30,6 @@
 
 <script>
 import NavBar from '@/components/common/Navbar.vue'
-import axios from 'axios'
 
 export default {
   components: {
@@ -41,10 +40,10 @@ export default {
   methods: {
     Login () {
       var self = this
-      axios.post('/api/login/', this.user)
+      this.$http.post('/api/login/', this.user)
         .then(function (response) {
           console.log(response)
-          self.$store.commit('Login', response.data)
+          self.$store.commit('Login', response.body)
           window.location.reload()
           this.$router.replace('/')
         })
@@ -57,7 +56,7 @@ export default {
     return {
       alert: false,
       user: {
-        email: '', password: ''
+        email: '', password: '', csrfmiddlewaretoken: 'jqlYdRFHt1JBElNhDT4Hx9Andbe95mDOyypcqvnvfruKNO2p5BWPlEjiYdoHC0bO'
       }
     }
   }

@@ -99,6 +99,9 @@ export default {
   components: {
     DogList, Datepicker
   },
+  created () {
+    console.log(this.$route.params.appointment_id)
+  },
   methods: {
     DateFormat (date) {
       var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]

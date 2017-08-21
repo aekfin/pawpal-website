@@ -15,10 +15,12 @@
   import 'bootstrap/dist/js/bootstrap.js'
   import 'font-awesome/css/font-awesome.min.css'
   import locale from 'element-ui/lib/locale/lang/en'
+  import VueResource from 'vue-resource'
 
   Vue.use(Bootstrap)
   Vue.use(Animate)
   Vue.use(ElementUI, { locale })
+  Vue.use(VueResource)
 
 export default {
     name: 'app',
