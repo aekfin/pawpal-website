@@ -28,12 +28,6 @@ import navBar from '@/components/common/Navbar.vue'
 export default {
   name: 'landing',
   created () {
-    this.$http.get('/api/home/').then(response => {
-      // get body data
-      console.log(response.body)
-    }, response => {
-      console.log(response)
-    })
   },
   components: {
     navBar

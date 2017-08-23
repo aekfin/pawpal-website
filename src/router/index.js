@@ -39,6 +39,7 @@ var router = new Router({
       name: 'DoctorPage',
       component: DoctorPage,
       children: [
+        { path: 'vaccination/', name: 'AppointmentPage', component: AppointmentPage },
         { path: 'vaccination/:appointment_id/', name: 'VaccinationPage', component: VaccinationPage },
         { path: 'appointment', name: 'AppointmentPage', component: AppointmentPage }
       ],

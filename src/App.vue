@@ -30,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import url("https://fonts.googleapis.com/css?family=Mitr:200,300,400,500,600,700&amp;subset=latin-ext,thai,vietnamese");
+  @import url("https://fonts.googleapis.com/css?family=Mitr:400,700&amp;subset=latin-ext,thai,vietnamese");
   $form-theme-color: #49392C;
 
   body, html {

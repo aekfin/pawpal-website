@@ -218,7 +218,7 @@ export default {
   nav > ul.pager > li > a {
     color: $pagination-color;
     background-color: white;
-    font-weight: 500;
+    font-weight: bold;
     border: 2px solid $pagination-color;
     transition-duration: 0.5s;
   }
@@ -232,7 +232,7 @@ export default {
     z-index: -1;
   }
   .th-header {
-    font-weight: 500;
+    font-weight: bold;
   }
   .en-header {
     font-weight: 400; 
@@ -246,7 +246,7 @@ export default {
   }
   .th-tr-body {
     font-family: "Mitr", sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 14px;
   }
   .en-tr-body {

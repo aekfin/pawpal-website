@@ -42,7 +42,6 @@ export default {
     this.rightList = []
     if (this.$store.getters.IsLogin) {
       this.rightList.push({ name: 'สมุดวัคซีน', url: '/doctor/vaccination' })
-      this.rightList.push({ name: 'สมุดนัดหมาย', url: '/doctor/appointment' })
       this.rightList.push({ name: 'ออกจากระบบ', url: '/logout', action: 'logout' })
     } else {
       this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login' })

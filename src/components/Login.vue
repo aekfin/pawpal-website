@@ -13,13 +13,15 @@
       <div class="card-content">
         <div class="col-xs-12">
           <div class="input-label">อีเมลล์</div>
-          <input type="email" class="form-control input-lg" name="email" v-model="user.email">
+          <input type="email" class="form-control input-lg" name="username" v-model="user.email">
         </div>
         <div class="col-xs-12 margin-t-10">
           <div class="input-label">รหัสผ่าน</div>
           <input type="password" class="form-control input-lg" name="password" v-model="user.password">
         </div>
-        <div class="alert alert-danger margin-t-10" v-if="alert">คุณกรอกอีเมลล์หรือรหัสผ่านไม่ถูกต้อง</div>
+        <div class="col-xs-12 margin-t-10">
+          <div class="alert alert-danger" v-if="alert">{{alert}}</div>
+        </div>
         <div class="col-xs-12 margin-t-20 text-right">
           <input class="btn btn-primary btn-lg" @click="Login" value="เข้าสู่ระบบ" />
         </div>
@@ -38,32 +40,49 @@ export default {
   created () {
   },
   methods: {
+    CheckRequired () {
+      if (this.user.email && this.user.password) {
+        this.alert = null
+        return true
+      } else {
+        if (!this.user.email) {
+          this.alert = 'กรุณากรอกอีเมลล์'
+          return false
+        } else {
+          this.alert = 'กรุณากรอกรหัสผ่าน'
+          return false
+        }
+      }
+    },
     Login () {
-      var self = this
-      this.$http.post('/api/login/', this.user)
-        .then(function (response) {
-          console.log(response)
-          self.$store.commit('Login', response.body)
-          window.location.reload()
-          this.$router.replace('/')
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+      if (this.CheckRequired()) {
+        var self = this
+        this.$http.post('/api/login/', this.user)
+          .then(function (response) {
+            console.log(response)
+            self.$store.commit('Login', response.body)
+            window.location.reload()
+            this.$router.replace('/')
+          })
+          .catch(function (error) {
+            this.alert = 'คุณกรอกอีเมลล์หรือรหัสผ่านไม่ถูกต้อง'
+            console.log(error)
+          })
+      }
     }
   },
   data () {
     return {
-      alert: false,
+      alert: null,
       user: {
-        email: '', password: '', csrfmiddlewaretoken: 'jqlYdRFHt1JBElNhDT4Hx9Andbe95mDOyypcqvnvfruKNO2p5BWPlEjiYdoHC0bO'
+        email: null, password: null
       }
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   $brown-color: #49392C;
   
   .login {
@@ -76,7 +95,6 @@ export default {
       .banner {
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
-        min-height: 80px;
         font-size: 16px;
         margin-bottom: 30px;
         color: white;
@@ -85,7 +103,7 @@ export default {
       }
       .input-label {
         font-size: 20px;
-        font-weight: 500;
+        font-weight: bold;
         color: $brown-color;
       }
       .form-control {
@@ -106,6 +124,7 @@ export default {
         background-color: #477b82;
       }
       .alert {
+        text-align: center;
         margin-bottom: 0px;
       }
     }
