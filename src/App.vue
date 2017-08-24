@@ -134,7 +134,7 @@ export default {
     padding-right: 0px;
   }
 
-  .margin-t-10 {
+  .m-t-10 {
     margin-top: 10px;
   }
   .margin-t-20 {

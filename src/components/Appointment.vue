@@ -16,8 +16,8 @@
             <input type="text" class="form-control input-lg" v-model="codeUrl">
             <span class="btn btn-warning btn-lg" @click="AcceptCode()">ยืนยัน</span>
           </div>
-          <div class="input-label col-xs-12 or-label">หรือ</div>
-          <router-link :to="noCodeUrl" class="col-xs-12 no-padding btn btn-lg btn-success">เข้าสู่สมุดวัคซีนโดยไม่ใช้รหัสการนัดหมาย</router-link>
+          <div class="input-label col-xs-12 or-label"><span>หรือ</span></div>
+          <router-link :to="noCodeUrl" class="col-xs-12 no-padding btn btn-lg btn-success m-t-10">เข้าสู่สมุดวัคซีนโดยไม่ใช้รหัสการนัดหมาย</router-link>
         </div>
       </div>
     </div>
@@ -44,6 +44,7 @@ export default {
 
 <style lang="scss">
   $brown-color: #49392C;
+  $theme-color: #487B5B;
   
   .appointment {
     .white-card {
@@ -59,13 +60,16 @@ export default {
         margin-bottom: 30px;
         color: white;
         padding: 30px 10%;
-        background-color: #487B5B;
+        background-color: $theme-color
       }
       .input-label {
         font-size: 20px;
         font-weight: bold;
         color: $brown-color;
         margin-bottom: 5px;
+        span {
+          font-size: 18px;
+        }
       }
       .form-control {
         border: 1px solid $brown-color;
@@ -77,6 +81,9 @@ export default {
         border: 0px solid $brown-color;
         box-shadow: 0px 0px 10px rgb(	105, 165, 173);
       }
+      .manual {
+        width: 100%;
+      }
       .btn-warning{
         width: 20%;
         display: inline-block;
@@ -87,9 +94,16 @@ export default {
         margin-bottom: 0px;
       }
       .or-label {
-        font-size: 30px;
-        margin: 20px 0px;
+        font-weight: normal;
+        margin: 30px 0px 20px 0px;
         text-align: center;
+        span {
+          font-size: 24px;
+          padding: 5px 15px;
+          color: white;
+          background-color: $brown-color;
+          border-radius: 50%;
+        }
       }
       .router-link-active {
         font-size: 18px;

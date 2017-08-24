@@ -15,11 +15,11 @@
           <div class="input-label">อีเมลล์</div>
           <input type="email" class="form-control input-lg" name="username" v-model="user.email">
         </div>
-        <div class="col-xs-12 margin-t-10">
+        <div class="col-xs-12 m-t-10">
           <div class="input-label">รหัสผ่าน</div>
           <input type="password" class="form-control input-lg" name="password" v-model="user.password">
         </div>
-        <div class="col-xs-12 margin-t-10">
+        <div class="col-xs-12 m-t-10">
           <div class="alert alert-danger" v-if="alert">{{alert}}</div>
         </div>
         <div class="col-xs-12 margin-t-20 text-right">
