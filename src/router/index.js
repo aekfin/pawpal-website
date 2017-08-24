@@ -9,8 +9,11 @@ import LoginPage from '@/components/Login.vue'
 import DoctorPage from '@/components/Doctor.vue'
 import AppointmentPage from '@/components/Appointment.vue'
 import store from '../vuex/store'
+import VueResource from 'vue-resource'
+import Cookie from 'js-cookie'
 
 Vue.use(Router)
+Vue.use(VueResource)
 
 var router = new Router({
   mode: 'history',
@@ -23,14 +26,21 @@ var router = new Router({
     { path: '/logout',
       beforeEnter: (to, from, next) => {
         store.commit('Logout')
-        next('/login')
+        Vue.http.post('/api/logout/', {}, {headers: {'X-CSRFToken': Cookie.get('csrftoken')}}).then(response => {
+          console.log(response)
+          window.location.reload()
+          next('/login')
+        }, response => {
+          console.log(response)
+        })
       }
     },
     { path: '/doctor',
       name: 'DoctorPage',
       component: DoctorPage,
       children: [
-        { path: 'vaccination', name: 'VaccinationPage', component: VaccinationPage },
+        { path: 'vaccination/', name: 'AppointmentPage', component: AppointmentPage },
+        { path: 'vaccination/:appointment_id/', name: 'VaccinationPage', component: VaccinationPage },
         { path: 'appointment', name: 'AppointmentPage', component: AppointmentPage }
       ],
       beforeEnter: (to, from, next) => {

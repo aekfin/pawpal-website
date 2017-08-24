@@ -101,7 +101,7 @@ export default {
     height: 26px;
     display: inline-block;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: bold;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -110,7 +110,7 @@ export default {
     height: 23px;
     display: inline-block;
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 400;
     overflow: hidden;
     text-overflow: ellipsis;
   }

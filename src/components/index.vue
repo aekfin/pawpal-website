@@ -27,6 +27,8 @@ import navBar from '@/components/common/Navbar.vue'
 
 export default {
   name: 'landing',
+  created () {
+  },
   components: {
     navBar
   }

@@ -15,10 +15,12 @@
   import 'bootstrap/dist/js/bootstrap.js'
   import 'font-awesome/css/font-awesome.min.css'
   import locale from 'element-ui/lib/locale/lang/en'
+  import VueResource from 'vue-resource'
 
   Vue.use(Bootstrap)
   Vue.use(Animate)
   Vue.use(ElementUI, { locale })
+  Vue.use(VueResource)
 
 export default {
     name: 'app',
@@ -28,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import url("https://fonts.googleapis.com/css?family=Mitr:200,300,400,500,600,700&amp;subset=latin-ext,thai,vietnamese");
+  @import url("https://fonts.googleapis.com/css?family=Mitr:400,700&amp;subset=latin-ext,thai,vietnamese");
   $form-theme-color: #49392C;
 
   body, html {
@@ -132,7 +134,7 @@ export default {
     padding-right: 0px;
   }
 
-  .margin-t-10 {
+  .m-t-10 {
     margin-top: 10px;
   }
   .margin-t-20 {
