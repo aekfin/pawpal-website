@@ -1,6 +1,5 @@
 <template>
   <div class="finder">
-    <nav-bar :type = "'dark'"></nav-bar>
     <div class="title-green-card">
       <div class="container">
         <h2> เพิ่มข้อมูลสุนัขที่พบ</h2>
@@ -89,9 +88,7 @@
 </template>
 
 <script>
-  import appForm from '@/components/finder/Form.vue'
-  import navBar from '@/components/common/Navbar.vue'
-  import VueResource from 'vue-resource'
+  import appForm from '@/components/guest/components/Form.vue'
   import Vue from 'vue'
   import * as VueGoogleMaps from 'vue2-google-maps'
   import $ from 'jquery'
@@ -99,7 +96,6 @@
   import Datepicker from 'vuejs-datepicker'
   import VueCroppie from 'vue-croppie'
 
-  Vue.use(VueResource)
   Vue.use(VueCroppie)
   Vue.use(VueGoogleMaps, {
     load: {
@@ -112,7 +108,7 @@
   export default {
     name: 'finder',
     components: {
-      appForm, navBar, Datepicker
+      appForm, Datepicker
     },
     created () {
       this.dogForm[0].model = this.dogForm[0].options[0]

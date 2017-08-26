@@ -15,13 +15,12 @@
 </template>
 
 <script>
-import NavBar from '@/components/common/Navbar.vue'
-import DogList from '@/components/dog/DogList.vue'
+import DogList from '@/components/guest/components/DogList.vue'
 
 export default {
   name: 'missingDog',
   components: {
-    DogList, NavBar
+    DogList
   },
   data () {
     return {
