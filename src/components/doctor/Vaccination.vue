@@ -53,7 +53,7 @@
     </div>
     <!-- Modal -->
     <div class="modal fade" id="form_modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
@@ -76,7 +76,10 @@
                   :wrapper-class = "'width-100'"
                   :format = "'dd MMM yyyy'">
                 </datepicker> 
-                <input v-if="i>2" class="form-control" v-model="vaccineLogForm[i-1]" type="text">
+                <input v-if="i===3" class="form-control" v-model="vaccineLogForm[i-1]" type="text">
+                <div v-if="i===4" class="text-center" style="border: 1px solid lightgray; border-radius: 5px; margin-top: 5px;">
+                  <img v-for="(vf, i) in vaccineLogForm[i-1].length" :key = "i" style="margin: 5px;" class="img-rounded" src="https://ih1.redbubble.net/image.240967255.6549/sticker,220x200-bg,ffffff-pad,220x200,ffffff.jpg" width="100px" height="50px"/>
+                </div>
               </div>
             </div>
           </div>
@@ -91,7 +94,7 @@
 </template>
 
 <script>
-import DogList from '@/components/dog/DogList.vue'
+import DogList from '@/components/guest/components/DogList.vue'
 import $ from 'jquery'
 import Datepicker from 'vuejs-datepicker'
 
@@ -127,7 +130,7 @@ export default {
       }
       this.vaccineLogForm[1] = this.vaccineLog[this.currentVL].next_vaccine
       this.vaccineLogForm[2] = this.vaccineLog[this.currentVL].veterinary
-      this.vaccineLogForm[3] = this.vaccineLog[this.currentVL].name
+      this.vaccineLogForm[3] = this.vaccineLog[this.currentVL].doses
       for (var i = 0; i < this.vaccineLog.length; i++) {
         if (index === i) {
           this.vaccineLog[i].class = 'tr-selected'
@@ -172,7 +175,7 @@ export default {
         { th: 'วันที่ฉีด', en: 'Date of Vaccination' },
         { th: 'นัดครั้งต่อไป', en: 'Next Vaccination' },
         { th: 'สัตวแพทย์/เลขที่ใบอนุญาติ', en: 'Veteinary / License No.' },
-        { th: 'ชื่อวัคซีน/สุนัขยเลขชุดการผลิต', en: 'Name / Lot No.' }
+        { th: 'ชื่อวัคซีน/หมายเลขชุดการผลิต', en: 'Name / Lot No.' }
       ],
       vaccineLog: [
         { vaccinationFor: { th: 'วัคซีนป้องกันโรคหลอดลมอักเสบติดต่อ', en: 'Canine Cough' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },

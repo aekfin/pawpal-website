@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import DogModal from '@/components/dog/DogModal.vue'
+import DogModal from '@/components/guest/components/DogModal.vue'
 
 export default {
   props: ['theme', 'type', 'dogs'],
