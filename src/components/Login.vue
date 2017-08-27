@@ -28,13 +28,16 @@
         </div>
       </div>
       <div class="card-content animated fadeIn" v-else>
-        <div class="col-xs-12">
-          <select class="form-control input-lg" v-model="hospital">
-            <option v-for="(hospital, i) in hospitals" :key="hospital" :value="hospital">{{hospital}}</option>
-          </select>
-        </div>
-        <div class="col-xs-12 margin-t-20 text-right">
-          <input class="btn btn-success btn-lg" @click="SelectHospital" value="เลือกโรงพยาบาลนี้" />
+        <loading v-if="isLoading"></loading>
+        <div v-else>
+          <div class="col-xs-12">
+            <select class="form-control input-lg" v-model="hospital">
+              <option v-for="(hospital, i) in hospitals" :key="hospital.name" :value="hospital.id">{{hospital.name}}</option>
+            </select>
+          </div>
+          <div class="col-xs-12 margin-t-20 text-right">
+            <input class="btn btn-success btn-lg" @click="SelectHospital" value="เลือกโรงพยาบาลนี้" />
+          </div>
         </div>
       </div>
     </div>
@@ -43,11 +46,11 @@
 
 <script>
 import NavBar from '@/components/common/Navbar.vue'
-import cookie from 'js-cookie'
+import Loading from '@/components/common/Loading.vue'
 
 export default {
   components: {
-    NavBar
+    NavBar, Loading
   },
   created () {
   },
@@ -75,7 +78,7 @@ export default {
       }
     },
     SelectHospital () {
-      cookie.set('hospital', this.hospital)
+      this.$store.commit('SelectHospital', this.hospital)
       this.$router.replace('/')
       window.location.reload()
     },
@@ -85,11 +88,19 @@ export default {
         this.$http.post('/api/login/', this.user)
           .then(function (response) {
             console.log(response)
-            self.$store.commit('Login', response.body)
-            self.mode = 'hospital'
-            self.hospitals = ['Hospital A', 'Hospital B', 'Hospital C']
-            self.hospital = self.hospitals[0]
+            self.$store.commit('Login', 'hello')
             self.veterinarian = true
+            self.isLoading = true
+            this.$http.get('/api/hospital/')
+              .then(function (response) {
+                self.hospitals = response.body
+                self.hospital = self.hospitals[0].id
+                self.isLoading = false
+              })
+              .catch(function (error) {
+                this.alert = 'ระบบไม่สามารถเข้าถึงข้อมูลโรงพยาบาลได้'
+                console.log(error)
+              })
           })
           .catch(function (error) {
             this.alert = 'คุณกรอกอีเมลล์หรือรหัสผ่านไม่ถูกต้อง'
@@ -103,6 +114,7 @@ export default {
       alert: null,
       veterinarian: false,
       hospital: null,
+      isLoading: false,
       hospitals: [],
       user: {
         email: null, password: null

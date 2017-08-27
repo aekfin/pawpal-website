@@ -1,5 +1,5 @@
 <template>
-  <div class="Dogmodal">
+  <div class="DogModal">
     <!-- Modal -->
     <div class="modal fade" id="detail_modal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
@@ -38,6 +38,7 @@
 
 <script>
 export default {
+  name: 'DogModal',
   props: ['type', 'dog'],
   created () {
     console.log(this.dog)

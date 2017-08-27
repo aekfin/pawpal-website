@@ -20,6 +20,7 @@ var router = new Router({
     { path: '/login', name: 'LoginPage', component: LoginPage },
     { path: '/logout',
       beforeEnter: (to, from, next) => {
+        console.log(store.getters.IsLogin)
         store.commit('Logout')
         Vue.http.post('/api/logout/', {}, {headers: {'X-CSRFToken': Cookie.get('csrftoken')}}).then(response => {
           console.log(response)

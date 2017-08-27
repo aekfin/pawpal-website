@@ -15,7 +15,11 @@ var route = {
   ],
   beforeEnter: (to, from, next) => {
     if (store.getters.IsLogin) {
-      next()
+      if (store.getters.IsSelectHospital) {
+        next()
+      } else {
+        next('/logout')
+      }
     } else {
       next('/login')
     }

@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: 'navbar',
+  name: 'navbarVue',
   created () {
     if (this.type === 'dark') {
       this.navbar = 'navbar-dark'
@@ -42,9 +42,9 @@ export default {
     this.rightList = []
     if (this.$store.getters.IsLogin) {
       this.rightList.push({ name: 'สมุดวัคซีน', url: '/doctor/vaccination' })
-      this.rightList.push({ name: 'ออกจากระบบ', url: '/logout', action: 'logout' })
+      this.rightList.push({ name: 'ออกจากระบบ', url: '/logout' })
     } else {
-      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login' })
+      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/logout' })
     }
     for (var i = 0; i < this.leftList.length; i++) {
       this.mobileList.push(this.leftList[i])
