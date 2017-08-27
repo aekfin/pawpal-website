@@ -1,5 +1,5 @@
 <template>
-  <div class="login" @keyup.enter = "Login">
+  <div class="login" @keyup.enter = "Submit">
     <nav-bar :type = "'dark'"></nav-bar>
     <div class="title-blue-card">
       <div class="container">
@@ -8,9 +8,10 @@
     </div>
     <div class="container col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 white-card animated fadeIn">
       <div class="banner col-xs-12">
-        <span>หากท่านไม่สามารถเข้าสู่ระบบได้หรือต้องการสมัครใช้งาน กรุณาติดต่อผู้ดูแลระบบ</span>
+        <div v-if="!veterinarian">หากท่านไม่สามารถเข้าสู่ระบบได้หรือต้องการสมัครใช้งาน กรุณาติดต่อผู้ดูแลระบบ</div>
+        <div v-else class="hospital-label">กรุณาเลือกโรงพยาบาลของท่าน</div>
       </div>
-      <div class="card-content">
+      <div class="card-content" v-if="!veterinarian">
         <div class="col-xs-12">
           <div class="input-label">อีเมลล์</div>
           <input type="email" class="form-control input-lg" name="username" v-model="user.email">
@@ -26,12 +27,23 @@
           <input class="btn btn-primary btn-lg" @click="Login" value="เข้าสู่ระบบ" />
         </div>
       </div>
+      <div class="card-content animated fadeIn" v-else>
+        <div class="col-xs-12">
+          <select class="form-control input-lg" v-model="hospital">
+            <option v-for="(hospital, i) in hospitals" :key="hospital" :value="hospital">{{hospital}}</option>
+          </select>
+        </div>
+        <div class="col-xs-12 margin-t-20 text-right">
+          <input class="btn btn-success btn-lg" @click="SelectHospital" value="เลือกโรงพยาบาลนี้" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/common/Navbar.vue'
+import cookie from 'js-cookie'
 
 export default {
   components: {
@@ -54,6 +66,19 @@ export default {
         }
       }
     },
+    Submit () {
+      console.log(this.veterinarian)
+      if (this.veterinarian) {
+        this.SelectHospital()
+      } else {
+        this.Login()
+      }
+    },
+    SelectHospital () {
+      cookie.set('hospital', this.hospital)
+      this.$router.replace('/')
+      window.location.reload()
+    },
     Login () {
       if (this.CheckRequired()) {
         var self = this
@@ -61,8 +86,10 @@ export default {
           .then(function (response) {
             console.log(response)
             self.$store.commit('Login', response.body)
-            window.location.reload()
-            this.$router.replace('/')
+            self.mode = 'hospital'
+            self.hospitals = ['Hospital A', 'Hospital B', 'Hospital C']
+            self.hospital = self.hospitals[0]
+            self.veterinarian = true
           })
           .catch(function (error) {
             this.alert = 'คุณกรอกอีเมลล์หรือรหัสผ่านไม่ถูกต้อง'
@@ -74,6 +101,9 @@ export default {
   data () {
     return {
       alert: null,
+      veterinarian: false,
+      hospital: null,
+      hospitals: [],
       user: {
         email: null, password: null
       }
@@ -89,17 +119,12 @@ export default {
     .white-card {
       margin-top: 3%;
       padding: 0px 0px 30px 0px;
-      .card-content {
-        padding: 80px 50px 50px 50px;
+      .hospital-label {
+        line-height: 30px;
+        font-size: 24px;
       }
       .banner {
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        font-size: 16px;
-        margin-bottom: 30px;
-        color: white;
-        padding: 30px 10%;
-        background-color: #477b82;
+        height: 80px;
       }
       .input-label {
         font-size: 20px;
@@ -114,10 +139,12 @@ export default {
         border: 0px solid $brown-color;
         box-shadow: 0px 0px 10px rgb(	105, 165, 173);
       }
+      .btn {
+        width: 50%;
+      }
       .btn-primary {
         background-color: #69A5AD;
         border: 1px solid #69A5AD;
-        min-width: 200px;
         transition-duration: 0.5s;
       }
       .btn-primary:hover, .btn-primary:active, .btn-primary:focus {

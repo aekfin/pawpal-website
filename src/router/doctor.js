@@ -7,13 +7,11 @@ import SelectHospitalPage from '@/components/doctor/SelectHospital.vue'
 
 var route = {
   path: '/doctor',
-  name: 'DoctorPage',
   component: DoctorPage,
   children: [
     { path: '/', name: 'SelectHospitalPage', component: SelectHospitalPage },
     { path: 'vaccination/', name: 'AppointmentPage', component: AppointmentPage },
-    { path: 'vaccination/:appointment_id/', name: 'VaccinationPage', component: VaccinationPage },
-    { path: 'appointment', name: 'AppointmentPage', component: AppointmentPage }
+    { path: 'vaccination/:appointment_id/', name: 'VaccinationPage', component: VaccinationPage }
   ],
   beforeEnter: (to, from, next) => {
     if (store.getters.IsLogin) {

@@ -23,8 +23,8 @@ var router = new Router({
         store.commit('Logout')
         Vue.http.post('/api/logout/', {}, {headers: {'X-CSRFToken': Cookie.get('csrftoken')}}).then(response => {
           console.log(response)
-          window.location.reload()
           next('/login')
+          window.location.reload()
         }, response => {
           console.log(response)
         })

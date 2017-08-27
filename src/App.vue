@@ -61,6 +61,18 @@ export default {
     margin-top: 10px;
     margin-bottom: 10px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    .card-content {
+      padding: 80px 50px 50px 50px;
+    }
+    .banner {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 30px;
+      color: white;
+      padding: 30px 10%;
+      background-color: #477b82;
+    }
   }
 
   .title-card {

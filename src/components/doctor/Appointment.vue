@@ -54,67 +54,17 @@ export default {
 </script>
 
 <style lang="scss">
-  $brown-color: #49392C;
-  $theme-color: #487B5B;
   
   .appointment {
-    .white-card {
-      margin-top: 3%;
-      padding: 0px 0px 50px 0px;
-      .card-content {
-        padding: 80px 50px 50px 50px;
-      }
-      .banner {
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        font-size: 16px;
-        margin-bottom: 30px;
-        color: white;
-        padding: 30px 10%;
-        background-color: $theme-color
-      }
-      .input-label {
-        font-size: 20px;
-        font-weight: bold;
-        color: $brown-color;
-        margin-bottom: 5px;
-        span {
-          font-size: 18px;
-        }
-      }
-      .form-control {
-        border: 1px solid $brown-color;
-        color: $brown-color;
-        width: 75%;
-        display: inline-block;
-      }
-      .yellow {
-        border: 1px solid #e4ba24;
-      }
-      .blue {
-        border: 1px solid #69A5AD;
-      }
-      .green {
-        border: 1px solid #84bf09;
-        width: 55%;
-      }
-      .form-control:focus,.form-control:active {
-        border: 0px solid $brown-color;
-        box-shadow: 0px 0px 10px rgb(	105, 165, 173);
-      }
-      .btn{
-        width: 20%;
-        display: inline-block;
-        margin-top: -5px;
-        transition-duration: 0.5s;
-      }
-      .alert {
-        margin-top: 5px;
-        margin-bottom: 0px;
-      }
-      .router-link-active {
-        font-size: 18px;
-      }
+    .alert {
+      margin-top: 5px;
+      margin-bottom: 0px;
+    }
+    .btn{
+      width: 20%;
+      display: inline-block;
+      margin-top: -5px;
+      transition-duration: 0.5s;
     }
   }
 </style>
