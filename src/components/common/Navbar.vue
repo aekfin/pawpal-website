@@ -143,6 +143,7 @@ export default {
     margin-right: 20px;
     padding-left: 10px;
     padding-right: 10px;    
+    cursor: pointer;
   }
   .slide-icon:hover, .slide-icon:active, .slide-icon:focus {
     color: white;
@@ -172,5 +173,12 @@ export default {
   .tranparent {
     background-color: transparent;
   }
-
+  @media only screen and (max-width: 770px) {
+    .navbar-header {
+      float: left;
+    }
+    .navbar-right {
+      float: right;
+    }
+  }
 </style>

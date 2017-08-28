@@ -2,22 +2,17 @@
   <div class="appointment">
     <div class="title-blue-green-card">
       <div class="container">
-        <h2>สมุดนัดหมาย</h2>
+        <h2>สมุดวัคซีน</h2>
       </div>
     </div>
-    <div class="container col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 white-card animated fadeIn">
-      <div class="banner col-xs-12">
-        <span>กรุณาใส่รหัสการนัดหมายของคนไข้ เพื่อความรวดเร็วในการบันทึกประวัติการฉีดวัคซีน</span>
+    <div class="container col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 white-card animated fadeIn">
+      <div class="col-xs-12 no-padding text-center">
+        <input type="text" class="form-control input-lg" v-model="searchText" placeholder="รหัสการนัดหมาย, ชื่อเจ้าของสุนัข, เบอร์โทร, ที่อยู่">
+        <span class="btn btn-brown btn-lg" @click="Searching()">ค้นหา</span>
       </div>
-      <div class="card-content">
-        <div class="col-xs-12">
-          <div class="col-xs-12 no-padding">
-            <input type="text" class="form-control input-lg yellow" v-model="searchText" placeholder="รหัสการนัดหมาย, ชื่อเจ้าของสุนัข, เบอร์โทร, ที่อยู่">
-            <span class="btn btn-warning btn-lg" @click="Searching()">ค้นหา</span>
-          </div>
-          <div class="alert alert-danger col-xs-12" v-if="alert[0].name" :class="alert[0].class">{{alert[0].name}}</div>
-        </div>
-      </div>
+      <div class="alert alert-danger col-xs-12" v-if="alert[0].name" :class="alert[0].class">{{alert[0].name}}</div>
+    </div>
+    <div class="container col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 white-card animated fadeIn" style="margin-top: 20px;">
     </div>
   </div>
 </template>
@@ -56,9 +51,15 @@ export default {
 <style lang="scss">
   
   .appointment {
+    .white-card {
+      padding: 25px 15px;
+    }
     .alert {
       margin-top: 5px;
       margin-bottom: 0px;
+    }
+    .form-control {
+      width: 80%;
     }
     .btn{
       width: 20%;

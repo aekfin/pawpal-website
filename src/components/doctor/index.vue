@@ -38,6 +38,13 @@ export default {
         width: 75%;
         display: inline-block;
       }
+      .btn-brown {
+        color: white;
+        background-color: #6e5642;
+      }
+      .btn-brown:hover, .btn-brown:focus, .btn-brown:active {
+        background-color: $brown-color;
+      }
       .yellow {
         border: 1px solid #e4ba24;
       }

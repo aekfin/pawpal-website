@@ -2,7 +2,7 @@
   <div class="vaccination">
     <div class="title-blue-green-card">
       <div class="container">
-        <h2>สมุดวัคซีน</h2>
+        <h2>ประวัติการฉีดวัคซีน</h2>
       </div>
     </div>
     <div class="container animated fadeIn">
