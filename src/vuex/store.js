@@ -18,7 +18,7 @@ export default new Vuex.Store({
       }
     },
     IsSelectHospital () {
-      if (localStorage.get('hospital')) {
+      if (localStorage.getItem('hospital')) {
         return true
       } else {
         return false
