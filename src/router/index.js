@@ -17,10 +17,19 @@ var router = new Router({
   mode: 'history',
   routes: [
     { path: '/', name: 'LandingPage', component: LandingPage },
-    { path: '/login', name: 'LoginPage', component: LoginPage },
+    { path: '/login',
+      name: 'LoginPage',
+      component: LoginPage,
+      beforeEnter: (to, from, next) => {
+        if (localStorage.getItem('auth')) {
+          next('/logout')
+        } else {
+          next()
+        }
+      }
+    },
     { path: '/logout',
       beforeEnter: (to, from, next) => {
-        console.log(store.getters.IsLogin)
         store.commit('Logout')
         Vue.http.post('/api/logout/', {}, {headers: {'X-CSRFToken': Cookie.get('csrftoken')}}).then(response => {
           console.log(response)

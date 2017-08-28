@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import cookie from 'js-cookie'
 // Make vue aware of Vuex
 Vue.use(Vuex)
 
@@ -19,15 +18,22 @@ export default new Vuex.Store({
       }
     },
     IsSelectHospital () {
-      if (cookie.get('hospital')) {
+      if (localStorage.get('hospital')) {
         return true
       } else {
         return false
       }
     },
-    GetUID () {
+    GetUser () {
       if (localStorage.getItem('auth')) {
-        return localStorage.getItem('auth')
+        return JSON.parse(localStorage.getItem('auth'))
+      } else {
+        return null
+      }
+    },
+    GetHospital () {
+      if (localStorage.getItem('hospital')) {
+        return JSON.parse(localStorage.getItem('hospital'))
       } else {
         return null
       }
@@ -38,14 +44,14 @@ export default new Vuex.Store({
       state.count++
     },
     SelectHospital (state, hospital) {
-      cookie.set('hospital', hospital, { expires: 1 })
+      localStorage.setItem('hospital', JSON.stringify(hospital))
     },
     Login (state, auth) {
-      localStorage.setItem('auth', auth)
+      localStorage.setItem('auth', JSON.stringify(auth))
     },
     Logout (state) {
       localStorage.removeItem('auth')
-      cookie.remove('hospital')
+      localStorage.removeItem('hospital')
     }
   }
 })

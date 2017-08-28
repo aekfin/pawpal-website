@@ -44,7 +44,7 @@ export default {
       this.rightList.push({ name: 'สมุดวัคซีน', url: '/doctor/vaccination' })
       this.rightList.push({ name: 'ออกจากระบบ', url: '/logout' })
     } else {
-      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/logout' })
+      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login' })
     }
     for (var i = 0; i < this.leftList.length; i++) {
       this.mobileList.push(this.leftList[i])

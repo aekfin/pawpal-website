@@ -32,7 +32,7 @@
         <div v-else>
           <div class="col-xs-12">
             <select class="form-control input-lg" v-model="hospital">
-              <option v-for="(hospital, i) in hospitals" :key="hospital.name" :value="hospital.id">{{hospital.name}}</option>
+              <option v-for="(hospital, i) in hospitals" :key="hospital.name" :value="hospital">{{hospital.name}}</option>
             </select>
           </div>
           <div class="col-xs-12 margin-t-20 text-right">
@@ -87,14 +87,15 @@ export default {
         var self = this
         this.$http.post('/api/login/', this.user)
           .then(function (response) {
-            console.log(response)
-            self.$store.commit('Login', 'hello')
+            // console.log(response)
+            response.body.hospital = null
+            self.$store.commit('Login', response.body)
             self.veterinarian = true
             self.isLoading = true
             this.$http.get('/api/hospital/')
               .then(function (response) {
                 self.hospitals = response.body
-                self.hospital = self.hospitals[0].id
+                self.hospital = self.hospitals[0]
                 self.isLoading = false
               })
               .catch(function (error) {
