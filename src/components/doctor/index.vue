@@ -55,7 +55,7 @@ export default {
         border: 1px solid #84bf09;
         width: 55%;
       }
-      .form-control:focus,.form-control:active {
+      .form-control:focus, .form-control:active {
         border: 0px solid $brown-color;
         box-shadow: 0px 0px 10px rgb(	105, 165, 173);
       }

@@ -16,11 +16,13 @@
   import 'font-awesome/css/font-awesome.min.css'
   import locale from 'element-ui/lib/locale/lang/en'
   import VueResource from 'vue-resource'
+  import Cookie from 'js-cookie'
 
   Vue.use(Bootstrap)
   Vue.use(Animate)
   Vue.use(ElementUI, { locale })
   Vue.use(VueResource)
+  Vue.http.headers.common['X-CSRFToken'] = Cookie.get('csrftoken')
 
 export default {
     name: 'app',
@@ -147,10 +149,19 @@ export default {
   }
 
   .m-t-10 {
-    margin-top: 10px;
+    margin-top: 10px !important;
   }
-  .margin-t-20 {
-    margin-top: 20px;
+  .m-t-15 {
+    margin-top: 15px !important;
+  }
+  .m-t-20 {
+    margin-top: 20px !important;
+  }
+  .m-t-25 {
+    margin-top: 25px !important;
+  }
+  .m-t-30 {
+    margin-top: 30px !important;
   }
 
   .input-group {

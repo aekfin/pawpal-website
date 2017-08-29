@@ -35,7 +35,7 @@
               <option v-for="(hospital, i) in hospitals" :key="hospital.name" :value="hospital">{{hospital.name}}</option>
             </select>
           </div>
-          <div class="col-xs-12 margin-t-20 text-right">
+          <div class="col-xs-12 m-t-20 text-right">
             <input class="btn btn-success btn-lg" @click="SelectHospital" value="เลือกโรงพยาบาลนี้" />
           </div>
         </div>
