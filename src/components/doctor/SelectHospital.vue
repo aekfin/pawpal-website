@@ -1,5 +1,5 @@
 <template>
-  <div class="SelectHospital">
+  <div id="SelectHospital">
     <div class="title-blue-green-card">
       <div class="container">
         <h2>เลือกโรงพยาบาลของคุณ</h2>

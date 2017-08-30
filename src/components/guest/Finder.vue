@@ -1,5 +1,5 @@
 <template>
-  <div class="finder">
+  <div id="finder">
     <div class="title-green-card">
       <div class="container">
         <h2> เพิ่มข้อมูลสุนัขที่พบ</h2>
@@ -301,7 +301,7 @@
 </script>
 
 <style lang="scss">
-  .finder {
+  #finder {
     padding-bottom: 50px;
   }
   h3 {

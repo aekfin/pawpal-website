@@ -38,61 +38,64 @@ export default {
 <style lang="scss">
   .landing {
     height: 100%;
-  }
-  .cover {
-    height: 550px;
-    background-image: url("../assets/landing_background.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    color: white;
-    position: relative;
-  }
-  .cover-black{
-    background-color: rgba(0, 0, 0, 0.5);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.7);
-  } 
-  .text-box {
-    margin-top: 100px;
-  }
-  .under-line {
-    margin-top: 5px;
-    margin-bottom: 25px;
-    border-bottom: 5px solid;
-  }
-  .subtitle {
-    color: #c9c9c9;
-  }
-  .btn-section {
-    margin-top: 50px;
-    margin-bottom: 80px;
-  }
-  .btn-start {
-    padding: 10px 50px 10px 50px;
-    border-radius: 50px;
-    background-color: #7C5139;
-    color: #E1C4A5;
-    font-size: 20px;
-    transition-duration: 1s;
-    box-shadow: 0 0 20px #4E3326;
-  }
-  .btn-start:hover {
-    text-decoration: none;
-    color: #7C5139;
-    cursor: pointer;
-    background-color: #E1C4A5;   
-    box-shadow: 0 0 30px white;
-  }
-  h1 {
-    color: white;
-  }
-  @media screen and (max-width: 992px) {
+    h1 {
+      color: white !important;
+    }
     .cover {
-      height: 750px;
+      height: 550px;
+      background-image: url("../assets/landing_background.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      color: white;
+      position: relative;
+    }
+    .cover-black{
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.7);
+    } 
+    .text-box {
+      margin-top: 100px;
+    }
+    .under-line {
+      margin-top: 5px;
+      margin-bottom: 25px;
+      border-bottom: 5px solid;
+    }
+    .subtitle {
+      color: #c9c9c9;
+    }
+    .btn-section {
+      margin-top: 50px;
+      margin-bottom: 80px;
+    }
+    .btn-start {
+      padding: 10px 50px 10px 50px;
+      border-radius: 50px;
+      background-color: #7C5139;
+      color: #E1C4A5;
+      font-size: 20px;
+      transition-duration: 1s;
+      box-shadow: 0 0 20px #4E3326;
+    }
+    .btn-start:hover {
+      text-decoration: none;
+      color: #7C5139;
+      cursor: pointer;
+      background-color: #E1C4A5;   
+      box-shadow: 0 0 30px white;
+    }
+    h1 {
+      color: white;
+    }
+    @media screen and (max-width: 992px) {
+      .cover {
+        height: 750px;
+      }
     }
   }
 </style>

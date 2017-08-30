@@ -1,5 +1,5 @@
 <template>
-  <div class="login" @keyup.enter = "Submit">
+  <div id="login" @keyup.enter = "Submit">
     <nav-bar :type = "'dark'"></nav-bar>
     <div class="title-blue-card">
       <div class="container">
@@ -128,7 +128,7 @@ export default {
 <style lang="scss">
   $brown-color: #49392C;
   
-  .login {
+  #login {
     .white-card {
       margin-top: 3%;
       padding: 0px 0px 30px 0px;

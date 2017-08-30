@@ -1,5 +1,5 @@
 <template>
-  <div class="vaccination">
+  <div id="vaccination">
     <div class="title-blue-green-card">
       <div class="container">
         <h2>ประวัติการฉีดวัคซีน</h2>
@@ -202,7 +202,7 @@ export default {
   $pagination-color: #294937;
   $table-color: #447A5C;
 
-  .vaccination {
+  #vaccination {
     .white-card {
       h3 {
         margin-top: 0px;

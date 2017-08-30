@@ -1,5 +1,5 @@
 <template>
-  <div class="doctor">
+  <div id="doctor">
     <nav-bar :type = "'dark'"></nav-bar>
     <router-view></router-view>
   </div>
@@ -19,7 +19,7 @@ export default {
   $brown-color: #49392C;
   $theme-color: #487B5B;
 
-  .doctor {
+  #doctor {
     .white-card {
       margin-top: 3%;
       padding: 0px 0px 50px 0px;

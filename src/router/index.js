@@ -30,8 +30,7 @@ var router = new Router({
     { path: '/logout',
       beforeEnter: (to, from, next) => {
         store.commit('Logout')
-        Vue.http.post('/api/logout/', {}).then(response => {
-          console.log(response)
+        Vue.http.get('/api/logout/').then(response => {
           next('/login')
           window.location.reload()
         }, response => {
