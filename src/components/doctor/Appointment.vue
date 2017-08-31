@@ -14,7 +14,13 @@
     </div>
     <div class="container col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 white-card m-t-20 animated fadeIn" v-if="searchResult">
       <loading v-if="isLoading"></loading>
-      <div style="padding: 20px" v-else>
+      <div style="padding: 0px 20px" v-else>
+        <div class="pull-left">
+          <div class="label-yellow">จากรายการนัดหมาย</div>
+          <div class="label-blue">จากรายชื่อสมาชิก</div>
+          <div class="label-red">จากรายชื่อสุนัข</div>
+        </div>
+        <div class="btn btn-lg btn-brown pull-right" style="display: inline-block;" v-if="isSelected" @click="SelectingDog()">เข้าสู่หน้าวัคซีน</div>
         <table class="table table-hover">
           <thead>
             <tr>
@@ -22,23 +28,24 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="tr-green" v-for="(appointment, i) in appointments" :key="appointment.key">
+            <tr v-for="(appointment, i) in appointments" :key="appointment.key" :class="appointment.class" @click="ActiveClass(1, i)">
               <td>{{appointment.key}}</td>
               <td>{{appointment.account_id}}</td>
               <td>{{appointment.account_name}}</td>
               <td>{{appointment.dog}}</td>
             </tr>
-            <tr class="tr-red" v-for="(user, i) in users" :key="user.account_id">
+            <tr v-for="(user, i) in users" :key="user.account_id" :class="user.class" @click="ActiveClass(2, i)">
               <td>-</td>
               <td>{{user.account_id}}</td>
               <td>{{user.account_name}}</td>
-              <td>
-                <select class="form-control input-lg" v-model="user.model">
+              <td style="padding: 0px auto">
+                <select class="form-control input-lg" v-model="user.model" v-if="user.dog.length > 0" :disabled="user.disabled">
                   <option v-for="(dog, i) in user.dog" :key="dog.id" :value="dog.id">{{dog.name}}</option>
                 </select>
+                <span v-else>-</span>
               </td>
             </tr>
-            <tr class="tr-blue" v-for="(dog, i) in dogs" :key="dog.account_id">
+            <tr v-for="(dog, i) in dogs" :key="dog.account_id" :class="dog.class" @click="ActiveClass(3, i)">
               <td>-</td>
               <td>{{dog.account_id}}</td>
               <td>{{dog.account_name}}</td>
@@ -46,6 +53,7 @@
             </tr>
           </tbody>
         </table>
+        <div style="display: none;">{{this.refresh}}</div>
       </div>
     </div>
   </div>
@@ -67,7 +75,10 @@ export default {
       thLabel: ['รหัสการนัดหมาย', 'รหัสสมาชิก', 'ชื่อสมาชิก', 'ชื่อสุนัข'],
       appointments: [],
       users: [],
-      dogs: []
+      dogs: [],
+      isSelected: false,
+      selected: null,
+      refresh: false
     }
   },
   methods: {
@@ -85,7 +96,8 @@ export default {
         this.appointments = response.body.appointment_list
         this.users = response.body.account_list
         this.dogs = response.body.dog_list
-        this.SelectingDog()
+        this.ChooseDog()
+        this.ActiveClass(0, 0)
         this.isLoading = false
       }, error => {
         console.log(error)
@@ -93,10 +105,61 @@ export default {
       })
     },
     SelectingDog () {
+      if (this.selected.type === 1) {
+        this.$router.push('/doctor/vaccination/' + this.appointments[this.selected.index].key)
+      } else {
+        this.isLoading = true
+        var dog = null
+        if (this.selected.type === 2) {
+          dog = this.users[this.selected.index].model
+        } else {
+          dog = this.dogs.dog.id
+        }
+        var date = new Date()
+        this.$http.post('/api/add-appointment/', { 'date': date.toISOString().substring(0, 10), 'hospital': this.$store.getters.GetHospital.id, 'dog': dog }).then(response => {
+          console.log(response)
+          this.$router.push('/doctor/vaccination/' + response.body.key)
+          this.isLoading = false
+        }, error => {
+          console.log(error)
+          this.isLoading = false
+        })
+      }
+    },
+    ActiveClass (type, index) {
+      for (var i = 0; i < this.appointments.length; i++) {
+        if (type === 1 && index === i) {
+          this.appointments[i].class = 'active-yellow'
+          this.isSelected = true
+        } else {
+          this.appointments[i].class = 'tr-yellow'
+        }
+      }
+      for (i = 0; i < this.users.length; i++) {
+        if (type === 2 && index === i) {
+          this.users[i].class = 'active-blue'
+          this.users[i].disabled = false
+          this.isSelected = true
+        } else {
+          this.users[i].disabled = true
+          this.users[i].class = 'tr-blue'
+        }
+      }
+      for (i = 0; i < this.dogs.length; i++) {
+        if (type === 3 && index === i) {
+          this.dogs[i].class = 'active-red'
+          this.isSelected = true
+        } else {
+          this.dogs[i].class = 'tr-red'
+        }
+      }
+      this.selected = { type: type, index: index }
+      this.refresh = !this.refresh
+    },
+    ChooseDog () {
       for (var i = 0; i < this.users.length; i++) {
         if (this.users[i].dog.length > 0) {
           this.users[i].model = this.users[i].dog[0].id
-          console.log(this.users[i].model)
         } else {
           this.users[i].model = null
         }
@@ -120,6 +183,7 @@ export default {
   #appointment {
     .white-card {
       padding: 30px 15px;
+      margin-top: 1%;
     }
     .alert {
       margin-top: 5px;
@@ -138,10 +202,13 @@ export default {
       padding-left: 17px;
     }
     tr {
+      height: 43px;
       th {
         font-size: 18px;
+        padding-top: 20px;
       }
       td {
+        vertical-align: middle;
         cursor: pointer;
         .form-control {
           padding: 0px;
@@ -154,14 +221,50 @@ export default {
         }
       }
     }
-    .tr-green {
-      background-color: #C5E6A6;
+    .hint-label {
+      display: inline-block;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 5px;
     }
-    .tr-red {
-      background-color: #F7C59F;
+    .label-yellow {
+      @extend .hint-label;
+      background-color: lighten(#FFF176, 10%);
+    }
+    .label-blue {
+      @extend .hint-label;
+      background-color: lighten(#BBDEFB, 10%);
+    }
+    .label-red {
+      @extend .hint-label;
+      background-color: #ffcdd2;
+    }
+    .active-yellow {
+      background-color: darken(#FFF176, 10%) !important;  
+    }
+    .active-blue {
+      background-color: darken(#BBDEFB, 10%);
+    }
+    .active-red {
+      background-color: darken(#ffcdd2, 10%);
+    }
+    .tr-yellow {
+      background-color: lighten(#FFF176, 10%);
     }
     .tr-blue {
-      background-color: #767B91;
+      background-color: lighten(#BBDEFB, 10%);
+    }
+    .tr-red {
+      background-color:#ffcdd2, 10%;
+    }
+    .tr-yellow:hover {
+      @extend .active-yellow;
+    }
+    .tr-blue:hover {
+      @extend .active-blue;
+    }
+    .tr-red:hover {
+      @extend .active-red;
     }
   }
 </style>
