@@ -15,44 +15,47 @@
     <div class="container col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 white-card m-t-20 animated fadeIn" v-if="searchResult">
       <loading v-if="isLoading"></loading>
       <div style="padding: 0px 20px" v-else>
-        <div class="pull-left">
-          <div class="label-yellow">จากรายการนัดหมาย</div>
-          <div class="label-blue">จากรายชื่อสมาชิก</div>
-          <div class="label-red">จากรายชื่อสุนัข</div>
+        <div v-if="appointments.length > 0 || users.length > 0 || dogs.length > 0">
+          <div class="pull-left">
+            <div class="label-yellow">จากรายการนัดหมาย</div>
+            <div class="label-blue">จากรายชื่อสมาชิก</div>
+            <div class="label-red">จากรายชื่อสุนัข</div>
+          </div>
+          <div class="btn btn-lg btn-success pull-right" style="display: inline-block;" v-if="isSelected" @click="SelectingDog()">เข้าสู่หน้าวัคซีน</div>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th v-for="(th, i) in thLabel" :key="th">{{th}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(appointment, i) in appointments" :key="appointment.key" :class="appointment.class" @click="ActiveClass(1, i)">
+                <td>{{appointment.key}}</td>
+                <td>{{appointment.account_id}}</td>
+                <td>{{appointment.account_name}}</td>
+                <td>{{appointment.dog}}</td>
+              </tr>
+              <tr v-for="(user, i) in users" :key="user.account_id" :class="user.class" @click="ActiveClass(2, i)">
+                <td>-</td>
+                <td>{{user.account_id}}</td>
+                <td>{{user.account_name}}</td>
+                <td style="padding: 0px auto">
+                  <select class="form-control input-lg" v-model="user.model" v-if="user.dog.length > 0" :disabled="user.disabled">
+                    <option v-for="(dog, i) in user.dog" :key="dog.id" :value="dog.id">{{dog.name}}</option>
+                  </select>
+                  <span v-else>-</span>
+                </td>
+              </tr>
+              <tr v-for="(dog, i) in dogs" :key="dog.account_id" :class="dog.class" @click="ActiveClass(3, i)">
+                <td>-</td>
+                <td>{{dog.account_id}}</td>
+                <td>{{dog.account_name}}</td>
+                <td>{{dog.dog.name}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="btn btn-lg btn-brown pull-right" style="display: inline-block;" v-if="isSelected" @click="SelectingDog()">เข้าสู่หน้าวัคซีน</div>
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th v-for="(th, i) in thLabel" :key="th">{{th}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(appointment, i) in appointments" :key="appointment.key" :class="appointment.class" @click="ActiveClass(1, i)">
-              <td>{{appointment.key}}</td>
-              <td>{{appointment.account_id}}</td>
-              <td>{{appointment.account_name}}</td>
-              <td>{{appointment.dog}}</td>
-            </tr>
-            <tr v-for="(user, i) in users" :key="user.account_id" :class="user.class" @click="ActiveClass(2, i)">
-              <td>-</td>
-              <td>{{user.account_id}}</td>
-              <td>{{user.account_name}}</td>
-              <td style="padding: 0px auto">
-                <select class="form-control input-lg" v-model="user.model" v-if="user.dog.length > 0" :disabled="user.disabled">
-                  <option v-for="(dog, i) in user.dog" :key="dog.id" :value="dog.id">{{dog.name}}</option>
-                </select>
-                <span v-else>-</span>
-              </td>
-            </tr>
-            <tr v-for="(dog, i) in dogs" :key="dog.account_id" :class="dog.class" @click="ActiveClass(3, i)">
-              <td>-</td>
-              <td>{{dog.account_id}}</td>
-              <td>{{dog.account_name}}</td>
-              <td>{{dog.dog.name}}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="col-xs-12 text-center not-found" v-else>ไม่พบข้อมูล</div>
         <div style="display: none;">{{this.refresh}}</div>
       </div>
     </div>
@@ -203,13 +206,17 @@ export default {
     }
     tr {
       height: 43px;
+      text-align: center;
       th {
         font-size: 18px;
-        padding-top: 20px;
+        padding-top: 30px;
+        border-bottom: 3px solid $brown-color;
+        text-align: center;
       }
       td {
         vertical-align: middle;
         cursor: pointer;
+        border-bottom: 1px solid $brown-color;
         .form-control {
           padding: 0px;
           height: 30px;
@@ -221,19 +228,25 @@ export default {
         }
       }
     }
+    .not-found {
+      color: $brown-color;
+      font-size: 30px;
+      font-weight: bold;
+      margin: 30px 0px;
+    }
     .hint-label {
       display: inline-block;
-      font-size: 16px;
+      font-size: 14px;
       padding: 10px 20px;
       border-radius: 5px;
     }
     .label-yellow {
       @extend .hint-label;
-      background-color: lighten(#FFF176, 10%);
+      background-color:#FFF176
     }
     .label-blue {
       @extend .hint-label;
-      background-color: lighten(#BBDEFB, 10%);
+      background-color: #BBDEFB;
     }
     .label-red {
       @extend .hint-label;
@@ -255,7 +268,7 @@ export default {
       background-color: lighten(#BBDEFB, 10%);
     }
     .tr-red {
-      background-color:#ffcdd2, 10%;
+      background-color:#ffcdd2;
     }
     .tr-yellow:hover {
       @extend .active-yellow;

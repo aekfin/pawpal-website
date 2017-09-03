@@ -40,10 +40,16 @@ export default {
   },
   mounted () {
     this.rightList = []
+    this.leftList = []
     if (this.$store.getters.IsLogin) {
-      this.rightList.push({ name: 'สมุดวัคซีน', url: '/doctor/vaccination' })
+      this.leftList.push({ name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' })
       this.rightList.push({ name: 'ออกจากระบบ', url: '/logout' })
     } else {
+      this.leftList = [
+        { name: 'เพิ่มสุนัขที่พบ', url: '/finder' },
+        { name: 'ประกาศสุนัขที่พบ', url: '/found-dog' },
+        { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
+      ]
       this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login' })
     }
     for (var i = 0; i < this.leftList.length; i++) {

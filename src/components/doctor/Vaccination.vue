@@ -2,13 +2,14 @@
   <div id="vaccination">
     <div class="title-blue-green-card">
       <div class="container">
-        <h2>ประวัติการฉีดวัคซีน</h2>
+        <h2>ประวัติการฉีดวัคซีน <span style="font-size: 16px;">(สุนัขชื่อ Coco ของคุณ Duedrioid)</span></h2>
       </div>
     </div>
     <div class="container animated fadeIn">
-      <div class="container-fluid white-card" style="margin-top:20px">
+      <div class="container-fluid white-card">
         <h3 class="text-center"><b>ตารางบันทึกการฉีดวัคซีน และป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
-        <table class="table table-hover">
+        <loading v-if="isLoading" style="padding-bottom: 100px;"></loading>
+        <table class="table table-hover" v-else>
           <thead>
             <tr>
               <th class="text-center" 
@@ -19,23 +20,23 @@
             </tr>
           </thead>
           <tbody style="cursor: pointer">
-            <tr v-for="(vl, i) in vaccineLog" :key="i" data-toggle="modal" data-target="#form_modal" @click="OpenForm(i)" :class="vl.class">
-              <td class="text-center" style="width: 25%" :class="(i !== vaccineLog.length-1) ? 'bottom-right-border' : 'right-border'">
+            <tr v-for="(vl, i) in vaccineRecord" :key="i" data-toggle="modal" data-target="#form_modal" @click="OpenForm(i)" :class="vl.class">
+              <td class="text-center" data-toggle="tooltip" data-placement="left" :title="vl.vaccinationFor.th+' ('+vl.vaccinationFor.en+')'" style="width: 25%" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
                 <div class="th-tr-body">{{vl.vaccinationFor.th}}</div>
-                <span class="en-tr-body">({{vl.vaccinationFor.en}})</span>
+                <div class="en-tr-body">({{vl.vaccinationFor.en}})</div>
               </td>
-              <td  class="text-center" style="width: 20%" :class="(i !== vaccineLog.length-1) ? 'bottom-right-border' : 'right-border'">
+              <td  class="text-center" style="width: 20%" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
                 <span class="th-tr-body">{{vl.date_record}}</span>
               </td>
-              <td  class="text-center" style="width: 15%" :class="(i !== vaccineLog.length-1) ? 'bottom-right-border' : 'right-border'">
+              <td  class="text-center" style="width: 15%" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
                 <span class="th-tr-body">{{vl.next_vaccine}}</span>
               </td>
-              <td  class="text-center" style="width: 20%" :class="(i !== vaccineLog.length-1) ? 'bottom-right-border' : 'right-border'">
+              <td  class="text-center" style="width: 20%" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
                 <span class="th-tr-body">{{vl.veterinary}}</span>
               </td>
-              <td  class="text-center" style="width: 20%" :class="(i !== vaccineLog.length-1) ? 'bottom-border' : ''">
+              <td  class="text-center" style="width: 20%" :class="(i !== vaccineRecord.length-1) ? 'bottom-border' : ''">
                 <div class="btn btn-vaccines">
-                  จำนวนวัคซีน <span class="badge">{{vl.doses.length}}</span>
+                  จำนวนวัคซีน <span class="badge"></span>
                 </div>
               </td>
             </tr>
@@ -46,7 +47,6 @@
         <ul class="pager">
           <li class="previous" v-if="pagination.current_page > 1" @click="PrevPage"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span> หน้าก่อน</a></li>
           <li class="page"><span>{{pagination.current_page}} / {{pagination.total_page}}</span></li>
-          <li @click="NewPage"><a href="#"><span class="glyphicon glyphicon-file" style="margin-right: 5px;"></span>สร้างหน้าใหม่</a></li>
           <li class="next" v-if="pagination.current_page !== pagination.total_page" @click="NextPage"><a href="#">หน้าถัดไป <span class="glyphicon glyphicon-chevron-right"></span></a></li>
         </ul>
       </nav>
@@ -58,8 +58,8 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
             <div class="modal-title text-center">
-              <h3 class="th-header">{{vaccineLog[currentVL].vaccinationFor.th}}</h3>
-              <h4 class="en-header">({{vaccineLog[currentVL].vaccinationFor.en}})</h4>
+              <h3 class="th-header">{{vaccineRecord[currentVL].vaccinationFor.th}}</h3>
+              <h4 class="en-header">({{vaccineRecord[currentVL].vaccinationFor.en}})</h4>
             </div>
           </div>
           <div class="modal-body">
@@ -70,15 +70,14 @@
               <div v-if="i!=0" style="width: 45%; text-align: left; display: inline-block;">
                 <datepicker 
                   v-if = "i <= 2" 
-                  v-model = "vaccineLogForm[i-1]" 
+                  v-model = "vaccineRecordForm[i-1]" 
                   :bootstrapStyling = "false" 
                   :input-class = "'date-input width-100'" 
                   :wrapper-class = "'width-100'"
                   :format = "'dd MMM yyyy'">
                 </datepicker> 
-                <input v-if="i===3" class="form-control" v-model="vaccineLogForm[i-1]" type="text">
+                <input v-if="i===3" class="form-control" v-model="vaccineRecordForm[i-1]" type="text">
                 <div v-if="i===4" class="text-center" style="border: 1px solid lightgray; border-radius: 5px; margin-top: 5px;">
-                  <img v-for="(vf, i) in vaccineLogForm[i-1].length" :key = "i" style="margin: 5px;" class="img-rounded" src="https://ih1.redbubble.net/image.240967255.6549/sticker,220x200-bg,ffffff-pad,220x200,ffffff.jpg" width="100px" height="50px"/>
                 </div>
               </div>
             </div>
@@ -97,23 +96,47 @@
 import DogList from '@/components/guest/components/DogList.vue'
 import $ from 'jquery'
 import Datepicker from 'vuejs-datepicker'
+import Loading from '@/components/common/Loading.vue'
 
 export default {
   components: {
-    DogList, Datepicker
+    DogList, Datepicker, Loading
   },
   created () {
-    console.log(this.$route.params.appointment_id)
+    this.isLoading = true
+    this.$http.get('/api/vaccine-for/').then(response => {
+      var vf = response.body
+      this.vaccineRecord = []
+      for (var i = 0; i < vf.length; i++) {
+        this.vaccineRecord.push({ vaccinationFor: { id: vf[i].id, th: vf[i].note, en: vf[i].name, routine: vf[i].routine }, date_record: null, next_vaccine: null, veterinary: null, doses: null, class: null })
+      }
+      this.$http.post('/api/vaccine-book/', {appointment_key: this.$route.params.appointment_id}).then(response => {
+        var vb = response.body
+        console.log(vb)
+        for (var i = 0; i < this.vaccineRecord.length; i++) {
+          for (var j = 0; j < vb.vaccine_for.length; j++) {
+            if (vb.vaccine_for[j].id === this.vaccineRecord[i].vaccinationFor.id) {
+              this.vaccineRecord[i].date_record = this.DateFormat(new Date())
+              this.vaccineRecord[i].next_vaccine = this.MakeRoutine(new Date(), this.vaccineRecord[i].vaccinationFor.routine)
+              this.vaccineRecord[i].veterinary = this.$store.getters.GetUser.license
+              this.vaccineRecord[i].doses = this.vaccineRecord[i].vaccine_stock_detail
+            }
+          }
+        }
+        this.pagination.total_page = vb.vaccine_record.length + 1
+        this.isLoading = false
+      }, response => {
+        console.log(response)
+      })
+    }, response => {
+      console.log(response)
+    })
+    $('[data-toggle="tooltip"]').tooltip()
   },
   methods: {
     DateFormat (date) {
       var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
       return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear()
-    },
-    NewPage () {
-      this.pagination.current_page = 1
-      this.pagination.total_page += 1
-      this.vaccineLog = $.extend(true, {}, this.vaccineLogDefault)
     },
     PrevPage () {
       this.pagination.current_page -= 1
@@ -121,40 +144,68 @@ export default {
     NextPage () {
       this.pagination.current_page += 1
     },
+    MakeRoutine (date, routine) {
+      if (routine.includes('week')) {
+        routine = routine.replace('week', '')
+        routine = parseInt(routine)
+        date.setDate(date.getDate() + (routine * 7))
+      } else {
+        if (routine.includes('month')) {
+          routine = routine.replace('month', '')
+          routine = parseInt(routine)
+          date.setMonth(date.getMonth() + routine)
+        } else {
+          if (routine.includes('year')) {
+            routine = routine.replace('year', '')
+            routine = parseInt(routine)
+            date.setFullYear(date.getFullYear() + routine)
+          }
+        }
+      }
+      return this.DateFormat(date)
+    },
     OpenForm (index) {
       this.currentVL = index
-      if (this.vaccineLog[this.currentVL].date_record !== '') {
-        this.vaccineLogForm[0] = this.vaccineLog[this.currentVL].date_record
+      if (this.vaccineRecord[this.currentVL].date_record) {
+        this.vaccineRecordForm[0] = this.vaccineRecord[this.currentVL].date_record
       } else {
-        this.vaccineLogForm[0] = this.DateFormat(new Date())
+        this.vaccineRecordForm[0] = this.DateFormat(new Date())
       }
-      this.vaccineLogForm[1] = this.vaccineLog[this.currentVL].next_vaccine
-      this.vaccineLogForm[2] = this.vaccineLog[this.currentVL].veterinary
-      this.vaccineLogForm[3] = this.vaccineLog[this.currentVL].doses
-      for (var i = 0; i < this.vaccineLog.length; i++) {
+      if (this.vaccineRecord[this.currentVL].next_vaccine) {
+        this.vaccineRecordForm[1] = this.vaccineRecord[this.currentVL].next_vaccine
+      } else {
+        this.vaccineRecordForm[1] = this.MakeRoutine(new Date(this.vaccineRecordForm[0]), this.vaccineRecord[this.currentVL].vaccinationFor.routine)
+      }
+      if (this.vaccineRecord[this.currentVL].veterinary) {
+        this.vaccineRecordForm[2] = this.vaccineRecord[this.currentVL].veterinary
+      } else {
+        this.vaccineRecordForm[2] = this.$store.getters.GetUser.license
+      }
+      this.vaccineRecordForm[3] = this.vaccineRecord[this.currentVL].doses
+      for (var i = 0; i < this.vaccineRecord.length; i++) {
         if (index === i) {
-          this.vaccineLog[i].class = 'tr-selected'
+          this.vaccineRecord[i].class = 'tr-selected'
         } else {
-          this.vaccineLog[i].class = ''
+          this.vaccineRecord[i].class = ''
         }
       }
     },
     ResetForm () {
-      this.vaccineLogForm = [this.DateFormat(new Date()), '', '', '']
-      this.vaccineLog[this.currentVL].class = ''
+      this.vaccineRecordForm = [this.DateFormat(new Date()), '', '', '']
+      this.vaccineRecord[this.currentVL].class = ''
     },
     SaveForm () {
-      if (this.vaccineLog[this.currentVL].date_record !== '') {
-        this.vaccineLog[this.currentVL].date_record = this.DateFormat(new Date(this.vaccineLogForm[0]))
+      if (this.vaccineRecord[this.currentVL].date_record !== '') {
+        this.vaccineRecord[this.currentVL].date_record = this.DateFormat(new Date(this.vaccineRecordForm[0]))
       }
-      if (this.vaccineLog[this.currentVL].next_vaccine !== '') {
-        this.vaccineLog[this.currentVL].next_vaccine = this.DateFormat(new Date(this.vaccineLogForm[1]))
+      if (this.vaccineRecord[this.currentVL].next_vaccine !== '') {
+        this.vaccineRecord[this.currentVL].next_vaccine = this.DateFormat(new Date(this.vaccineRecordForm[1]))
       }
-      if (this.vaccineLog[this.currentVL].veterinary !== '') {
-        this.vaccineLog[this.currentVL].veterinary = this.vaccineLogForm[2]
+      if (this.vaccineRecord[this.currentVL].veterinary !== '') {
+        this.vaccineRecord[this.currentVL].veterinary = this.vaccineRecordForm[2]
       }
-      if (this.vaccineLog[this.currentVL].doses !== '') {
-        this.vaccineLog[this.currentVL].doses = []
+      if (this.vaccineRecord[this.currentVL].doses !== '') {
+        this.vaccineRecord[this.currentVL].doses = []
       }
       this.ResetForm()
       $('#form_modal').modal('toggle')
@@ -163,9 +214,10 @@ export default {
   data () {
     return {
       td: [ 'td-1', 'td-2', 'td-3', 'td-4', 'td-5' ],
+      isLoading: false,
       dialogVisible: false,
       currentVL: 0,
-      vaccineLogForm: [this.DateFormat(new Date()), '', '', ''],
+      vaccineRecordForm: [this.DateFormat(new Date()), '', '', ''],
       pagination: {
         current_page: 1,
         total_page: 4
@@ -175,17 +227,17 @@ export default {
         { th: 'วันที่ฉีด', en: 'Date of Vaccination' },
         { th: 'นัดครั้งต่อไป', en: 'Next Vaccination' },
         { th: 'สัตวแพทย์/เลขที่ใบอนุญาติ', en: 'Veteinary / License No.' },
-        { th: 'ชื่อวัคซีน/หมายเลขชุดการผลิต', en: 'Name / Lot No.' }
+        { th: 'ชื่อวัคซีน/หมายเลขการผลิต', en: 'Name / Lot No.' }
       ],
-      vaccineLog: [
+      vaccineRecord: [
         { vaccinationFor: { th: 'วัคซีนป้องกันโรคหลอดลมอักเสบติดต่อ', en: 'Canine Cough' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
         { vaccinationFor: { th: 'วัคซีนป้องกันโรคลำไส้อักเสบติดต่อ', en: 'Parvovirus and Coronavorus' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
-        { vaccinationFor: { th: 'วัคซีนรวมป้องกันโรคหัด ตับอักเสบ พาราอินฟลูเอนซา เลปโตสไปโรซิส และพาร์โวไวรัส', en: 'Distemper, Adenovirus2, Parainfluenza, Leptospirosis and Parvovirus' }, date_record: this.DateFormat(new Date('03 Jun 2017')), next_vaccine: this.DateFormat(new Date('10 Jun 2017')), veterinary: 'กรณี 01-880/52', doses: [ '', '' ], class: '' },
-        { vaccinationFor: { th: 'วัคซีนรวมป้องกันโรคหัด ตับอักเสบ พาราอินฟลูเอนซา เลปโตสไปโรซิส พาร์โวไวรัส และ โคโรนาไวรัส', en: 'Distemper, Adenovirus2, Parainfluenza, Leptospirosis Parvovirus and Coronavirus' }, date_record: this.DateFormat(new Date('03 Jun 2017')), next_vaccine: this.DateFormat(new Date('03 Jul 2017')), veterinary: 'สุพัณนา', doses: [ '', '' ], class: '' },
+        { vaccinationFor: { th: 'วัคซีนรวมป้องกันโรคหัด ตับอักเสบ พาราอินฟลูเอนซา เลปโตสไปโรซิส และพาร์โวไวรัส', en: 'Distemper, Adenovirus2, Parainfluenza, Leptospirosis and Parvovirus' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
+        { vaccinationFor: { th: 'วัคซีนรวมป้องกันโรคหัด ตับอักเสบ พาราอินฟลูเอนซา เลปโตสไปโรซิส พาร์โวไวรัส และ โคโรนาไวรัส', en: 'Distemper, Adenovirus2, Parainfluenza, Leptospirosis Parvovirus and Coronavirus' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
         { vaccinationFor: { th: 'วัคซีนโรคพิษสุนัขบ้า', en: 'Rabies' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
         { vaccinationFor: { th: 'ยาป้องกันโรคพยาธิหนอนหัวใจ ชนิดปีละครั้ง', en: 'OnceAyear heart worm prevention' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' }
       ],
-      vaccineLogDefault: [
+      vaccineRecordDefault: [
         { vaccinationFor: { th: 'วัคซีนป้องกันโรคหลอดลมอักเสบติดต่อ', en: 'Canine Cough' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
         { vaccinationFor: { th: 'วัคซีนป้องกันโรคลำไส้อักเสบติดต่อ', en: 'Parvovirus and Coronavorus' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
         { vaccinationFor: { th: 'วัคซีนรวมป้องกันโรคหัด ตับอักเสบ พาราอินฟลูเอนซา เลปโตสไปโรซิส และพาร์โวไวรัส', en: 'Distemper, Adenovirus2, Parainfluenza, Leptospirosis and Parvovirus' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
@@ -199,101 +251,112 @@ export default {
 </script>
 
 <style lang="scss">
-  $pagination-color: #294937;
   $table-color: #447A5C;
+  $pagination-color: darken($table-color, 10%);
+  $hover-color: lighten($table-color, 40%);
 
   #vaccination {
     .white-card {
+      padding: 20px 40px;
+      margin-top: 20px;
       h3 {
         margin-top: 0px;
         padding-top: 10px;
         padding-bottom: 20px;
       }
+      .vaccination {
+        padding-bottom: 40px;
+        z-index: -1;
+      }
+      .th-header {
+        font-weight: bold;
+      }
+      .en-header {
+        font-weight: 400; 
+        color: grey;
+      }
+      .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+        background-color: $hover-color;
+      }
+      .tr-selected {
+        background-color: $hover-color;
+      }
+      .th-tr-body {
+        font-family: "Mitr", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        max-height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .en-tr-body {
+        color: grey;
+        font-weight: 400;
+        font-size: 14px;
+        max-height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .right-border {
+        border-right: 1px solid $table-color;
+      }
+      .bottom-border {
+        border-bottom: 1px solid $table-color;
+      }
+      .bottom-right-border {
+        border-bottom: 1px solid $table-color;
+        border-right: 1px solid $table-color;
+      }
+      .width-100 {
+        width: 100%;
+      }
+      .btn-vaccines {
+        margin-top: 5px;
+        cursor: default; 
+        color: white;
+        background-color: #62A87C;
+      }
+      .btn.btn-vaccines:hover {
+        color: white;
+      }
+      .btn-vaccines > .badge {
+        background-color: white;
+        color: #62A87C;
+      }
     }
-  }
-  nav > ul > li.page > span {
-    cursor: default;
-    background-color: $pagination-color;
-    color: white;
-    border: 2px solid white;
-    margin-right: 10px;
-  }
-  nav > ul.pager > li > a {
-    color: $pagination-color;
-    background-color: white;
-    font-weight: bold;
-    border: 2px solid $pagination-color;
-    transition-duration: 0.5s;
-  }
-  nav > ul.pager > li > a:hover {
-    color: white;
-    border: 2px solid white;
-    background-color: $pagination-color;
-  }
-  .vaccination {
-    padding-bottom: 40px;
-    z-index: -1;
-  }
-  .th-header {
-    font-weight: bold;
-  }
-  .en-header {
-    font-weight: 400; 
-    color: grey;
-  }
-  .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-    background-color: #E1C4A5;
-  }
-  .tr-selected {
-    background-color: #E1C4A5;
-  }
-  .th-tr-body {
-    font-family: "Mitr", sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-  }
-  .en-tr-body {
-    color: grey;
-    font-weight: 400;
-    font-size: 14px;
-  }
-  .right-border {
-    border-right: 1px solid $table-color;
-  }
-  .bottom-border {
-    border-bottom: 1px solid $table-color;
-  }
-  .bottom-right-border {
-    border-bottom: 1px solid $table-color;
-    border-right: 1px solid $table-color;
-  }
-  .width-100 {
-    width: 100%;
-  }
-  .date-input {
-    display: block;
-    width: 100%;
-    height: 34px;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: #fff;
-    background-image: none;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  .btn-vaccines {
-    margin-top: 5px;
-    cursor: default; 
-    color: white;
-    background-color: #62A87C;
-  }
-  .btn.btn-vaccines:hover {
-    color: white;
-  }
-  .btn-vaccines > .badge {
-    background-color: white;
-    color: #62A87C;
+    nav > ul > li.page > span {
+      cursor: default;
+      background-color: $pagination-color;
+      color: white;
+      border: 2px solid white;
+      font-size: 18px;
+      margin-right: 10px;
+    }
+    nav > ul.pager > li > a {
+      color: $pagination-color;
+      background-color: white;
+      font-weight: bold;
+      border: 2px solid $pagination-color;
+      font-size: 18px;
+      transition-duration: 0.5s;
+    }
+    nav > ul.pager > li > a:hover {
+      color: white;
+      border: 2px solid white;
+      background-color: $pagination-color;
+    }
+    .date-input {
+      display: block;
+      width: 100%;
+      height: 34px;
+      padding: 6px 12px;
+      font-size: 14px;
+      line-height: 1.42857143;
+      color: #555;
+      background-color: #fff;
+      background-image: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
   }
 </style>
