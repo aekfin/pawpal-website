@@ -23,7 +23,7 @@ var route = {
     if (store.getters.IsLogin) {
       Vue.http.get('/api/session/').then(response => {
         // console.log(response)
-        if (response.body[0] === 'Have Session' && store.getters.IsSelectHospital) {
+        if (response.body.message === 'Have Session' && store.getters.IsSelectHospital) {
           next()
         } else {
           next('/logout')

@@ -21,9 +21,11 @@
           </thead>
           <tbody style="cursor: pointer">
             <tr v-for="(vl, i) in vaccineRecord" :key="i" data-toggle="modal" data-target="#form_modal" @click="OpenForm(i)" :class="vl.class">
-              <td class="text-center" data-toggle="tooltip" data-placement="left" :title="vl.vaccinationFor.th+' ('+vl.vaccinationFor.en+')'" style="width: 25%" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
-                <div class="th-tr-body">{{vl.vaccinationFor.th}}</div>
-                <div class="en-tr-body">({{vl.vaccinationFor.en}})</div>
+              <td class="text-center" style="width: 25%;" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
+                <div data-toggle="tooltip" data-placement="left" :title="vl.vaccinationFor.th+' ('+vl.vaccinationFor.en+')'">
+                  <div class="th-tr-body">{{vl.vaccinationFor.th}}</div>
+                  <div class="en-tr-body">({{vl.vaccinationFor.en}})</div>
+                </div>
               </td>
               <td  class="text-center" style="width: 20%" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
                 <span class="th-tr-body">{{vl.date_record}}</span>
@@ -34,10 +36,7 @@
               <td  class="text-center" style="width: 20%" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
                 <span class="th-tr-body">{{vl.veterinary}}</span>
               </td>
-              <td  class="text-center" style="width: 20%" :class="(i !== vaccineRecord.length-1) ? 'bottom-border' : ''">
-                <div class="btn btn-vaccines">
-                  จำนวนวัคซีน <span class="badge"></span>
-                </div>
+              <td class="text-center" style="width: 20%" :class="(i !== vaccineRecord.length-1) ? 'bottom-border' : ''">
               </td>
             </tr>
           </tbody>
@@ -51,6 +50,8 @@
         </ul>
       </nav>
     </div>
+    <el-popover ref="popover1" placement="top-start" title="Title" width="200" trigger="hover" content="this is content, this is content, this is content">
+    </el-popover>
     <!-- Modal -->
     <div class="modal fade" id="form_modal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
@@ -75,9 +76,10 @@
                   :input-class = "'date-input width-100'" 
                   :wrapper-class = "'width-100'"
                   :format = "'dd MMM yyyy'">
-                </datepicker> 
+                </datepicker>
                 <input v-if="i===3" class="form-control" v-model="vaccineRecordForm[i-1]" type="text">
-                <div v-if="i===4" class="text-center" style="border: 1px solid lightgray; border-radius: 5px; margin-top: 5px;">
+                <div v-if="i===4" style="border: 1px solid lightgray; border-radius: 5px; margin-top: 5px; padding: 5px 10px;">
+                  <img v-for="(vrf, i) in vaccineRecordForm[i-1]" :key="i" :src="vrf.image" class="img-vaccine"/>
                 </div>
               </div>
             </div>
@@ -112,18 +114,21 @@ export default {
       }
       this.$http.post('/api/vaccine-book/', {appointment_key: this.$route.params.appointment_id}).then(response => {
         var vb = response.body
-        console.log(vb)
+        // console.log(vb)
         for (var i = 0; i < this.vaccineRecord.length; i++) {
           for (var j = 0; j < vb.vaccine_for.length; j++) {
             if (vb.vaccine_for[j].id === this.vaccineRecord[i].vaccinationFor.id) {
               this.vaccineRecord[i].date_record = this.DateFormat(new Date())
               this.vaccineRecord[i].next_vaccine = this.MakeRoutine(new Date(), this.vaccineRecord[i].vaccinationFor.routine)
               this.vaccineRecord[i].veterinary = this.$store.getters.GetUser.license
-              this.vaccineRecord[i].doses = this.vaccineRecord[i].vaccine_stock_detail
+              this.vaccineRecord[i].doses = vb.vaccine_for[j].vaccine_stock_detail
             }
           }
         }
-        this.pagination.total_page = vb.vaccine_record.length + 1
+        this.pagination.total_page = 1
+        $(document).ready(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
         this.isLoading = false
       }, response => {
         console.log(response)
@@ -131,12 +136,14 @@ export default {
     }, response => {
       console.log(response)
     })
-    $('[data-toggle="tooltip"]').tooltip()
   },
   methods: {
     DateFormat (date) {
       var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
       return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear()
+    },
+    Do () {
+      console.log('Do')
     },
     PrevPage () {
       this.pagination.current_page -= 1
@@ -214,6 +221,7 @@ export default {
   data () {
     return {
       td: [ 'td-1', 'td-2', 'td-3', 'td-4', 'td-5' ],
+      popover1: false,
       isLoading: false,
       dialogVisible: false,
       currentVL: 0,
@@ -277,6 +285,11 @@ export default {
       }
       .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
         background-color: $hover-color;
+      }
+      tr{
+        td{
+          vertical-align: middle;
+        }
       }
       .tr-selected {
         background-color: $hover-color;
@@ -344,6 +357,21 @@ export default {
       color: white;
       border: 2px solid white;
       background-color: $pagination-color;
+    }
+    .img-vaccine {
+      border-radius: 6px;
+      width: 100px;
+      height: 50px;
+      border: 3px solid white;
+      margin-right: 5px;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .img-vaccine-active {
+      border: 3px solid $table-color;
+    } 
+    .img-vaccine:hover {
+      @extend .img-vaccine-active;
     }
     .date-input {
       display: block;

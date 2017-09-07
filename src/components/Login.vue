@@ -87,7 +87,7 @@ export default {
         var self = this
         this.$http.post('/api/login/', this.user)
           .then(function (response) {
-            // console.log(response)
+            console.log(response)
             response.body.hospital = null
             self.$store.commit('Login', response.body)
             self.veterinarian = true
