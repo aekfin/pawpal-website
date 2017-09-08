@@ -37,6 +37,9 @@
                 <span class="th-tr-body">{{vl.veterinary}}</span>
               </td>
               <td class="text-center" style="width: 20%" :class="(i !== vaccineRecord.length-1) ? 'bottom-border' : ''">
+                <div v-if="vl.doses && vl.doses['selected']">
+                  <img v-for = "(dose, j) in vl.doses['selected']" :key="j" :src="dose.image" data-toggle="tooltip" data-placement="right" :title = "GetDosesTooltip(dose)" class="img-vaccine-sm">
+                </div>
               </td>
             </tr>
           </tbody>
@@ -63,12 +66,12 @@
               <h4 class="en-header">({{vaccineRecord[currentVL].vaccinationFor.en}})</h4>
             </div>
           </div>
-          <div class="modal-body">
-            <div v-for="(th, i) in tableHeader" :key="i">
-              <div v-if="i!=0" style="width: 50%; text-align: right; display: inline-block; padding-right: 5%;"> 
+          <div class="modal-body" style="vertical-align: top;">
+            <div v-for="(th, i) in tableHeader" :key="i" v-if="i > 0">
+              <div style="width: 50%; text-align: right; display: inline-block; padding-right: 5%;"> 
                 <h4>{{th.th}}</h4>
               </div>
-              <div v-if="i!=0" style="width: 45%; text-align: left; display: inline-block;">
+              <div style="width: 45%; text-align: left; display: inline-block;">
                 <datepicker 
                   v-if = "i <= 2" 
                   v-model = "vaccineRecordForm[i-1]" 
@@ -78,9 +81,13 @@
                   :format = "'dd MMM yyyy'">
                 </datepicker>
                 <input v-if="i===3" class="form-control" v-model="vaccineRecordForm[i-1]" type="text">
-                <div v-if="i===4" style="border: 1px solid lightgray; border-radius: 5px; margin-top: 5px; padding: 5px 10px;">
-                  <img v-for="(vrf, i) in vaccineRecordForm[i-1]" :key="i" :src="vrf.image" class="img-vaccine"/>
+                <input v-show="false" class="form-control" v-model="doses.str">
+              </div>
+              <div v-if="i===4" style="border: 1px solid lightgray; border-radius: 5px; margin-top: 10px; margin-left: 5%; margin-right: 5%; padding: 10px 10px 5px 10px; overflow: scroll; min-height: 100px">
+                <div v-for="(vrf, index) in vaccineRecordForm[i-1]" :key="index" style="display: inline-block;">
+                  <img :src="vrf.image" @click="SelectDoses(vrf, index)" :class="vrf.class ? vrf.class : 'img-vaccine'" data-toggle="tooltip" data-placement="bottom" :title="GetDosesTooltip(vrf)"/>
                 </div>
+                <h3 v-if= "vaccineRecordForm[i-1].length === 0" class="text-center">ไม่มีวัคซีน</h3>
               </div>
             </div>
           </div>
@@ -142,9 +149,6 @@ export default {
       var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
       return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear()
     },
-    Do () {
-      console.log('Do')
-    },
     PrevPage () {
       this.pagination.current_page -= 1
     },
@@ -197,6 +201,26 @@ export default {
         }
       }
     },
+    SelectDoses (vrf, index) {
+      if (vrf.class === undefined || vrf.class === 'img-vaccine') {
+        vrf.class = 'img-vaccine-active'
+        this.doses.push(vrf)
+      } else {
+        vrf.class = 'img-vaccine'
+        for (var i = 0; i < this.doses.length; i++) {
+          if (this.doses[i] === vrf) {
+            this.doses.splice(i, 1)
+          }
+        }
+      }
+      console.log(this.doses)
+    },
+    GetDosesTooltip (vrf) {
+      $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+      })
+      return 'บริษัทผู้ผลิต: ' + vrf.brand + ', ชื่อวัคซีน: ' + vrf.name + ', รหัสวัคซีน: ' + vrf.serial + ', วันผลิต: ' + vrf.mfg + ', วันหมดอายุ: ' + vrf.exp
+    },
     ResetForm () {
       this.vaccineRecordForm = [this.DateFormat(new Date()), '', '', '']
       this.vaccineRecord[this.currentVL].class = ''
@@ -211,8 +235,8 @@ export default {
       if (this.vaccineRecord[this.currentVL].veterinary !== '') {
         this.vaccineRecord[this.currentVL].veterinary = this.vaccineRecordForm[2]
       }
-      if (this.vaccineRecord[this.currentVL].doses !== '') {
-        this.vaccineRecord[this.currentVL].doses = []
+      if (this.doses) {
+        this.vaccineRecord[this.currentVL].doses['selected'] = Object.assign({}, this.doses)
       }
       this.ResetForm()
       $('#form_modal').modal('toggle')
@@ -225,6 +249,7 @@ export default {
       isLoading: false,
       dialogVisible: false,
       currentVL: 0,
+      doses: [],
       vaccineRecordForm: [this.DateFormat(new Date()), '', '', ''],
       pagination: {
         current_page: 1,
@@ -360,18 +385,33 @@ export default {
     }
     .img-vaccine {
       border-radius: 6px;
-      width: 100px;
-      height: 50px;
-      border: 3px solid white;
+      width: 125px;
+      height: 75px;
       margin-right: 5px;
+      border: 3px solid white;
       cursor: pointer;
       display: inline-block;
     }
+    .img-vaccine-sm {
+      display: inline-block;
+      border-radius: 6px;
+      width: 60px;
+      height: 40px;
+      margin-right: 5px;
+    }
+    .img-vaccine-sm:hover {
+      filter: brightness(150%);
+    }
     .img-vaccine-active {
-      border: 3px solid $table-color;
-    } 
+      @extend .img-vaccine;
+      border: 3px solid red;
+      filter: brightness(150%);
+    }
     .img-vaccine:hover {
       @extend .img-vaccine-active;
+    }
+    .detail-doses {
+      display: inline-block;
     }
     .date-input {
       display: block;

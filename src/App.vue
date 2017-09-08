@@ -57,11 +57,11 @@ export default {
     .white-card {
       background-color: white;
       border-radius: 10px;
-      padding: 20px;
       margin-top: 10px;
+      padding: 20px;
+      .card-content {
       margin-bottom: 10px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-      .card-content {
         padding: 80px 50px 50px 50px;
       }
       .banner {

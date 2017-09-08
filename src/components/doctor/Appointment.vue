@@ -119,7 +119,7 @@ export default {
           dog = this.dogs.dog.id
         }
         var date = new Date()
-        this.$http.post('/api/add-appointment/', { 'date': date.toISOString().substring(0, 10), 'hospital': this.$store.getters.GetHospital.id, 'dog': dog }).then(response => {
+        this.$http.post('/api/add-appointment/', { 'date': date.toISOString().substring(0, 10), 'hospital': this.$store.getters.GetHospital.id, 'dog': dog, 'vaccine_for_list': [] }).then(response => {
           console.log(response)
           this.$router.push('/doctor/vaccination/' + response.body.key)
           this.isLoading = false
