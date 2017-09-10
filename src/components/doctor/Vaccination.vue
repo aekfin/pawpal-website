@@ -2,7 +2,7 @@
   <div id="vaccination">
     <div class="title-blue-green-card">
       <div class="container">
-        <h2>ประวัติการฉีดวัคซีน <span style="font-size: 16px;">(สุนัขชื่อ Coco ของคุณ Duedrioid)</span></h2>
+        <h2>สุมดบันทึกการฉีดวัคซีน <span style="font-size: 16px;" v-if="dog && account">(สุนัขชื่อ {{dog.name}} ของคุณ {{account.first_name}})</span></h2>
       </div>
     </div>
     <div class="container animated fadeIn">
@@ -22,7 +22,7 @@
           <tbody style="cursor: pointer">
             <tr v-for="(vl, i) in vaccineRecord" :key="i" data-toggle="modal" data-target="#form_modal" @click="OpenForm(i)" :class="vl.class">
               <td class="text-center" style="width: 25%;" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
-                <div data-toggle="tooltip" data-placement="left" :title="vl.vaccinationFor.th+' ('+vl.vaccinationFor.en+')'">
+                <div v-if="vl" data-toggle="tooltip" data-placement="left" :title="vl.vaccinationFor.th+' ('+vl.vaccinationFor.en+')'">
                   <div class="th-tr-body">{{vl.vaccinationFor.th}}</div>
                   <div class="en-tr-body">({{vl.vaccinationFor.en}})</div>
                 </div>
@@ -47,9 +47,8 @@
       </div>
       <nav aria-label="...">
         <ul class="pager">
-          <li class="previous" v-if="pagination.current_page > 1" @click="PrevPage"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span> หน้าก่อน</a></li>
-          <li class="page"><span>{{pagination.current_page}} / {{pagination.total_page}}</span></li>
-          <li class="next" v-if="pagination.current_page !== pagination.total_page" @click="NextPage"><a href="#">หน้าถัดไป <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+          <li @click="SaveVaccineRecord()"><span class="btn btn-vaccines2 btn-lg">ดูประวัติวัคซีนย้อนหลัง</span></li>
+          <li @click="SaveVaccineRecord()"><span class="btn btn-vaccines btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>
       </nav>
     </div>
@@ -61,7 +60,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-            <div class="modal-title text-center">
+            <div v-if="vaccineRecord[currentVL]" class="modal-title text-center">
               <h3 class="th-header">{{vaccineRecord[currentVL].vaccinationFor.th}}</h3>
               <h4 class="en-header">({{vaccineRecord[currentVL].vaccinationFor.en}})</h4>
             </div>
@@ -87,7 +86,7 @@
                 <div v-for="(vrf, index) in vaccineRecordForm[i-1]" :key="index" style="display: inline-block;">
                   <img :src="vrf.image" @click="SelectDoses(vrf, index)" :class="vrf.class ? vrf.class : 'img-vaccine'" data-toggle="tooltip" data-placement="bottom" :title="GetDosesTooltip(vrf)"/>
                 </div>
-                <h3 v-if= "vaccineRecordForm[i-1].length === 0" class="text-center">ไม่มีวัคซีน</h3>
+                <h3 v-if= "vaccineRecordForm[i-1] && vaccineRecordForm[i-1].length === 0" class="text-center">ไม่มีวัคซีน</h3>
               </div>
             </div>
           </div>
@@ -113,15 +112,19 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.$http.get('/api/vaccine-for/').then(response => {
+    this.$http.post('/api/vaccine-for/', {'hospital_id': this.$store.getters.GetHospital.id}).then(response => {
       var vf = response.body
       this.vaccineRecord = []
+      this.vaccineRecordDefault = []
       for (var i = 0; i < vf.length; i++) {
         this.vaccineRecord.push({ vaccinationFor: { id: vf[i].id, th: vf[i].note, en: vf[i].name, routine: vf[i].routine }, date_record: null, next_vaccine: null, veterinary: null, doses: null, class: null })
+        this.vaccineRecordDefault.push({ vaccinationFor: { id: vf[i].id, th: vf[i].note, en: vf[i].name, routine: vf[i].routine }, date_record: null, next_vaccine: null, veterinary: null, doses: null, class: null })
       }
       this.$http.post('/api/vaccine-book/', {appointment_key: this.$route.params.appointment_id}).then(response => {
         var vb = response.body
         // console.log(vb)
+        this.account = vb.account
+        this.dog = vb.dog
         for (var i = 0; i < this.vaccineRecord.length; i++) {
           for (var j = 0; j < vb.vaccine_for.length; j++) {
             if (vb.vaccine_for[j].id === this.vaccineRecord[i].vaccinationFor.id) {
@@ -132,7 +135,6 @@ export default {
             }
           }
         }
-        this.pagination.total_page = 1
         $(document).ready(function () {
           $('[data-toggle="tooltip"]').tooltip()
         })
@@ -156,23 +158,7 @@ export default {
       this.pagination.current_page += 1
     },
     MakeRoutine (date, routine) {
-      if (routine.includes('week')) {
-        routine = routine.replace('week', '')
-        routine = parseInt(routine)
-        date.setDate(date.getDate() + (routine * 7))
-      } else {
-        if (routine.includes('month')) {
-          routine = routine.replace('month', '')
-          routine = parseInt(routine)
-          date.setMonth(date.getMonth() + routine)
-        } else {
-          if (routine.includes('year')) {
-            routine = routine.replace('year', '')
-            routine = parseInt(routine)
-            date.setFullYear(date.getFullYear() + routine)
-          }
-        }
-      }
+      date.setDate(date.getDate() + parseInt(routine.slice(0, routine.indexOf(' '))))
       return this.DateFormat(date)
     },
     OpenForm (index) {
@@ -213,7 +199,7 @@ export default {
           }
         }
       }
-      console.log(this.doses)
+      // console.log(this.doses)
     },
     GetDosesTooltip (vrf) {
       $(document).ready(function () {
@@ -222,8 +208,9 @@ export default {
       return 'บริษัทผู้ผลิต: ' + vrf.brand + ', ชื่อวัคซีน: ' + vrf.name + ', รหัสวัคซีน: ' + vrf.serial + ', วันผลิต: ' + vrf.mfg + ', วันหมดอายุ: ' + vrf.exp
     },
     ResetForm () {
-      this.vaccineRecordForm = [this.DateFormat(new Date()), '', '', '']
+      this.vaccineRecordForm = [null, null, null, null]
       this.vaccineRecord[this.currentVL].class = ''
+      this.doses = []
     },
     SaveForm () {
       if (this.vaccineRecord[this.currentVL].date_record !== '') {
@@ -235,11 +222,38 @@ export default {
       if (this.vaccineRecord[this.currentVL].veterinary !== '') {
         this.vaccineRecord[this.currentVL].veterinary = this.vaccineRecordForm[2]
       }
-      if (this.doses) {
+      if (this.doses.length > 0) {
         this.vaccineRecord[this.currentVL].doses['selected'] = Object.assign({}, this.doses)
       }
       this.ResetForm()
       $('#form_modal').modal('toggle')
+    },
+    SaveVaccineRecord () {
+      for (var i = 0; i < this.vaccineRecord.length; i++) {
+        if (this.vaccineRecord[i].date_record && this.vaccineRecord[i].next_vaccine && this.vaccineRecord[i].veterinary && this.vaccineRecord[i].doses['selected'] && this.vaccineRecord[i].doses['selected'][0]) {
+          var vaccineStockList = []
+          var j = 0
+          while (this.vaccineRecord[i].doses['selected'][j]) {
+            vaccineStockList.push(this.vaccineRecord[i].doses['selected'][j].id)
+            j++
+          }
+          console.log(vaccineStockList)
+          var vr = {
+            'vaccine_for': this.vaccineRecord[i].vaccinationFor.id,
+            'dog': this.dog.id,
+            'note': '',
+            'vaccineStockList': vaccineStockList,
+            'date_record': new Date(this.vaccineRecord[i].date_record).toISOString().substring(0, 10),
+            'next_vaccine': new Date(this.vaccineRecord[i].next_vaccine).toISOString().substring(0, 10)
+          }
+          this.$http.post('/api/vaccine-record/', vr).then(response => {
+            console.log(response)
+            this.$router.replace('/doctor/vaccination/')
+          }, response => {
+            console.log(response)
+          })
+        }
+      }
     }
   },
   data () {
@@ -249,12 +263,10 @@ export default {
       isLoading: false,
       dialogVisible: false,
       currentVL: 0,
+      account: null,
+      dog: null,
       doses: [],
       vaccineRecordForm: [this.DateFormat(new Date()), '', '', ''],
-      pagination: {
-        current_page: 1,
-        total_page: 4
-      },
       tableHeader: [
         { th: 'วัคซีนป้องกันโรค', en: 'Vaccination Against' },
         { th: 'วันที่ฉีด', en: 'Date of Vaccination' },
@@ -263,20 +275,8 @@ export default {
         { th: 'ชื่อวัคซีน/หมายเลขการผลิต', en: 'Name / Lot No.' }
       ],
       vaccineRecord: [
-        { vaccinationFor: { th: 'วัคซีนป้องกันโรคหลอดลมอักเสบติดต่อ', en: 'Canine Cough' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
-        { vaccinationFor: { th: 'วัคซีนป้องกันโรคลำไส้อักเสบติดต่อ', en: 'Parvovirus and Coronavorus' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
-        { vaccinationFor: { th: 'วัคซีนรวมป้องกันโรคหัด ตับอักเสบ พาราอินฟลูเอนซา เลปโตสไปโรซิส และพาร์โวไวรัส', en: 'Distemper, Adenovirus2, Parainfluenza, Leptospirosis and Parvovirus' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
-        { vaccinationFor: { th: 'วัคซีนรวมป้องกันโรคหัด ตับอักเสบ พาราอินฟลูเอนซา เลปโตสไปโรซิส พาร์โวไวรัส และ โคโรนาไวรัส', en: 'Distemper, Adenovirus2, Parainfluenza, Leptospirosis Parvovirus and Coronavirus' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
-        { vaccinationFor: { th: 'วัคซีนโรคพิษสุนัขบ้า', en: 'Rabies' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
-        { vaccinationFor: { th: 'ยาป้องกันโรคพยาธิหนอนหัวใจ ชนิดปีละครั้ง', en: 'OnceAyear heart worm prevention' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' }
       ],
       vaccineRecordDefault: [
-        { vaccinationFor: { th: 'วัคซีนป้องกันโรคหลอดลมอักเสบติดต่อ', en: 'Canine Cough' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
-        { vaccinationFor: { th: 'วัคซีนป้องกันโรคลำไส้อักเสบติดต่อ', en: 'Parvovirus and Coronavorus' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
-        { vaccinationFor: { th: 'วัคซีนรวมป้องกันโรคหัด ตับอักเสบ พาราอินฟลูเอนซา เลปโตสไปโรซิส และพาร์โวไวรัส', en: 'Distemper, Adenovirus2, Parainfluenza, Leptospirosis and Parvovirus' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
-        { vaccinationFor: { th: 'วัคซีนรวมป้องกันโรคหัด ตับอักเสบ พาราอินฟลูเอนซา เลปโตสไปโรซิส พาร์โวไวรัส และ โคโรนาไวรัส', en: 'Distemper, Adenovirus2, Parainfluenza, Leptospirosis Parvovirus and Coronavirus' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
-        { vaccinationFor: { th: 'วัคซีนโรคพิษสุนัขบ้า', en: 'Rabies' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' },
-        { vaccinationFor: { th: 'ยาป้องกันโรคพยาธิหนอนหัวใจ ชนิดปีละครั้ง', en: 'OnceAyear heart worm prevention' }, date_record: '', next_vaccine: '', veterinary: '', doses: [], class: '' }
       ]
     }
   }
@@ -348,40 +348,14 @@ export default {
       .width-100 {
         width: 100%;
       }
-      .btn-vaccines {
-        margin-top: 5px;
-        cursor: default; 
-        color: white;
-        background-color: #62A87C;
-      }
-      .btn.btn-vaccines:hover {
-        color: white;
-      }
-      .btn-vaccines > .badge {
-        background-color: white;
-        color: #62A87C;
-      }
     }
     nav > ul > li.page > span {
       cursor: default;
-      background-color: $pagination-color;
+      background-color: $table-color;
       color: white;
       border: 2px solid white;
       font-size: 18px;
       margin-right: 10px;
-    }
-    nav > ul.pager > li > a {
-      color: $pagination-color;
-      background-color: white;
-      font-weight: bold;
-      border: 2px solid $pagination-color;
-      font-size: 18px;
-      transition-duration: 0.5s;
-    }
-    nav > ul.pager > li > a:hover {
-      color: white;
-      border: 2px solid white;
-      background-color: $pagination-color;
     }
     .img-vaccine {
       border-radius: 6px;
@@ -408,7 +382,7 @@ export default {
       filter: brightness(150%);
     }
     .img-vaccine:hover {
-      @extend .img-vaccine-active;
+      filter: brightness(150%);
     }
     .detail-doses {
       display: inline-block;
@@ -425,6 +399,25 @@ export default {
       background-image: none;
       border: 1px solid #ccc;
       border-radius: 4px;
+    }
+    .btn-vaccines {
+      cursor: pointer; 
+      color: white;
+      border: 2px solid white;
+      margin-top: -7px;
+      font-size: 20px;
+      transition-duration: 0.3s;
+      background-color: $pagination-color;
+    }
+    .btn-vaccines2 {
+      @extend .btn-vaccines;
+      background-color:  darken(royalblue, 20%);
+    }
+    .btn.btn-vaccines:hover {
+      background-color: $table-color;
+    }
+    .btn.btn-vaccines2:hover {
+      background-color: royalblue;
     }
   }
 </style>

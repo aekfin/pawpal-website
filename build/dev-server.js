@@ -81,6 +81,7 @@ devMiddleware.waitUntilValid(() => {
 })
 
 var server = app.listen(port)
+// var server = app.listen(10200, 0.0.0.0)
 
 module.exports = {
   ready: readyPromise,

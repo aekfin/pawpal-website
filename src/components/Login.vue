@@ -139,6 +139,9 @@ export default {
       .banner {
         height: 80px;
       }
+      .card-content {
+        padding: 0px 50px;
+      }
       .input-label {
         font-size: 20px;
         font-weight: bold;

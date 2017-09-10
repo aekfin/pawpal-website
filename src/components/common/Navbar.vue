@@ -4,7 +4,7 @@
       <div class="container-fluid">
           <div class="navbar-header">
             <router-link class="navbar-brand leftLink" to="/">
-                <span :class="brandTitle">PawPal</span>
+                <div :class="brandTitle"><img :src="require('@/assets/logopawpal_text.png')"/></div>
             </router-link>
           </div>          
           <ul class="nav navbar-nav navbar-left hidden-xs hidden-sm">
@@ -94,6 +94,10 @@ export default {
     font-size: 30px;
     font-weight: bold;
     padding-left: 15px;
+    margin-top: -7px;
+    img {
+      width: 120px;
+    }
   }
   .brand-title-dark {
     @extend .brand-title;
