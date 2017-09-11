@@ -4,7 +4,10 @@
       <div class="container-fluid">
           <div class="navbar-header">
             <router-link class="navbar-brand leftLink" to="/">
-                <div :class="brandTitle"><img :src="require('@/assets/logopawpal_text.png')"/></div>
+                <div :class="brandTitle">
+                  <img :src="require('@/assets/logopawpal_text2.png')" v-if="this.type === 'dark'"/>
+                  <img :src="require('@/assets/logopawpal_text.png')" v-else/>
+                </div>
             </router-link>
           </div>          
           <ul class="nav navbar-nav navbar-left hidden-xs hidden-sm">

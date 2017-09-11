@@ -46,15 +46,17 @@
         </table>
       </div>
       <nav aria-label="...">
-        <ul class="pager">
-          <li @click="SaveVaccineRecord()"><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีน</span></li>
+        <loading v-if="isSaving"></loading>
+        <ul class="pager" v-if="!isSaving">
+          <li @click="SaveVaccineRecord()" ><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีน</span></li>
           <li @click="CheckVaccineToRecord()"><span class="btn btn-vaccines btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>
       </nav>
     </div>
     <simplert :useRadius="true" :useIcon="true" ref="successModal"></simplert>
     <!-- Modal -->
-    <div class="modal fade" id="form_modal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="form_modal" tabindex="-1" role="dialog"> 
+      <simplert :useRadius="true" :useIcon="true" ref="errorModal"></simplert>
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -210,20 +212,31 @@ export default {
       this.doses = []
     },
     SaveForm () {
-      if (this.vaccineRecord[this.currentVL].date_record !== '') {
-        this.vaccineRecord[this.currentVL].date_record = this.DateFormat(new Date(this.vaccineRecordForm[0]))
+      if (this.vaccineRecord[this.currentVL].date_record !== '' && this.vaccineRecord[this.currentVL].next_vaccine !== '' && this.vaccineRecord[this.currentVL].veterinary !== '' && this.doses.length > 0) {
+        if (this.vaccineRecord[this.currentVL].date_record !== '') {
+          this.vaccineRecord[this.currentVL].date_record = this.DateFormat(new Date(this.vaccineRecordForm[0]))
+        }
+        if (this.vaccineRecord[this.currentVL].next_vaccine !== '') {
+          this.vaccineRecord[this.currentVL].next_vaccine = this.DateFormat(new Date(this.vaccineRecordForm[1]))
+        }
+        if (this.vaccineRecord[this.currentVL].veterinary !== '') {
+          this.vaccineRecord[this.currentVL].veterinary = this.vaccineRecordForm[2]
+        }
+        if (this.doses.length > 0) {
+          this.vaccineRecord[this.currentVL].doses['selected'] = Object.assign({}, this.doses)
+        }
+        this.ResetForm()
+        $('#form_modal').modal('toggle')
+      } else {
+        let obj = {
+          title: 'เกิดข้อผิดพลาด',
+          message: 'กรุณาใส่ข้อมูลในช่องให้ครบทุกช่อง',
+          type: 'error',
+          customCloseBtnText: 'ปิดหน้าต่าง',
+          onClose: null
+        }
+        this.$refs.errorModal.openSimplert(obj)
       }
-      if (this.vaccineRecord[this.currentVL].next_vaccine !== '') {
-        this.vaccineRecord[this.currentVL].next_vaccine = this.DateFormat(new Date(this.vaccineRecordForm[1]))
-      }
-      if (this.vaccineRecord[this.currentVL].veterinary !== '') {
-        this.vaccineRecord[this.currentVL].veterinary = this.vaccineRecordForm[2]
-      }
-      if (this.doses.length > 0) {
-        this.vaccineRecord[this.currentVL].doses['selected'] = Object.assign({}, this.doses)
-      }
-      this.ResetForm()
-      $('#form_modal').modal('toggle')
     },
     ShowResult () {
       let obj = {
@@ -237,6 +250,7 @@ export default {
     },
     CheckVaccineToRecord () {
       var vaccineRecord = []
+      this.isSaving = true
       for (var i = 0; i < this.vaccineRecord.length; i++) {
         if (this.vaccineRecord[i].date_record && this.vaccineRecord[i].next_vaccine && this.vaccineRecord[i].veterinary && this.vaccineRecord[i].doses['selected'] && this.vaccineRecord[i].doses['selected'][0]) {
           vaccineRecord.push(this.vaccineRecord[i])
@@ -266,6 +280,7 @@ export default {
           console.log(response)
           if (index === vaccineRecord.length - 1) {
             this.ShowResult()
+            this.isSaving = false
           }
         }, response => {
           console.log(response)
@@ -281,6 +296,7 @@ export default {
       td: [ 'td-1', 'td-2', 'td-3', 'td-4', 'td-5' ],
       popover1: false,
       isLoading: false,
+      isSaving: false,
       dialogVisible: false,
       currentVL: 0,
       account: null,
