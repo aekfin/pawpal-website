@@ -47,13 +47,12 @@
       </div>
       <nav aria-label="...">
         <ul class="pager">
-          <li @click="SaveVaccineRecord()"><span class="btn btn-vaccines2 btn-lg">ดูประวัติวัคซีนย้อนหลัง</span></li>
-          <li @click="SaveVaccineRecord()"><span class="btn btn-vaccines btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
+          <li @click="SaveVaccineRecord()"><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีน</span></li>
+          <li @click="CheckVaccineToRecord()"><span class="btn btn-vaccines btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>
       </nav>
     </div>
-    <el-popover ref="popover1" placement="top-start" title="Title" width="200" trigger="hover" content="this is content, this is content, this is content">
-    </el-popover>
+    <simplert :useRadius="true" :useIcon="true" ref="successModal"></simplert>
     <!-- Modal -->
     <div class="modal fade" id="form_modal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
@@ -105,20 +104,19 @@ import DogList from '@/components/guest/components/DogList.vue'
 import $ from 'jquery'
 import Datepicker from 'vuejs-datepicker'
 import Loading from '@/components/common/Loading.vue'
+import Simplert from 'vue2-simplert'
 
 export default {
   components: {
-    DogList, Datepicker, Loading
+    DogList, Datepicker, Loading, Simplert
   },
   created () {
     this.isLoading = true
     this.$http.post('/api/vaccine-for/', {'hospital_id': this.$store.getters.GetHospital.id}).then(response => {
       var vf = response.body
       this.vaccineRecord = []
-      this.vaccineRecordDefault = []
       for (var i = 0; i < vf.length; i++) {
-        this.vaccineRecord.push({ vaccinationFor: { id: vf[i].id, th: vf[i].note, en: vf[i].name, routine: vf[i].routine }, date_record: null, next_vaccine: null, veterinary: null, doses: null, class: null })
-        this.vaccineRecordDefault.push({ vaccinationFor: { id: vf[i].id, th: vf[i].note, en: vf[i].name, routine: vf[i].routine }, date_record: null, next_vaccine: null, veterinary: null, doses: null, class: null })
+        this.vaccineRecord.push({ vaccinationFor: { id: vf[i].id, th: vf[i].note, en: vf[i].name, routine: vf[i].routine }, date_record: null, next_vaccine: null, veterinary: null, doses: vf[i].vaccine_stock_list, class: null })
       }
       this.$http.post('/api/vaccine-book/', {appointment_key: this.$route.params.appointment_id}).then(response => {
         var vb = response.body
@@ -131,7 +129,6 @@ export default {
               this.vaccineRecord[i].date_record = this.DateFormat(new Date())
               this.vaccineRecord[i].next_vaccine = this.MakeRoutine(new Date(), this.vaccineRecord[i].vaccinationFor.routine)
               this.vaccineRecord[i].veterinary = this.$store.getters.GetUser.license
-              this.vaccineRecord[i].doses = vb.vaccine_for[j].vaccine_stock_detail
             }
           }
         }
@@ -228,32 +225,55 @@ export default {
       this.ResetForm()
       $('#form_modal').modal('toggle')
     },
-    SaveVaccineRecord () {
+    ShowResult () {
+      let obj = {
+        title: 'บันทึกสำเร็จ',
+        message: '<div style="text-align: left; padding: 0px 20px; font-size: 16px;"><div style="font-size: 14px;"><div>วันที่บันทึก: <b>' + new Date().toDateString() + '</b></div><div style="margin-top: 5px;">สุนัขที่ได้รับวัคซีน: <b>' + this.dog.name + '</b></div><div style="margin-top: 5px;">เจ้าของสุนัข: <b>' + this.account.first_name + '  ' + this.account.last_name + '</b></div></div>' + '<div style="padding-top: 10px;">รายการวัคซีนที่ฉีด</div>' + this.recordList + '</div>',
+        type: 'success',
+        customCloseBtnText: 'กลับสู่หน้าหลัก',
+        onClose: this.onClose
+      }
+      this.$refs.successModal.openSimplert(obj)
+    },
+    CheckVaccineToRecord () {
+      var vaccineRecord = []
       for (var i = 0; i < this.vaccineRecord.length; i++) {
         if (this.vaccineRecord[i].date_record && this.vaccineRecord[i].next_vaccine && this.vaccineRecord[i].veterinary && this.vaccineRecord[i].doses['selected'] && this.vaccineRecord[i].doses['selected'][0]) {
-          var vaccineStockList = []
-          var j = 0
-          while (this.vaccineRecord[i].doses['selected'][j]) {
-            vaccineStockList.push(this.vaccineRecord[i].doses['selected'][j].id)
-            j++
-          }
-          console.log(vaccineStockList)
-          var vr = {
-            'vaccine_for': this.vaccineRecord[i].vaccinationFor.id,
-            'dog': this.dog.id,
-            'note': '',
-            'vaccineStockList': vaccineStockList,
-            'date_record': new Date(this.vaccineRecord[i].date_record).toISOString().substring(0, 10),
-            'next_vaccine': new Date(this.vaccineRecord[i].next_vaccine).toISOString().substring(0, 10)
-          }
-          this.$http.post('/api/vaccine-record/', vr).then(response => {
-            console.log(response)
-            this.$router.replace('/doctor/vaccination/')
-          }, response => {
-            console.log(response)
-          })
+          vaccineRecord.push(this.vaccineRecord[i])
+          this.recordList += '<div style="padding-left: 10px; font-size: 12px; margin-top: 3px;">- ' + this.vaccineRecord[i].vaccinationFor.th + '</div>'
         }
       }
+      this.SaveVaccineRecord(vaccineRecord)
+    },
+    SaveVaccineRecord (vaccineRecord) {
+      for (var i = 0; i < vaccineRecord.length; i++) {
+        var vaccineStockList = []
+        var j = 0
+        while (vaccineRecord[i].doses['selected'][j]) {
+          vaccineStockList.push(vaccineRecord[i].doses['selected'][j].id)
+          j++
+        }
+        var vr = {
+          'vaccine_for': vaccineRecord[i].vaccinationFor.id,
+          'dog': this.dog.id,
+          'note': '',
+          'vaccine_stock_list': vaccineStockList,
+          'date_record': new Date(vaccineRecord[i].date_record).toISOString().substring(0, 10),
+          'next_vaccine': new Date(vaccineRecord[i].next_vaccine).toISOString().substring(0, 10)
+        }
+        var index = i
+        this.$http.post('/api/vaccine-record/', vr).then(response => {
+          console.log(response)
+          if (index === vaccineRecord.length - 1) {
+            this.ShowResult()
+          }
+        }, response => {
+          console.log(response)
+        })
+      }
+    },
+    onClose () {
+      this.$router.replace('/doctor/vaccination/')
     }
   },
   data () {
@@ -266,6 +286,7 @@ export default {
       account: null,
       dog: null,
       doses: [],
+      recordList: '',
       vaccineRecordForm: [this.DateFormat(new Date()), '', '', ''],
       tableHeader: [
         { th: 'วัคซีนป้องกันโรค', en: 'Vaccination Against' },
@@ -274,10 +295,7 @@ export default {
         { th: 'สัตวแพทย์/เลขที่ใบอนุญาติ', en: 'Veteinary / License No.' },
         { th: 'ชื่อวัคซีน/หมายเลขการผลิต', en: 'Name / Lot No.' }
       ],
-      vaccineRecord: [
-      ],
-      vaccineRecordDefault: [
-      ]
+      vaccineRecord: []
     }
   }
 }
@@ -411,13 +429,16 @@ export default {
     }
     .btn-vaccines2 {
       @extend .btn-vaccines;
-      background-color:  darken(royalblue, 20%);
+      background-color:  darken(royalblue, 10%);
     }
     .btn.btn-vaccines:hover {
       background-color: $table-color;
     }
     .btn.btn-vaccines2:hover {
       background-color: royalblue;
+    }
+    .simplert__header {
+      padding-bottom: 18px;
     }
   }
 </style>
