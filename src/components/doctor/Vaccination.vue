@@ -2,9 +2,15 @@
   <div id="vaccination">
     <div class="title-blue-green-card">
       <div class="container">
-        <h2>สุมดบันทึกการฉีดวัคซีน <span style="font-size: 16px;" v-if="dog && account">(สุนัขชื่อ {{dog.name}} ของคุณ {{account.first_name}})</span></h2>
+        <h2>สมุดบันทึกการฉีดวัคซีนของ<span class="dogModal" @click="dialogVisible = true">"{{dog.name}}"</span></h2>
       </div>
     </div>
+    <el-dialog :visible.sync="dialogVisible" size="small" style="padding-bottom: 30px;">
+      <span slot="title" style="font-size: 24px; font-weight: bold">
+        รายละเอียดสุนัข
+      </span>
+      <dog-information :dog="dog" :account="account"></dog-information>
+    </el-dialog>
     <div class="container animated fadeIn">
       <div class="container-fluid white-card">
         <h3 class="text-center"><b>ตารางบันทึกการฉีดวัคซีน และป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
@@ -48,7 +54,7 @@
       <nav aria-label="...">
         <loading v-if="isSaving"></loading>
         <ul class="pager" v-if="!isSaving">
-          <li @click="SaveVaccineRecord()" ><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีน</span></li>
+          <li @click="SaveVaccineRecord()" ><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนย้อนหลัง</span></li>
           <li @click="CheckVaccineToRecord()"><span class="btn btn-vaccines btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>
       </nav>
@@ -107,10 +113,11 @@ import $ from 'jquery'
 import Datepicker from 'vuejs-datepicker'
 import Loading from '@/components/common/Loading.vue'
 import Simplert from 'vue2-simplert'
+import DogInformation from '@/components/doctor/components/DogInformation.vue'
 
 export default {
   components: {
-    DogList, Datepicker, Loading, Simplert
+    DogList, Datepicker, Loading, Simplert, DogInformation
   },
   created () {
     this.isLoading = true
@@ -297,7 +304,7 @@ export default {
       popover1: false,
       isLoading: false,
       isSaving: false,
-      dialogVisible: false,
+      dialogVisible: true,
       currentVL: 0,
       account: null,
       dog: null,
@@ -323,6 +330,14 @@ export default {
   $hover-color: lighten($table-color, 40%);
 
   #vaccination {
+    .dogModal {
+      font-weight: bold;
+      cursor: pointer;
+      transition-duration: 0.5s;
+    }
+    .dogModal:hover {
+      color:black;
+    }
     .white-card {
       padding: 20px 40px;
       margin-top: 20px;
