@@ -67,6 +67,9 @@
           </div>
         </div>
       </div>
+      <div class="col-xs-12 text-center" style="margin-top: 20px;">
+        <div class="btn btn-found btn-lg" @click="AddFoundDog()">เพิ่มสุนัขที่พบ</div>
+      </div>
     </div>
     <el-dialog
       title = "แก้ไขรูปภาพ"
@@ -260,6 +263,13 @@
           }
           this.MoveToLocation()
         }
+      },
+      AddFoundDog () {
+        this.$http.post('/api/found/').then(response => {
+          this.someData = response.body
+        }, response => {
+          console.log(response)
+        })
       }
     },
     mounted () {
@@ -357,5 +367,16 @@
   }
   .el-dialog__title {
     font-size: 24px;
+  }
+  .btn-found {
+    border: 3px solid white;
+    color: white;
+    background-color: #84bf09;
+    font-size: 20px;
+    width: 30%;
+  }
+  .btn-found:hover {
+    color: white;
+    background-color: lighten(#84bf09, 10%);
   }
 </style>

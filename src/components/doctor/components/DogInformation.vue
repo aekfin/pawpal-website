@@ -7,6 +7,7 @@
       <div><b>ชื่อสุนัข: </b>{{dog.name}}</div>
       <div><b>พันธุ์: </b>{{dog.breed}}</div>
       <div><b>สีขน: </b>{{dog.color_primary}}, {{dog.color_secondary}}</div>
+      <div><b>ลักษณะเด่น: </b>{{dog.dominance}}</div>
       <div><b>เพศ: </b>{{dog.gender === 1 ? 'ผู้' : 'เมีย'}}</div>
       <div><b>อายุ: </b>{{dog.age}} ปี</div>
       <div><b>กรุ๊ปเลือด: </b>{{dog.blood_type}}</div>
@@ -36,7 +37,7 @@ export default {
       display: inline-block;
     }
     .dog-info {
-      font-size: 18px;
+      font-size: 16px;
       width: 40%;
       text-align: left;
       padding-left: 10px;
