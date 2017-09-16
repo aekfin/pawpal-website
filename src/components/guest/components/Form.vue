@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <div class="input-group" v-for="(input, i) in inputs" :key="input.name" style="width: 100%; padding-bottom: 10px">
-      <div class="input-group-addon input-lg" style="width: 120px">{{input.name}}</div>
+      <div class="input-group-addon input-lg" style="width: 120px">{{input.name}}<span v-if="input.require">*</span></div>
       <input type="tel" class="form-control input-lg" :placeholder="input.placeholder" v-model="input.model" v-if="input.type==='tel'">
       <select class="form-control input-lg" v-else-if="input.type==='selector'" v-model="input.model">
         <option v-for="(option,i) in input.options" :key="option" :value="option">{{option}}</option>

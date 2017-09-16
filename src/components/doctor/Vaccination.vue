@@ -304,7 +304,7 @@ export default {
       popover1: false,
       isLoading: false,
       isSaving: false,
-      dialogVisible: true,
+      dialogVisible: false,
       currentVL: 0,
       account: null,
       dog: null,
