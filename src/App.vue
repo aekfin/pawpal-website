@@ -17,11 +17,14 @@
   import locale from 'element-ui/lib/locale/lang/en'
   import VueResource from 'vue-resource'
   import Cookie from 'js-cookie'
+  import MeterialIcons from 'material-design-icons'
+  import 'material-design-icons/iconfont/material-icons.css'
 
   Vue.use(Bootstrap)
   Vue.use(Animate)
   Vue.use(ElementUI, { locale })
   Vue.use(VueResource)
+  Vue.use(MeterialIcons)
   Vue.http.headers.common['X-CSRFToken'] = Cookie.get('csrftoken')
   
 export default {
