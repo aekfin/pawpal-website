@@ -17,7 +17,10 @@
         <nav aria-label="...">
           <ul class="pager">
             <li class="pull-left"><i class="material-icons btn btn-page btn-lg">&#xE5CB;</i></li>
-            <li><div class="btn btn-page btn-lg">1 / 10</div></li>
+            <li v-for="(page, i) in pagination.pages" :key="i">
+              <div class="btn btn-page-number-active btn-lg" v-if="i + 1 === pagination.current">{{page}}</div>
+              <div class="btn btn-page-number btn-lg" v-else>{{page}}</div>
+            </li>
             <li class="pull-right"><i class="material-icons btn btn-page btn-lg">&#xE5CC;</i></li>
           </ul>
         </nav>
@@ -36,6 +39,13 @@ export default {
   },
   data () {
     return {
+      pagination: {
+        current: 1,
+        total: 10,
+        prev: false,
+        next: true,
+        pages: [1, 2, 3, 4, 5]
+      },
       filters: [
         { name: 'สายพันธุ์', options: this.$store.state.breeds },
         { name: 'สีขน', options: ['น้ำตาล', 'ดำ', 'ขาว'] },
@@ -73,7 +83,32 @@ export default {
       background-color: #49392C;
       border-radius: 10px;
       padding: 10px 30px;
-      border: 3px solid white;
+      margin-right: 5px;
+      margin-right: 0px;
+      padding: 10px 30px;
+      font-weight: bold;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    }
+    .btn-page-number {
+      color: #49392C;
+      background-color: white;
+      border-radius: 10px;
+      padding: 10px 20px;
+      margin-right: 5px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    }
+    .btn-page-number-active {
+      @extend .btn-page-number;
+      color: white;
+      background-color: #49392C;
+    }
+    .btn-page-active {
+      @extend .btn-page;
+      background-color: lighten(#49392C, 10%);
+    }
+    .btn-page-number:hover {
+      color: white;
+      background-color: #49392C;
     }
     .btn-page:hover {
       background-color: lighten(#49392C, 10%);

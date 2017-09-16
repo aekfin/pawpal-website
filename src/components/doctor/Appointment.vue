@@ -187,6 +187,7 @@ export default {
     .white-card {
       padding: 30px 15px;
       margin-top: 1%;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
     .alert {
       margin-top: 5px;
@@ -239,6 +240,7 @@ export default {
       font-size: 14px;
       padding: 10px 20px;
       border-radius: 5px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
     .label-yellow {
       @extend .hint-label;

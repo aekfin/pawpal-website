@@ -2,6 +2,7 @@ import store from '../vuex/store'
 
 import DoctorPage from '@/components/doctor'
 import VaccinationPage from '@/components/doctor/Vaccination.vue'
+import VaccinationLogPage from '@/components/doctor/VaccinationLog.vue'
 import AppointmentPage from '@/components/doctor/Appointment.vue'
 import SelectHospitalPage from '@/components/doctor/SelectHospital.vue'
 import Vue from 'vue'
@@ -17,7 +18,8 @@ var route = {
   children: [
     { path: '/', name: 'SelectHospitalPage', component: SelectHospitalPage },
     { path: 'vaccination/', name: 'AppointmentPage', component: AppointmentPage },
-    { path: 'vaccination/:appointment_id/', name: 'VaccinationPage', component: VaccinationPage }
+    { path: 'vaccination/:appointment_id/', name: 'VaccinationPage', component: VaccinationPage },
+    { path: 'vaccination/log/:dog_id/', name: 'VaccinationLogPage', component: VaccinationLogPage }
   ],
   beforeEnter: (to, from, next) => {
     if (store.getters.IsLogin) {

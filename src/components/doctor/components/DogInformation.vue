@@ -1,7 +1,7 @@
 <template>
   <div id = "dog-information">
     <div class="img-dog">
-      <img width="100%" class="img-rounded" :src="dog.image[0].image"/>
+      <img height="224px" class="img-rounded" :src="dog.image[0].image"/>
     </div>
     <div class="dog-info">
       <div><b>ชื่อสุนัข: </b>{{dog.name}}</div>
@@ -31,9 +31,10 @@ export default {
   #dog-information {
     text-align: center;
     .img-dog {
-      width: 45%;
+      width: 40%;
       vertical-align: top;
       padding-right: 10px;
+      text-align: right;
       display: inline-block;
     }
     .dog-info {

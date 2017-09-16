@@ -2,7 +2,7 @@
   <div id="vaccination">
     <div class="title-blue-green-card">
       <div class="container">
-        <h2>สมุดบันทึกการฉีดวัคซีนของ<span class="dogModal" @click="dialogVisible = true">"{{dog.name}}"</span></h2>
+        <h2 v-if="dog">สมุดบันทึกการฉีดวัคซีนของ<span class="dogModal" @click="dialogVisible = true">"{{dog.name}}"</span></h2>
       </div>
     </div>
     <el-dialog :visible.sync="dialogVisible" size="small" style="padding-bottom: 30px;">
@@ -54,7 +54,7 @@
       <nav aria-label="...">
         <loading v-if="isSaving"></loading>
         <ul class="pager" v-if="!isSaving">
-          <li @click="SaveVaccineRecord()" ><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนย้อนหลัง</span></li>
+          <li @click="ViewVaccineToLog()"><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนย้อนหลัง</span></router-link></li>
           <li @click="CheckVaccineToRecord()"><span class="btn btn-vaccines btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>
       </nav>
@@ -131,6 +131,7 @@ export default {
         var vb = response.body
         // console.log(vb)
         this.account = vb.account
+        console.log(this.account)
         this.dog = vb.dog
         for (var i = 0; i < this.vaccineRecord.length; i++) {
           for (var j = 0; j < vb.vaccine_for.length; j++) {
@@ -294,6 +295,9 @@ export default {
         })
       }
     },
+    ViewVaccineToLog () {
+      this.$router.push('/doctor/vaccination/log/' + this.dog.id)
+    },
     onClose () {
       this.$router.replace('/doctor/vaccination/')
     }
@@ -341,6 +345,7 @@ export default {
     .white-card {
       padding: 20px 40px;
       margin-top: 20px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
       h3 {
         margin-top: 0px;
         padding-top: 10px;
@@ -457,6 +462,7 @@ export default {
       font-size: 20px;
       transition-duration: 0.3s;
       background-color: $pagination-color;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
     .btn-vaccines2 {
       @extend .btn-vaccines;

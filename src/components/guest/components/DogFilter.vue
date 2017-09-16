@@ -21,6 +21,9 @@ export default {
 
 <style lang="scss">
   #dog-filter {
+    .white-card {
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    }
     .card-sm {
       padding-top: 10px;
       padding-bottom: 10px;
@@ -33,6 +36,9 @@ export default {
       select {
         min-width: 100%;
       }
+    }
+    .form-control {
+      box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     }
   }
 </style>
