@@ -8,7 +8,7 @@
     <div class="container animated fadeIn">
       <!-- Top Side -->
       <div class="col-xs-12 white-card">
-        <h3>อัพโหลดรูปภาพสุนัข</h3>
+        <h3>อัพโหลดรูปภาพสุนัข*</h3>
         <div class="alert alert-danger hide">รูปควรมีขนาดเป็นสี่เหลี่ยมจตุรัส</div>
         <input class="form-control input-lg" style="display: none;" type="file" name="pic" accept="image/*" id="input-img" @change="SelectImage"> 
         <div class="text-center" style="padding-top: 10px;">
@@ -28,7 +28,7 @@
           <h3>ข้อมูลสุนัข</h3>
           <app-form :form="dogForm"></app-form>
         </div> 
-        <div class="col-xs-12 white-card">
+        <div class="col-xs-12 white-card" style="height: 300px;">
           <h3>ข้อมูลติดต่อ</h3>
           <app-form :form="finderForm"></app-form> 
         </div>
@@ -40,8 +40,8 @@
             <h3>สถานที่ที่พบ</h3>
           </div>
           <div class="col-xs-12" style="padding-bottom: 10px;">
-            <div>ละติจูด : <span class="latlng-label">{{this.latLng.lat}}</span></div>
-            <div> ลองติจูด: <span class="latlng-label">{{this.latLng.lng}}</span></div>
+            <div>ละติจูด  : <span class="latlng-label">{{this.latLng.lat}}</span></div>
+            <div>ลองติจูด : <span class="latlng-label">{{this.latLng.lng}}</span></div>
           </div>
           <div class="col-xs-12">
             <gmap-map ref="maps" :center="center" :zoom="zoom" style="width: 500px; height: 300px; margin-bottom: 20px;">
@@ -60,9 +60,10 @@
             </div>
           </div>
           <div class="col-xs-12">
-            <div class="input-group" style="width: 100%; padding-bottom: 10px">
-              <div class="input-group-addon input-lg" style="width: 120px">{{dateForm.name}}</div>
-              <datepicker v-model="dateForm.model" :bootstrapStyling="false" :input-class="'date-input width-100'" :wrapper-class="'width-100'"></datepicker>
+            <div class="input-group" style="width: 100%; padding-bottom: 10px" v-for="(date, i) in dateForm" :key="i">
+              <div class="input-group-addon input-lg" style="width: 120px">{{date.name}}<span v-if="date.require">*</span></div>
+              <datepicker v-if="date.type === 'date'" v-model="date.model" :bootstrapStyling="false" :input-class="'date-input width-100'" :wrapper-class="'width-100'"></datepicker>
+              <input v-if="date.type === 'time'" class="form-control input-lg" type="time" v-model = "date.model">
             </div>
           </div>
         </div>
@@ -71,6 +72,8 @@
         <div class="btn btn-found btn-lg" @click="AddFoundDog()">เพิ่มสุนัขที่พบ</div>
       </div>
     </div>
+    <simplert :useRadius="true" :useIcon="true" ref="errorModal"></simplert>
+    <simplert :useRadius="true" :useIcon="true" ref="successModal"></simplert>
     <el-dialog
       title = "แก้ไขรูปภาพ"
       :visible.sync="cropModal"
@@ -98,6 +101,7 @@
   import EXIF from 'exif-js/exif.js'
   import Datepicker from 'vuejs-datepicker'
   import VueCroppie from 'vue-croppie'
+  import Simplert from 'vue2-simplert'
 
   Vue.use(VueCroppie)
   Vue.use(VueGoogleMaps, {
@@ -111,7 +115,7 @@
   export default {
     name: 'finder',
     components: {
-      appForm, Datepicker
+      appForm, Datepicker, Simplert
     },
     created () {
       this.dogForm[0].model = this.dogForm[0].options[0]
@@ -165,7 +169,7 @@
           alert('Please select image file (.jpg .png .gif)')
           return false
         } else if (file.size > 100000 * 1024) {
-          alert('Limit file size at 1000 kb')
+          alert('Limit file size at 100 mb')
           return false
         } else {
           var reader = new FileReader()
@@ -264,12 +268,51 @@
           this.MoveToLocation()
         }
       },
+      RequireForm () {
+        if (this.images.length === 0) {
+          return 'รูปภาพสุนัข'
+        }
+        for (var i = 0; i < this.dogForm.length; i++) {
+          if (this.dogForm[i].model === '' && this.dogForm[i].require) {
+            return this.dogForm[i].name
+          }
+        }
+        for (i = 0; i < this.finderForm.length; i++) {
+          if (this.finderForm[i].model === '' && this.finderForm[i].require) {
+            return this.finderForm[i].name
+          }
+        }
+        return 'pass'
+      },
       AddFoundDog () {
-        this.$http.post('/api/found/').then(response => {
-          this.someData = response.body
-        }, response => {
-          console.log(response)
-        })
+        if (this.RequireForm() === 'pass') {
+          var dog = {
+            'color_primary': this.dogForm[1].model,
+            'name': this.finderForm[0].model,
+            'dominance': this.dogForm[3].model,
+            'longtitude': this.latLng.lng,
+            'color_secondary': this.dogForm[2].model,
+            'location': this.finderForm[2].model,
+            'note': this.finderForm[2].model,
+            'breed': this.dogForm[0].model,
+            'tel': this.finderForm[1].model,
+            'latitude': this.latLng.lat
+          }
+          this.$http.post('/api/v2/found/', dog).then(response => {
+            console.log(response)
+          }, response => {
+            console.log(response)
+          })
+        } else {
+          let obj = {
+            title: 'ท่านกรอกข้อมูลไม่ครบถ้วน',
+            message: 'โปรดใส่ <b><u>' + this.RequireForm() + '</u>*</b> ให้เรียบร้อย',
+            customCloseBtnText: 'รับทราบ',
+            type: 'error',
+            onClose: this.onClose
+          }
+          this.$refs.errorModal.openSimplert(obj)
+        }
       }
     },
     mounted () {
@@ -293,17 +336,20 @@
         cropImage: null,
         images: [],
         imgPlaceholder: require('@/assets/finder/dogupload3.png'),
-        dateForm: { name: 'เมื่อวันที่', placeholder: '', type: 'date', model: new Date() },
+        dateForm: [
+          { name: 'เมื่อวันที่', placeholder: '', type: 'date', model: new Date(), require: true },
+          { name: 'เวลา', placeholder: 'กรุณาระบบเวลาที่พบ', type: 'time', model: '', require: false }
+        ],
         dogForm: [
-          { name: 'พันธุ์', placeholder: '', type: 'selector', model: '', options: ['Yorkshire Terrier', 'Maltese', 'French Bulldog', 'Pug', 'Chihuahua', 'Dachshund', 'Shih-Tzu', 'Papiyong', 'English Bulldog', 'Basset Hound', 'Pomeranian', 'Jack Russell Terrier', 'Shiba Inu', 'Alaskan Malamute', 'บางแก้ว', 'ไทยหลังอาน', 'Boston Terrier', 'Bull Terrier', 'Welsh Corgi', 'Cocker Spaniel', 'Dachshund', 'Cavalier King Charles Spaniel', 'Schnauzer', 'Poodle', 'French Bulldog', 'Mastiff', 'Maltese', 'Collie', 'Basset Hound', 'Akita', 'St. Bernard', 'Scottish Terrier', 'Shar-pei', 'Dalmatians', 'Chow Chow', 'Pekingese'] },
-          { name: 'สีหลัก', placeholder: 'น้ำตาล', type: 'text', model: '' },
-          { name: 'สีรอง', placeholder: 'ขาว', type: 'text', model: '' },
-          { name: 'ลักษณะเด่น', placeholder: 'มีจุดสีขาวใหญ่บริเวณขาหลังด้านซ้าย', type: 'text', model: '' }
+          { name: 'สายพันธุ์', placeholder: '', type: 'selector', model: '', require: true, options: this.$store.state.breeds },
+          { name: 'สีขนหลัก', placeholder: 'น้ำตาล', type: 'text', model: '', require: true },
+          { name: 'สีขนรอง', placeholder: 'ขาว', type: 'text', model: '', require: false },
+          { name: 'ลักษณะเด่น', placeholder: 'มีจุดสีขาวใหญ่บริเวณขาหลังด้านซ้าย', type: 'text', model: '', require: false }
         ],
         finderForm: [
-          { name: 'ชื่อผู้พบ', placeholder: 'นาย สมชาย', type: 'text', model: '' },
-          { name: 'เบอร์ติดต่อ', placeholder: '08x-xxx-xxxx', type: 'tel', model: '' },
-          { name: 'หมายเหตุ', placeholder: 'เจอบริเวณสวนหลังวัด', type: 'text', model: '' }
+          { name: 'ชื่อผู้พบ', placeholder: 'นาย สมชาย', type: 'text', model: '', require: true },
+          { name: 'เบอร์ติดต่อ', placeholder: '08x-xxx-xxxx', type: 'tel', model: '', require: true },
+          { name: 'หมายเหตุ', placeholder: 'เจอบริเวณสวนหลังวัด', type: 'text', model: '', require: false }
         ]
       }
     }
@@ -313,70 +359,73 @@
 <style lang="scss">
   #finder {
     padding-bottom: 50px;
-  }
-  h3 {
-    margin-top: 5px;
-  }
-  .input-place {
-    font-weight: normal;
-    font-size: 18px;
-    width: 100%;
-    height: 46px;
-    border-radius: 10px;
-  }
-  .latlng-label {
-    font-size: 12px;
-  }
-  .show {
-    display: inline-block;
-  }
-  img {
-    max-width: 100%; /* This rule is very important, please do not ignore this! */
-  }
-  .img-container {
-    width: 200px;
-    height: 250px;
-    margin: 5px;
-    text-align: center;
-    display: inline-block;
-  }
-  .img-preview {
-    width: 200px;
-    height: 200px;
-    padding: 2px;
-    margin-bottom: 5px;
-    display: inline-block;
-    cursor: pointer;
-    border-radius: 5px;
-    transition-duration: 0.5s;
-  }
-  .img-placeholder {
-    @extend .img-preview;
-    border: 3px dashed #E1C4A5;
-  }
-  .img-placeholder:hover {
-    border: 3px dashed #ce9e6c;
-  } 
-  .alert-danger {
-    font-size: 14px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-  .dialog-footer {
-    text-align: center;
-  }
-  .el-dialog__title {
-    font-size: 24px;
-  }
-  .btn-found {
-    border: 3px solid white;
-    color: white;
-    background-color: #84bf09;
-    font-size: 20px;
-    width: 30%;
-  }
-  .btn-found:hover {
-    color: white;
-    background-color: lighten(#84bf09, 10%);
+    .white-card {
+      margin-top: 15px;
+    }
+    h3 {
+      margin-top: 5px;
+    }
+    .input-place {
+      font-weight: normal;
+      font-size: 18px;
+      width: 100%;
+      height: 46px;
+      border-radius: 10px;
+    }
+    .latlng-label {
+      font-size: 12px;
+    }
+    .show {
+      display: inline-block;
+    }
+    img {
+      max-width: 100%; /* This rule is very important, please do not ignore this! */
+    }
+    .img-container {
+      width: 200px;
+      height: 250px;
+      margin: 5px;
+      text-align: center;
+      display: inline-block;
+    }
+    .img-preview {
+      width: 200px;
+      height: 200px;
+      padding: 2px;
+      margin-bottom: 5px;
+      display: inline-block;
+      cursor: pointer;
+      border-radius: 5px;
+      transition-duration: 0.5s;
+    }
+    .img-placeholder {
+      @extend .img-preview;
+      border: 3px dashed #E1C4A5;
+    }
+    .img-placeholder:hover {
+      border: 3px dashed #ce9e6c;
+    } 
+    .alert-danger {
+      font-size: 14px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .dialog-footer {
+      text-align: center;
+    }
+    .el-dialog__title {
+      font-size: 24px;
+    }
+    .btn-found {
+      border: 3px solid white;
+      color: white;
+      background-color: #84bf09;
+      font-size: 20px;
+      width: 30%;
+    }
+    .btn-found:hover {
+      color: white;
+      background-color: lighten(#84bf09, 10%);
+    }
   }
 </style>
