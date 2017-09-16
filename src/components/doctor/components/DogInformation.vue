@@ -1,7 +1,7 @@
 <template>
   <div id = "dog-information">
     <div class="img-dog">
-      <img height="224px" class="img-rounded" :src="dog.image[0].image"/>
+      <images-view :images="dog.image"></images-view>
     </div>
     <div class="dog-info">
       <div><b>ชื่อสุนัข: </b>{{dog.name}}</div>
@@ -19,10 +19,16 @@
 </template>
 
 <script>
+import ImagesView from '@/components/common/ImagesView.vue'
+
 export default {
+  components: {
+    ImagesView
+  },
   props: ['dog', 'account'],
   created () {
     console.log(this.dog)
+    console.log(this.account)
   }
 }
 </script>
@@ -31,14 +37,17 @@ export default {
   #dog-information {
     text-align: center;
     .img-dog {
-      width: 40%;
+      width: 50%;
       vertical-align: top;
+      margin-left: auto;
       padding-right: 10px;
       text-align: right;
+      overflow: hidden;
       display: inline-block;
     }
     .dog-info {
       font-size: 16px;
+      margin-left: 20px;
       width: 40%;
       text-align: left;
       padding-left: 10px;

@@ -1,0 +1,43 @@
+<template>
+  <div id="image-view">
+    <el-carousel height="224px" autoplay="false" indicator-position="none" type="card" interval="100000">
+      <el-carousel-item v-for="image in images" :key="image.id">
+        <img class="img-rounded" height="200px" :src="image.image"/>
+      </el-carousel-item>
+    </el-carousel>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'imageView',
+  props: ['images'],
+  data () {
+    return {
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+  #image-view {
+    .img-rounded {
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
+    }
+    .el-carousel__item h3 {
+      color: #475669;
+      font-size: 14px;
+      opacity: 0.75;
+      line-height: 150px;
+      margin: 0;
+    }
+
+    .el-carousel__item:nth-child(2n) {
+      background-color: none;
+    }
+
+    .el-carousel__item:nth-child(2n+1) {
+      background-color: none;
+    }
+  }
+</style>

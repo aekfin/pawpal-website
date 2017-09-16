@@ -2,7 +2,7 @@
   <div id="vaccination">
     <div class="title-blue-green-card">
       <div class="container">
-        <h2 v-if="dog">สมุดบันทึกการฉีดวัคซีนของ<span class="dogModal" @click="dialogVisible = true">"{{dog.name}}"</span></h2>
+        <h2 v-if="dog">สมุดบันทึกการฉีดวัคซีนของ <span class="dogModal" @click="dialogVisible = true">"{{dog.name}}"</span></h2>
       </div>
     </div>
     <el-dialog :visible.sync="dialogVisible" size="small" style="padding-bottom: 30px;">
