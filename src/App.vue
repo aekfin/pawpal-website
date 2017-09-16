@@ -45,7 +45,7 @@ export default {
   #app {
     font-family: "Mitr", sans-serif;
     font-size: 16px;
-    background-color: darken(#E0CDBA, 30%);
+    background-color: darken(#E0CDBA, 25%);
     color: #4c4c4c;
     min-height: 100%;
     overflow: hidden;
@@ -65,7 +65,6 @@ export default {
       .card-content {
       margin-bottom: 10px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-        padding: 80px 50px 50px 50px;
       }
       .banner {
         border-top-left-radius: 10px;

@@ -361,6 +361,7 @@
     padding-bottom: 50px;
     .white-card {
       margin-top: 15px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
     h3 {
       margin-top: 5px;
