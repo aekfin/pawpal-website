@@ -37,7 +37,7 @@ module.exports = {
           changeOrigin: true
       },
       '/media': {
-        target: 'http://203.150.225.202',
+        target: 'http://203.150.225.202:10101/',
         changeOrigin: true
       }
     },
