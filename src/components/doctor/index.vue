@@ -23,6 +23,7 @@ export default {
     .white-card {
       margin-top: 3%;
       padding: 0px 0px 50px 0px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
       .input-label {
         font-size: 20px;
         font-weight: bold;

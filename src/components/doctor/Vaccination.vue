@@ -54,7 +54,7 @@
       <nav aria-label="...">
         <loading v-if="isSaving"></loading>
         <ul class="pager" v-if="!isSaving">
-          <li @click="SaveVaccineRecord()" ><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนย้อนหลัง</span></li>
+          <li @click="ViewVaccineToLog()"><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนย้อนหลัง</span></router-link></li>
           <li @click="CheckVaccineToRecord()"><span class="btn btn-vaccines btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>
       </nav>
@@ -294,6 +294,9 @@ export default {
           console.log(response)
         })
       }
+    },
+    ViewVaccineToLog () {
+      this.$router.push('/doctor/vaccination/log/' + this.dog.id)
     },
     onClose () {
       this.$router.replace('/doctor/vaccination/')

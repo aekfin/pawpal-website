@@ -31,9 +31,10 @@ export default {
   #dog-information {
     text-align: center;
     .img-dog {
-      width: 45%;
+      width: 40%;
       vertical-align: top;
       padding-right: 10px;
+      text-align: right;
       display: inline-block;
     }
     .dog-info {
