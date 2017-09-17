@@ -31,12 +31,12 @@
         <loading v-if="isLoading"></loading>
         <div v-else>
           <div class="col-xs-12">
-            <select class="form-control input-lg" v-model="hospital">
+            <select class="form-control input-lg" v-model="hospital" @keypress.enter="SelectHospital">
               <option v-for="(hospital, i) in hospitals" :key="hospital.name" :value="hospital">{{hospital.name}}</option>
             </select>
           </div>
           <div class="col-xs-12 m-t-20 text-right">
-            <input class="btn btn-success btn-lg" @click="SelectHospital" value="เลือกโรงพยาบาลนี้" />
+            <button input class="btn btn-success btn-lg" @click="SelectHospital">เลือกโรงพยาบาลนี้</button>
           </div>
         </div>
       </div>

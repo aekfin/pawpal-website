@@ -2,7 +2,7 @@
   <div id="vaccination">
     <div class="title-blue-green-card">
       <div class="container">
-        <h2 v-if="dog">สมุดบันทึกการฉีดวัคซีนของ<span class="dogModal" @click="dialogVisible = true">"{{dog.name}}"</span></h2>
+        <h2 v-if="dog">สมุดบันทึกการฉีดวัคซีนของ <span class="dogModal" @click="dialogVisible = true">"{{dog.name}}"</span></h2>
       </div>
     </div>
     <el-dialog :visible.sync="dialogVisible" size="small" style="padding-bottom: 30px;">
@@ -15,7 +15,7 @@
       <div class="container-fluid white-card">
         <h3 class="text-center"><b>ตารางบันทึกการฉีดวัคซีน และป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
         <loading v-if="isLoading" style="padding-bottom: 100px;"></loading>
-        <table class="table table-hover" v-else>
+        <table class="table table-hover">
           <thead>
             <tr>
               <th class="text-center" 
@@ -54,7 +54,7 @@
       <nav aria-label="...">
         <loading v-if="isSaving"></loading>
         <ul class="pager" v-if="!isSaving">
-          <li @click="ViewVaccineToLog()"><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนย้อนหลัง</span></router-link></li>
+          <li @click="ViewVaccineToLog()"><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนทั้งหมดของสุนัข</span></router-link></li>
           <li @click="CheckVaccineToRecord()"><span class="btn btn-vaccines btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>
       </nav>
@@ -108,7 +108,6 @@
 </template>
 
 <script>
-import DogList from '@/components/guest/components/DogList.vue'
 import $ from 'jquery'
 import Datepicker from 'vuejs-datepicker'
 import Loading from '@/components/common/Loading.vue'
@@ -117,7 +116,7 @@ import DogInformation from '@/components/doctor/components/DogInformation.vue'
 
 export default {
   components: {
-    DogList, Datepicker, Loading, Simplert, DogInformation
+    Datepicker, Loading, Simplert, DogInformation
   },
   created () {
     this.isLoading = true
@@ -296,7 +295,7 @@ export default {
       }
     },
     ViewVaccineToLog () {
-      this.$router.push('/doctor/vaccination/log/' + this.dog.id)
+      this.$router.push('/doctor/vaccination/record/' + this.dog.id)
     },
     onClose () {
       this.$router.replace('/doctor/vaccination/')

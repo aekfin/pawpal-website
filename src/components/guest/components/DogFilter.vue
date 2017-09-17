@@ -1,7 +1,7 @@
 <template>
   <div id="dog-filter">
     <div class="white-card card-sm col-xs-12">
-      <div class="col-xs-12 col-sm-4" v-for="(filter, i) in filters" :key="i">
+      <div class="col-xs-12 col-sm-12 col-md-4" v-for="(filter, i) in filters" :key="i">
         <div class="input-group"> 
           <div class="input-group-addon input-lg" style="width: 120px">{{filter.name}}</div>
           <select class="form-control input-lg">
@@ -25,14 +25,15 @@ export default {
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
     .card-sm {
-      padding-top: 10px;
-      padding-bottom: 10px;
+      padding: 30px;
       border-radius: 4px;
     }
     .input-group {
       margin-right: auto;
       margin-left: auto;
       overflow: hidden;
+      min-width: 80%;
+      margin-bottom: 5px;
       select {
         min-width: 100%;
       }
