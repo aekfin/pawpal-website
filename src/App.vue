@@ -105,6 +105,11 @@ export default {
       background-color: #62A87C;
     }
 
+    .title-dark-blue-green-card {
+      @extend .title-card;
+      background-color: lighten(#2A3D45, 20%);
+    }
+
     .title-blue-card {
       @extend .title-card;
       background-color: #69A5AD;

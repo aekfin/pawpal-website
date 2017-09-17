@@ -27,8 +27,9 @@ export default {
   },
   props: ['dog', 'account'],
   created () {
-    console.log(this.dog)
-    console.log(this.account)
+    if (this.dog.image === undefined) {
+      this.dog.image = this.dog.image_list
+    }
   }
 }
 </script>
@@ -41,7 +42,6 @@ export default {
       vertical-align: top;
       margin-left: auto;
       padding-right: 10px;
-      text-align: right;
       overflow: hidden;
       display: inline-block;
     }

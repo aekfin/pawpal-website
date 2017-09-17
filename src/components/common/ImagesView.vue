@@ -1,6 +1,6 @@
 <template>
   <div id="image-view">
-    <el-carousel height="224px" autoplay="false" indicator-position="none" type="card" interval="100000">
+    <el-carousel height="224px" :autoplay="false" indicator-position="none" type="card" :interval="10000000" arrow="always">
       <el-carousel-item v-for="image in images" :key="image.id">
         <img class="img-rounded" height="200px" :src="image.image"/>
       </el-carousel-item>
@@ -38,6 +38,12 @@ export default {
 
     .el-carousel__item:nth-child(2n+1) {
       background-color: none;
+    }
+    .el-carousel__arrow {
+      background-color: lighten(#49392C, 30%);
+    }
+    .el-carousel__arrow:hover {
+      background-color: lighten(#49392C, 15%);
     }
   }
 </style>

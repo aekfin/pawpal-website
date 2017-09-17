@@ -1,6 +1,5 @@
 <template>
   <div id="foundDog">
-    <nav-bar :type = "'dark'"></nav-bar>
     <div class="title-yellow-card">
       <div class="container">
         <h2>ประกาศสุนัขที่พบ</h2>
@@ -14,16 +13,7 @@
         <dog-list :theme="'light'" :type="'found'" :dogs="dogs"></dog-list>
       </div>
       <div class="container-fluid text-center">
-        <nav aria-label="...">
-          <ul class="pager">
-            <li class="pull-left"><i class="material-icons btn btn-page btn-lg">&#xE5CB;</i></li>
-            <li v-for="(page, i) in pagination.pages" :key="i">
-              <div class="btn btn-page-number-active btn-lg" v-if="i + 1 === pagination.current">{{page}}</div>
-              <div class="btn btn-page-number btn-lg" v-else>{{page}}</div>
-            </li>
-            <li class="pull-right"><i class="material-icons btn btn-page btn-lg">&#xE5CC;</i></li>
-          </ul>
-        </nav>
+        <pagination  :innerClass="'border'" :pagination="pagination"></pagination>
       </div>
     </div>
   </div>
@@ -32,19 +22,18 @@
 <script>
 import DogList from '@/components/guest/components/DogList.vue'
 import DogFilter from '@/components/guest/components/DogFilter.vue'
+import Pagination from '@/components/common/Pagination.vue'
 
 export default {
   components: {
-    DogList, DogFilter
+    DogList, DogFilter, Pagination
   },
   data () {
     return {
       pagination: {
         current: 1,
         total: 10,
-        prev: false,
-        next: true,
-        pages: [1, 2, 3, 4, 5]
+        showPages: 5
       },
       filters: [
         { name: 'สายพันธุ์', options: this.$store.state.breeds },
@@ -77,41 +66,6 @@ export default {
     padding-bottom: 40px;
     .filter-tab {
       padding: 0px 5%;
-    }
-    .btn-page {
-      color: white;
-      background-color: #49392C;
-      border-radius: 10px;
-      padding: 10px 30px;
-      margin-right: 5px;
-      margin-right: 0px;
-      padding: 10px 30px;
-      font-weight: bold;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    }
-    .btn-page-number {
-      color: #49392C;
-      background-color: white;
-      border-radius: 10px;
-      padding: 10px 20px;
-      margin-right: 5px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    }
-    .btn-page-number-active {
-      @extend .btn-page-number;
-      color: white;
-      background-color: #49392C;
-    }
-    .btn-page-active {
-      @extend .btn-page;
-      background-color: lighten(#49392C, 10%);
-    }
-    .btn-page-number:hover {
-      color: white;
-      background-color: #49392C;
-    }
-    .btn-page:hover {
-      background-color: lighten(#49392C, 10%);
     }
   }
 </style>
