@@ -43,7 +43,7 @@ export default {
     }
     .cover {
       height: 550px;
-      background-image: url("../assets/landing_background.jpg");
+      background-image: url("../assets/landing_background2.jpg");
       background-repeat: no-repeat;
       background-size: cover;
       color: white;
@@ -94,7 +94,7 @@ export default {
     }
     @media screen and (max-width: 992px) {
       .cover {
-        height: 750px;
+        height: 600px;
       }
     }
   }

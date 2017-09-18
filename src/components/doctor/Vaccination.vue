@@ -15,7 +15,7 @@
       <div class="container-fluid white-card">
         <h3 class="text-center"><b>ตารางบันทึกการฉีดวัคซีน และป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
         <loading v-if="isLoading" style="padding-bottom: 100px;"></loading>
-        <table class="table table-hover">
+        <table class="table table-hover" v-else>
           <thead>
             <tr>
               <th class="text-center" 
@@ -295,7 +295,7 @@ export default {
       }
     },
     ViewVaccineToLog () {
-      this.$router.push('/doctor/vaccination/record/' + this.dog.id)
+      this.$router.push('/doctor/record/' + this.dog.id)
     },
     onClose () {
       this.$router.replace('/doctor/vaccination/')
@@ -318,7 +318,7 @@ export default {
         { th: 'วัคซีนป้องกันโรค', en: 'Vaccination Against' },
         { th: 'วันที่ฉีด', en: 'Date of Vaccination' },
         { th: 'นัดครั้งต่อไป', en: 'Next Vaccination' },
-        { th: 'สัตวแพทย์/เลขที่ใบอนุญาติ', en: 'Veteinary / License No.' },
+        { th: 'สัตวแพทย์/เลขที่ใบอนุญาต', en: 'Veteinary / License No.' },
         { th: 'ชื่อวัคซีน/หมายเลขการผลิต', en: 'Name / Lot No.' }
       ],
       vaccineRecord: []
