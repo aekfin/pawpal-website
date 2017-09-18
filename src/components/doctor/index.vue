@@ -64,5 +64,29 @@ export default {
         font-size: 18px;
       }
     }
+    .dog-sm-view {
+      font-size: 30px;
+      font-weight: bold;
+      display: inline-block;
+      cursor: pointer;
+      color: lighten(yellow, 10%);
+      transition-duration: 0.5s;
+      .img-dog {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        border: 2px solid lighten(yellow, 10%);
+        margin-top: -20px;
+        margin-left: 10px;
+        position: absolute;
+      }
+    }
+    .dog-sm-view:hover {
+      color:lighten(yellow, 30%);
+      .img-dog {
+        border: 2px solid lighten(yellow, 30%);
+        filter: brightness(120%);
+      }
+    }
   }
 </style>
