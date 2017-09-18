@@ -19,13 +19,13 @@ var route = {
     { path: '/', name: 'SelectHospitalPage', component: SelectHospitalPage },
     { path: 'vaccination/', name: 'AppointmentPage', component: AppointmentPage },
     { path: 'vaccination/:appointment_id/', name: 'VaccinationPage', component: VaccinationPage },
-    { path: 'vaccination/record/:dog_id/', name: 'VaccinationRecordPage', component: VaccinationRecordPage }
+    { path: 'record/:dog_id/', name: 'VaccinationRecordPage', component: VaccinationRecordPage }
   ],
   beforeEnter: (to, from, next) => {
     if (store.getters.IsLogin) {
       Vue.http.get('/api/session/').then(response => {
         // console.log(response)
-        if (response.body.message === 'Have Session' && store.getters.IsSelectHospital) {
+        if (response.body.success && store.getters.IsSelectHospital) {
           next()
         } else {
           next('/logout')

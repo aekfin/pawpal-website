@@ -5,6 +5,7 @@
         <div class="input-group"> 
           <div class="input-group-addon input-lg" style="width: 120px">{{filter.name}}</div>
           <select class="form-control input-lg">
+            <option value="null" disabled selected>-- โปรดเลือก{{filter.name}} --</option>
             <option v-for="(option,i) in filter.options" :key="option" :value="option">{{option}}</option>
           </select>
         </div>

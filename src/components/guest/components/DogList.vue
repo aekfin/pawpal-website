@@ -7,7 +7,7 @@
           <h4 class="text-center">{{dog.breed}}</h4>
           <div class="desc">
             <span class="col-xs-5 no-padding">
-              สีผิว :
+              สีขน :
             </span>
             <span class="col-xs-7 no-padding">
               {{dog.color_primary}}<span v-if="dog.color_secondary">, {{dog.color_secondary}}</span>
@@ -24,7 +24,7 @@
             </span>
           </div>
           <div class="desc">
-            <span class="col-xs-5 no-padding">เบอร์ติดต่อ : </span>
+            <span class="col-xs-5 no-padding">ข้อมูลติดต่อ : </span>
             <span class="col-xs-7 no-padding" v-if="type === 'found'">{{dog.finder.tel}}</span>
             <span class="col-xs-7 no-padding" v-if="type === 'missing'">{{dog.owner.tel}}</span>  
           </div>
