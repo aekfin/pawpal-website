@@ -6,7 +6,8 @@
         <div class="container text-box">
           <div class="col-xs-12 col-sm-12 text-center">
             <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-              <h1>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.</h1>
+              <h1>The greatness of a nation can be judged <br>by how its animals are treated.</h1>
+              <h3> ~ Mahatma Gandhi ~ </h3>
               <div class="col-xs-2 col-sm-2 col-xs-offset-5 col-sm-offset-5 under-line"></div>
             </div>
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 subtitle">
@@ -38,7 +39,7 @@ export default {
 <style lang="scss">
   .landing {
     height: 100%;
-    h1 {
+    h1, h3{
       color: white !important;
     }
     .cover {
@@ -59,7 +60,7 @@ export default {
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.4)
     } 
     .text-box {
-      margin-top: 100px;
+      margin-top: 80px;
     }
     .under-line {
       margin-top: 5px;

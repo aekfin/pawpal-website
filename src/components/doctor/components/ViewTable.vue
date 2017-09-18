@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(vl, i) in vaccineRecord" :key="i" :class="vl.class">
+        <tr v-for="(vl, i) in vaccineRecord" :key="i">
           <td class="text-center" style="width: 25%;" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
             <div v-if="vl.vaccinefor" data-toggle="tooltip" data-placement="left" :title="vl.vaccinefor.note+' ('+vl.vaccinefor.name+')'">
               <div class="th-tr-body">{{vl.vaccinefor.note}}</div>
@@ -19,10 +19,10 @@
             </div>
           </td>
           <td  class="text-center" style="width: 20%" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
-            <span class="th-tr-body">{{vl.date_record}}</span>
+            <span class="th-tr-body">{{DateFormat(vl.date_record)}}</span>
           </td>
           <td  class="text-center" style="width: 15%" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
-            <span class="th-tr-body">{{vl.next_vaccine}}</span>
+            <span class="th-tr-body">{{DateFormat(vl.next_vaccine)}}</span>
           </td>
           <td  class="text-center" style="width: 20%" :class="(i !== vaccineRecord.length-1) ? 'bottom-right-border' : 'right-border'">
             <span class="th-tr-body">{{vl.license}}</span>
@@ -49,6 +49,11 @@ export default {
     })
   },
   methods: {
+    DateFormat (date) {
+      date = new Date(date)
+      var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
+      return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear()
+    },
     GetDosesTooltip (vrf) {
       $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip()
@@ -64,17 +69,35 @@ export default {
     $table-color: #447A5C;
     $pagination-color: darken($table-color, 10%);
     $hover-color: lighten($table-color, 40%);
+    min-height: 250px;
 
     tbody {
       cursor: pointer;
       tr {
         td {
-          font-size: 15px;
+          font-size: 14px;
+          vertical-align: middle;
         }
       }
       tr:hover{
         background-color: $hover-color;
       }
+    }
+    .th-tr-body {
+      font-family: "Mitr", sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      max-height: 40px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .en-tr-body {
+      color: grey;
+      font-weight: 400;
+      font-size: 14px;
+      max-height: 40px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .right-border {
       border-right: 1px solid $table-color;

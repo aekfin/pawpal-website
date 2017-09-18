@@ -24,8 +24,8 @@
             </span>
           </div>
           <div class="desc">
-            <span class="col-xs-5 no-padding">ข้อมูลติดต่อ : </span>
-            <span class="col-xs-7 no-padding" v-if="type === 'found'">{{dog.finder.tel}}</span>
+            <span class="col-xs-5 no-padding">วันที่พบ : </span>
+            <span class="col-xs-7 no-padding" v-if="type === 'found'">{{dog.date}}</span>
             <span class="col-xs-7 no-padding" v-if="type === 'missing'">{{dog.owner.tel}}</span>  
           </div>
         </div>

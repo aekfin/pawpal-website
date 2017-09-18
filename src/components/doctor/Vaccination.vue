@@ -2,7 +2,8 @@
   <div id="vaccination">
     <div class="title-blue-green-card">
       <div class="container">
-        <h2 v-if="dog">สมุดบันทึกการฉีดวัคซีนของ <span class="dogModal" @click="dialogVisible = true">"{{dog.name}}"</span></h2>
+        <h2 style="display: inline-block;" v-if="dog">สมุดบันทึกประวัติการฉีดวัคซีนของ</h2>
+        <div class="dog-sm-view" @click="dialogVisible = true">{{dog.name}}<img :src="dog.image[0].image" class="img-dog"/></div>
       </div>
     </div>
     <el-dialog :visible.sync="dialogVisible" size="small" style="padding-bottom: 30px;">
@@ -10,6 +11,7 @@
         รายละเอียดสุนัข
       </span>
       <dog-information :dog="dog" :account="account"></dog-information>
+      <div class="text-center" style="margin-top: 30px;"><a :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-vaccines2 btn-lg" style="border: none;">ดูประวัติการฉีดวัคซีนทั้งหมด</a></div>
     </el-dialog>
     <div class="container animated fadeIn">
       <div class="container-fluid white-card">
@@ -54,7 +56,7 @@
       <nav aria-label="...">
         <loading v-if="isSaving"></loading>
         <ul class="pager" v-if="!isSaving">
-          <li @click="ViewVaccineToLog()"><span class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนทั้งหมดของสุนัข</span></router-link></li>
+          <li><a :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนทั้งหมด</a></li>
           <li @click="CheckVaccineToRecord()"><span class="btn btn-vaccines btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>
       </nav>
@@ -294,9 +296,6 @@ export default {
         })
       }
     },
-    ViewVaccineToLog () {
-      this.$router.push('/doctor/record/' + this.dog.id)
-    },
     onClose () {
       this.$router.replace('/doctor/vaccination/')
     }
@@ -333,14 +332,6 @@ export default {
   $hover-color: lighten($table-color, 40%);
 
   #vaccination {
-    .dogModal {
-      font-weight: bold;
-      cursor: pointer;
-      transition-duration: 0.5s;
-    }
-    .dogModal:hover {
-      color:black;
-    }
     .white-card {
       padding: 20px 40px;
       margin-top: 20px;
