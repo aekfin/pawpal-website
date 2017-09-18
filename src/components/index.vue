@@ -12,7 +12,7 @@
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 subtitle">
               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
             </div>
-            <div class="col-xs-12 col-sm-12 btn-section animated fadeIn">
+            <div class="col-xs-12 col-sm-12 btn-section animated fadeIn" style="display: none;">
               <router-link to="/finder" class="btn-start">เพิ่มสุนัขที่พบ</router-link>
             </div>
           </div>

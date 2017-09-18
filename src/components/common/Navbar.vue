@@ -46,6 +46,11 @@ export default {
     this.leftList = []
     if (this.$store.getters.IsLogin) {
       this.leftList.push({ name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' })
+      var name = this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name
+      if (this.$store.getters.GetUser.license) {
+        name = this.$store.getters.GetUser.license
+      }
+      this.rightList.push({ name: name, url: '' })
       this.rightList.push({ name: 'ออกจากระบบ', url: '/logout' })
     } else {
       this.leftList = [
