@@ -43,7 +43,7 @@ export default {
   created () {
     this.isLoading.dog = true
     this.isLoading.record = true
-    this.$http.get('/api/dog/' + this.$route.params.dog_id + '/vaccine-log/').then(response => {
+    this.$http.get('/api/dog/' + this.$route.params.dog_id + '/vaccine_log/').then(response => {
       this.dog = response.body.dog
       this.account = response.body.account
       this.isLoading.dog = false
