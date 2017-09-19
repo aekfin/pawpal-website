@@ -298,13 +298,15 @@ export default {
           vaccineStockList.push(vaccineRecord[i].doses['selected'][j].id)
           j++
         }
+        var dateRecord = new Date(vaccineRecord[i].date_record)
+        var nextVaccine = new Date(vaccineRecord[i].next_vaccine)
         var vr = {
           'vaccine_for': vaccineRecord[i].vaccinationFor.id,
           'dog': this.dog.id,
           'note': '',
           'vaccine_stock_list': vaccineStockList,
-          'date_record': new Date(vaccineRecord[i].date_record).toISOString().substring(0, 10),
-          'next_vaccine': new Date(vaccineRecord[i].next_vaccine).toISOString().substring(0, 10)
+          'date_record': new Date(dateRecord.getTime() - (dateRecord.getTimezoneOffset() * 60000)).toISOString().substring(0, 10),
+          'next_vaccine': new Date(nextVaccine.getTime() - (nextVaccine.getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
         }
         var index = i
         this.$http.post('/api/vaccine-record/', vr).then(response => {

@@ -19,7 +19,7 @@ export default {
   $color: #49392C;
 
   .spinner {
-    margin: 100px auto 0;
+    margin: 100px auto 50px;
     width: ($spinner-size * 3) + 16px;
     text-align: center;
   }

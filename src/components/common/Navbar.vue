@@ -1,5 +1,5 @@
 <template>
-  <div class="app-navbar">
+  <div id="app-navbar">
     <nav class="navbar" :class="navbar">
       <div class="container-fluid">
           <div class="navbar-header">
@@ -78,9 +78,11 @@ export default {
       if (info === 'user') {
         var obj = {
           isShown: true,
-          message: this.$store.getters.GetUser.first_name,
+          message: '<div class="doctor-info-text"><b>ลายเซ็น: </b>' + this.$store.getters.GetUser.license + '</div><div class="doctor-info-text"><b>ชื่อ: </b>' + this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name + '</div><div class="doctor-info-text"><b>เบอร์ติดต่อ: </b>' + this.$store.getters.GetUser.tel_1 + '</div><div class="doctor-info-text"><b>โรงพยาบาล: </b>' + this.$store.getters.GetHospital.name + '</div>',
           customClass: 'info-modal',
           type: 'info',
+          customIconUrl: require('@/assets/doctor/doctor-placeholder.png'),
+          customCloseBtnText: 'ปิดหน้าต่าง',
           onClose: this.onClose
         }
         this.$refs.infoModal.openSimplert(obj)
@@ -106,119 +108,141 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-  .navbar {
-    margin-bottom: 0px;
-  }
-  .navbar-dark {
-    background-color: #49392C; 
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.3);
-    border-radius: 0px;
-  }
-  .info-modal {
-    color: black;
-    margin-bottom: auto;
-  }
-  .brand-title {
-    color: #ffffff;
-    font-size: 30px;
-    font-weight: bold;
-    padding-left: 15px;
-    margin-top: -7px;
-    img {
-      width: 120px;
+<style lang="scss">
+    #app-navbar {
+    .navbar {
+      margin-bottom: 0px;
     }
-  }
-  .brand-title-dark {
-    @extend .brand-title;
-    color: white;
-  }
-  .brand-title:hover {
-    color: #441002;
-  }
-  .brand-title-dark:hover {
-    color: white;
-  }
-  .left-link {
-    display: inline-block;
-    cursor: pointer;
-    font-size: 16px;
-    color: #b1b1b1;
-  }
-  .left-link:hover {
-    color: #441002;
-  }
-  .left-link:focus {
-    color: #441002;
-  }
-  .right-link {
-    display: inline-block;
-    cursor: pointer;
-    font-size: 16px;
-    color: #b1b1b1;
-  }
-  .right-link:hover {
-    color: #441002;
-  }
-  .right-link-dark {
-    @extend .right-link;
-    color: white;
-  }
-  .right-link-dark:hover {
-    color: #441002;
-    background-color: white;
-  }
-  .right-link-dark:focus {
-    color: #441002;
-    background-color: white;
-  }
-  .navbar-nav > li > a {
-    padding-top: 18px;
-    padding-bottom: 15px;
-  }
-  .slide-icon {
-    color: white;
-    margin-top: 3px;
-    font-size: 30px;
-    margin-right: 20px;
-    padding-left: 10px;
-    padding-right: 10px;    
-    cursor: pointer;
-  }
-  .slide-icon:hover, .slide-icon:active, .slide-icon:focus {
-    color: white;
-  }
-  .collapse-nav {
-    background-color: white;
-    padding-top: 10px;
-    padding-left: 0px;
-    margin-bottom: 0px;
-    list-style-type: none;
-    background-color: #594536;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.3);
-    li {
-      border-bottom: 1px solid white;
-      padding-left: 40px;
-      a {
-        color: white;
-      }
-      a:hover, a:active, a:focus {
-        text-decoration: none;
+    .navbar-dark {
+      background-color: #49392C; 
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.3);
+      border-radius: 0px;
+    }
+    .info-modal {
+      color: black;
+      margin-bottom: auto;
+    }
+    .brand-title {
+      color: #ffffff;
+      font-size: 30px;
+      font-weight: bold;
+      padding-left: 15px;
+      margin-top: -7px;
+      img {
+        width: 120px;
       }
     }
-    li:hover, li:active, li:focus {
-      background-color: #795e49;
+    .brand-title-dark {
+      @extend .brand-title;
+      color: white;
     }
-  }
-  .tranparent {
-    background-color: transparent;
-  }
-  @media only screen and (max-width: 770px) {
-    .navbar-header {
-      float: left;
+    .brand-title:hover {
+      color: #441002;
     }
-    .navbar-right {
-      float: right;
+    .brand-title-dark:hover {
+      color: white;
+    }
+    .left-link {
+      display: inline-block;
+      cursor: pointer;
+      font-size: 16px;
+      color: #b1b1b1;
+    }
+    .left-link:hover {
+      color: #441002;
+    }
+    .left-link:focus {
+      color: #441002;
+    }
+    .right-link {
+      display: inline-block;
+      cursor: pointer;
+      font-size: 16px;
+      color: #b1b1b1;
+    }
+    .right-link:hover {
+      color: #441002;
+    }
+    .right-link-dark {
+      @extend .right-link;
+      color: white;
+    }
+    .right-link-dark:hover {
+      color: #441002;
+      background-color: white;
+    }
+    .right-link-dark:focus {
+      color: #441002;
+      background-color: white;
+    }
+    .navbar-nav > li > a {
+      padding-top: 18px;
+      padding-bottom: 15px;
+    }
+    .slide-icon {
+      color: white;
+      margin-top: 3px;
+      font-size: 30px;
+      margin-right: 20px;
+      padding-left: 10px;
+      padding-right: 10px;    
+      cursor: pointer;
+    }
+    .slide-icon:hover, .slide-icon:active, .slide-icon:focus {
+      color: white;
+    }
+    .collapse-nav {
+      background-color: white;
+      padding-top: 10px;
+      padding-left: 0px;
+      margin-bottom: 0px;
+      list-style-type: none;
+      background-color: #594536;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.3);
+      li {
+        border-bottom: 1px solid white;
+        padding-left: 40px;
+        a {
+          color: white;
+        }
+        a:hover, a:active, a:focus {
+          text-decoration: none;
+        }
+      }
+      li:hover, li:active, li:focus {
+        background-color: #795e49;
+      }
+    }
+    .tranparent {
+      background-color: transparent;
+    }
+    .simplert__content {
+      margin: 50px auto auto auto;
+    }
+    .simplert__header {
+      padding-bottom: 10px;
+    }
+    .simplert__icon {
+      height: 125px;
+      width: 125px;
+      img {
+        height: 125px;
+        width: 125px;
+      }
+    }
+    .doctor-info-text {
+      width: 80%;
+      overflow: hidden;
+      margin: 0px auto;
+      text-align: left;
+    }
+    @media only screen and (max-width: 770px) {
+      .navbar-header {
+        float: left;
+      }
+      .navbar-right {
+        float: right;
+      }
     }
   }
 </style>
