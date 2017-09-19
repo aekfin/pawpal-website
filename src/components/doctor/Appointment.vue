@@ -239,12 +239,6 @@ export default {
         }
       }
     }
-    .not-found {
-      color: $brown-color;
-      font-size: 30px;
-      font-weight: bold;
-      margin: 30px 0px;
-    }
     .hint-label {
       display: inline-block;
       font-size: 14px;

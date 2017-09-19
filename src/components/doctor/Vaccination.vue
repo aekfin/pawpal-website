@@ -330,6 +330,7 @@ export default {
   $table-color: #447A5C;
   $pagination-color: darken($table-color, 10%);
   $hover-color: lighten($table-color, 40%);
+  $brown-color: #49392C;
 
   #vaccination {
     .white-card {

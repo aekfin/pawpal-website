@@ -14,14 +14,17 @@
           <dog-information :dog="dog" :account="account" v-if="dog"></dog-information>
         </div>
       </div>
-      <div class="white-card col-xs-12 animated fadeIn">
+      <div class="white-card col-xs-12 animated fadeIn" v-if="vaccineRecord !== undefined">
         <h3>ประวัติการฉีดวัคซีนของสุนัข</h3>
         <loading v-if="isLoading.record"></loading>
         <div id="vaccine-table" v-else>
-          <div v-if="vaccineRecord.length > 0" class="when-vaccination">บันทึกเมื่อวันที่ <b>{{DateFormat(vaccineRecord[0].date_record)}}</b></div>
+          <div v-if="vaccineRecord && vaccineRecord.length > 0" class="when-vaccination">บันทึกเมื่อวันที่ <b>{{DateFormat(vaccineRecord[0].date_record)}}</b></div>
           <view-table :tableHeader = "tableHeader" :vaccineRecord = "vaccineRecord" style="margin-bottom: 50px;"></view-table>
-          <pagination v-if="allVaccineRecord.length > 0" @changePage="ChangePage()" :innerClass="'sm'" :pagination = "pagination"></pagination>
+          <pagination v-if="allVaccineRecord && allVaccineRecord.length > 0" @changePage="ChangePage()" :innerClass="'sm'" :pagination = "pagination"></pagination>
         </div>
+      </div>
+      <div class="white-card col-xs-12 animated fadeIn" v-else>
+        <div class="text-center not-found">ไม่พบประวัติการฉีดวัคซีนของสุนัขตัวนี้</div>
       </div>
     </div>
   </div>
