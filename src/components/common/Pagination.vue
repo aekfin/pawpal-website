@@ -24,7 +24,7 @@
 export default {
   props: ['innerClass', 'pagination'],
   created () {
-    this.ProcessingPage()
+    this.GoToPage(1)
     if (this.pagination.total === 0) {
       this.display = false
     }

@@ -79,8 +79,7 @@ export default {
     },
     SelectHospital () {
       this.$store.commit('SelectHospital', this.hospital)
-      this.$router.replace('/')
-      window.location.reload()
+      window.location.href = '/'
     },
     Login () {
       if (this.CheckRequired()) {
