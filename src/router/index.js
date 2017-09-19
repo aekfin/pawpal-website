@@ -3,8 +3,8 @@ import Router from 'vue-router'
 import store from '../vuex/store'
 import VueResource from 'vue-resource'
 
-import LandingPage from '@/components/'
-import LoginPage from '@/components/Login.vue'
+const LandingPage = () => import('@/components/')
+const LoginPage = () => import('@/components/Login.vue')
 
 import guestRoute from './guest.js'
 import doctorRoute from './doctor.js'

@@ -1,7 +1,7 @@
-import GuestPage from '@/components/guest'
-import FinderPage from '@/components/guest/Finder.vue'
-import FoundDogPage from '@/components/guest/FoundDog.vue'
-import MissingDogPage from '@/components/guest/MissingDog.vue'
+const GuestPage = () => import('@/components/guest')
+const FinderPage = () => import('@/components/guest/Finder.vue')
+const FoundDogPage = () => import('@/components/guest/FoundDog.vue')
+const MissingDogPage = () => import('@/components/guest/MissingDog.vue')
 
 var route = {
   path: '/guest',

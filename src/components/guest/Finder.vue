@@ -307,7 +307,7 @@
           let obj = {
             title: 'ท่านกรอกข้อมูลไม่ครบถ้วน',
             message: 'โปรดใส่ <b><u>' + this.RequireForm() + '</u>*</b> ให้เรียบร้อย',
-            customCloseBtnText: 'รับทราบ',
+            customCloseBtnText: 'เข้าใจแล้ว',
             type: 'error',
             onClose: this.onClose
           }
