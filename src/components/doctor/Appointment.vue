@@ -59,15 +59,17 @@
         <div style="display: none;">{{this.refresh}}</div>
       </div>
     </div>
+    <simplert :useRadius="true" :useIcon="true" ref="simplert"></simplert>
   </div>
 </template>
 
 <script>
 import Loading from '@/components/common/Loading.vue'
+import Simplert from 'vue2-simplert'
 
 export default {
   components: {
-    Loading
+    Loading, Simplert
   },
   data () {
     return {
@@ -125,6 +127,14 @@ export default {
           this.isLoading = false
         }, error => {
           console.log(error)
+          let obj = {
+            title: 'เกิดข้อผิดพลาด',
+            message: 'โปรดเลือกสุนัขที่ต้องการฉีดวัคซีน',
+            customCloseBtnText: 'เข้าใจแล้ว',
+            type: 'error',
+            onClose: this.onClose
+          }
+          this.$refs.simplert.openSimplert(obj)
           this.isLoading = false
         })
       }
@@ -228,12 +238,6 @@ export default {
           box-shadow: none !important;
         }
       }
-    }
-    .not-found {
-      color: $brown-color;
-      font-size: 30px;
-      font-weight: bold;
-      margin: 30px 0px;
     }
     .hint-label {
       display: inline-block;

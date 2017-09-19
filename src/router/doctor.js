@@ -1,10 +1,10 @@
 import store from '../vuex/store'
 
-import DoctorPage from '@/components/doctor'
-import VaccinationPage from '@/components/doctor/Vaccination.vue'
-import VaccinationRecordPage from '@/components/doctor/VaccinationRecord.vue'
-import AppointmentPage from '@/components/doctor/Appointment.vue'
-import SelectHospitalPage from '@/components/doctor/SelectHospital.vue'
+const DoctorPage = () => import('@/components/doctor')
+const VaccinationPage = () => import('@/components/doctor/Vaccination.vue')
+const VaccinationRecordPage = () => import('@/components/doctor/VaccinationRecord.vue')
+const AppointmentPage = () => import('@/components/doctor/Appointment.vue')
+const SelectHospitalPage = () => import('@/components/doctor/SelectHospital.vue')
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import Cookie from 'js-cookie'

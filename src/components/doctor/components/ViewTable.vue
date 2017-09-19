@@ -1,6 +1,6 @@
 <template>
   <div id="view-table">
-    <table class="table table-hover">
+    <table class="table table-hover" v-if="display">
       <thead>
         <tr>
           <th class="text-center" 
@@ -47,6 +47,9 @@ export default {
     $(document).ready(function () {
       $('[data-toggle="tooltip"]').tooltip()
     })
+    if (this.vaccineRecord === undefined) {
+      this.display = false
+    }
   },
   methods: {
     DateFormat (date) {
@@ -59,6 +62,11 @@ export default {
         $('[data-toggle="tooltip"]').tooltip()
       })
       return 'บริษัทผู้ผลิต: ' + vrf.brand + ', ชื่อวัคซีน: ' + vrf.name + ', รหัสวัคซีน: ' + vrf.serial + ', วันผลิต: ' + vrf.mfg + ', วันหมดอายุ: ' + vrf.exp
+    }
+  },
+  data () {
+    return {
+      display: true
     }
   }
 }

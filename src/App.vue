@@ -13,7 +13,6 @@
   import 'bootstrap-vue/dist/bootstrap-vue.css'
   import 'bootstrap/dist/css/bootstrap.css'
   import 'bootstrap/dist/js/bootstrap.js'
-  import 'font-awesome/css/font-awesome.min.css'
   import locale from 'element-ui/lib/locale/lang/en'
   import VueResource from 'vue-resource'
   import Cookie from 'js-cookie'

@@ -6,7 +6,7 @@
         <div class="container text-box">
           <div class="col-xs-12 col-sm-12 text-center">
             <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-              <h1>The greatness of a nation can be judged <br>by how its animals are treated.</h1>
+              <h1>The greatness of a nation can be judged by how its animals are treated.</h1>
               <h3> ~ Mahatma Gandhi ~ </h3>
               <div class="col-xs-2 col-sm-2 col-xs-offset-5 col-sm-offset-5 under-line"></div>
             </div>

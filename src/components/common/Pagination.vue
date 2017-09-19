@@ -1,7 +1,7 @@
 <template>
   <div id="pagination">
     <!-- <div @click="$emit('close')">Hello</div> -->
-    <nav aria-label="...">
+    <nav aria-label="..." v-if="display">
       <ul class="pager">
         <li class="pull-left">
           <i v-if="prev" class="material-icons btn btn-page btn-lg" :class="innerClass" @click="GoToPage(pagination.current-1)">&#xE5CB;</i>
@@ -25,6 +25,9 @@ export default {
   props: ['innerClass', 'pagination'],
   created () {
     this.ProcessingPage()
+    if (this.pagination.total === 0) {
+      this.display = false
+    }
   },
   methods: {
     ProcessingPage () {
@@ -74,9 +77,10 @@ export default {
   },
   data () {
     return {
+      display: true,
       pages: [],
       prev: false,
-      next: true
+      next: false
     }
   }
 }
