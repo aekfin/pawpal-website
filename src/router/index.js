@@ -31,8 +31,7 @@ var router = new Router({
       beforeEnter: (to, from, next) => {
         store.commit('Logout')
         Vue.http.get('/api/logout/').then(response => {
-          next('/login')
-          window.location.reload()
+          window.location.href = '/login'
         }, response => {
           console.log(response)
         })

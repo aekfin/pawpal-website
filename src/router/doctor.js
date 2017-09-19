@@ -31,6 +31,7 @@ var route = {
           next('/logout')
         }
       }, error => {
+        console.log(error)
         if (error.body.success) {
           next()
         } else {
