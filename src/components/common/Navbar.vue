@@ -11,10 +11,10 @@
             </router-link>
           </div>          
           <ul class="nav navbar-nav navbar-left hidden-xs hidden-sm">
-            <li v-for="ll in leftList" :key="ll.name"><router-link :class="rightLink" :to="ll.url" >{{ll.name}}</router-link></li>
+            <li v-for="ll in leftList" :key="ll.name" @click="ShowInfomation(ll.action)"><router-link :class="rightLink" :to="ll.url">{{ll.name}}</router-link></li>
           </ul>
           <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm">
-            <li v-for="rl in rightList" :key="rl.name"><router-link :class="rightLink" :to="rl.url">{{rl.name}}</router-link></li>
+            <li v-for="rl in rightList" :key="rl.name" @click="ShowInfomation(rl.action)"><router-link :class="rightLink" :to="rl.url">{{rl.name}}</router-link></li>
           </ul>
           <ul class="nav navbar-nav navbar-right hidden-md hidden-lg">
             <div class="slide-icon" data-toggle="collapse" data-target="#collapse-nav"><i class="fa fa-bars" aria-hidden="true"></i></div>
@@ -23,13 +23,16 @@
     </nav>
     <div class="collapse" id="collapse-nav">
       <ul :class="collapse">
-        <li v-for="ml in mobileList" :key="ml.name"><router-link :to="ml.url">{{ml.name}}</router-link></li>
+        <li v-for="ml in mobileList" :key="ml.name" @click="ShowInfomation(ml.action)"><router-link :to="ml.url">{{ml.name}}</router-link></li>
       </ul>
-    </div>      
+    </div>
+    <simplert :useRadius="true" :useIcon="true" ref="infoModal"></simplert>      
   </div>
 </template>
 
 <script>
+import Simplert from 'vue2-simplert'
+
 export default {
   name: 'navbarVue',
   created () {
@@ -50,15 +53,15 @@ export default {
       if (this.$store.getters.GetUser.license) {
         name = this.$store.getters.GetUser.license
       }
-      this.rightList.push({ name: name, url: '' })
-      this.rightList.push({ name: 'ออกจากระบบ', url: '/logout' })
+      this.rightList.push({ name: name, url: '', action: 'user' })
+      this.rightList.push({ name: 'ออกจากระบบ', url: '/logout', action: null })
     } else {
       this.leftList = [
-        { name: 'เพิ่มสุนัขที่พบ', url: '/finder' },
-        { name: 'ประกาศสุนัขที่พบ', url: '/found-dog' },
-        { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
+        { name: 'เพิ่มสุนัขที่พบ', url: '/finder', action: null },
+        { name: 'ประกาศสุนัขที่พบ', url: '/found-dog', action: null },
+        { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog', action: null }
       ]
-      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login' })
+      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login', action: null })
     }
     for (var i = 0; i < this.leftList.length; i++) {
       this.mobileList.push(this.leftList[i])
@@ -67,7 +70,22 @@ export default {
       this.mobileList.push(this.rightList[j])
     }
   },
+  components: {
+    Simplert
+  },
   methods: {
+    ShowInfomation (info) {
+      if (info === 'user') {
+        var obj = {
+          isShown: true,
+          message: this.$store.getters.GetUser.first_name,
+          customClass: 'info-modal',
+          type: 'info',
+          onClose: this.onClose
+        }
+        this.$refs.infoModal.openSimplert(obj)
+      }
+    }
   },
   props: ['type'],
   data () {
@@ -79,9 +97,9 @@ export default {
       mobileList: [],
       rightList: [],
       leftList: [
-        { name: 'เพิ่มสุนัขที่พบ', url: '/finder' },
-        { name: 'ประกาศสุนัขที่พบ', url: '/found-dog' },
-        { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
+        { name: 'เพิ่มสุนัขที่พบ', url: '/finder', action: null },
+        { name: 'ประกาศสุนัขที่พบ', url: '/found-dog', action: null },
+        { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog', action: null }
       ]
     }
   }
@@ -96,6 +114,10 @@ export default {
     background-color: #49392C; 
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.3);
     border-radius: 0px;
+  }
+  .info-modal {
+    color: black;
+    margin-bottom: auto;
   }
   .brand-title {
     color: #ffffff;
