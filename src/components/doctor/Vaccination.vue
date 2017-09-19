@@ -3,7 +3,7 @@
     <div class="title-blue-green-card">
       <div class="container">
         <h2 style="display: inline-block;" v-if="dog">สมุดบันทึกประวัติการฉีดวัคซีนของ</h2>
-        <div class="dog-sm-view" @click="dialogVisible = true">{{dog.name}}<img :src="dog.image[0].image" class="img-dog"/></div>
+        <div class="dog-sm-view" @click="dialogVisible = true" v-if="dog">{{dog.name}}<img :src="dog.image[0].image" class="img-dog"/></div>
       </div>
     </div>
     <el-dialog :visible.sync="dialogVisible" size="small" style="padding-bottom: 30px;">
@@ -11,7 +11,7 @@
         รายละเอียดสุนัข
       </span>
       <dog-information :dog="dog" :account="account"></dog-information>
-      <div class="text-center" style="margin-top: 30px;"><a :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-vaccines2 btn-lg" style="border: none;">ดูประวัติการฉีดวัคซีนทั้งหมด</a></div>
+      <div class="text-center" style="margin-top: 30px;"><a v-if="dog" :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-vaccines2 btn-lg" style="border: none;">ดูประวัติการฉีดวัคซีนทั้งหมด</a></div>
     </el-dialog>
     <div class="container animated fadeIn">
       <div class="container-fluid white-card">
@@ -56,7 +56,7 @@
       <nav aria-label="...">
         <loading v-if="isSaving"></loading>
         <ul class="pager" v-if="!isSaving">
-          <li><a :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนทั้งหมด</a></li>
+          <li><a v-if="dog" :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนทั้งหมด</a></li>
           <li @click="CheckVaccineToRecord()"><span class="btn btn-vaccines btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>
       </nav>
@@ -91,12 +91,13 @@
                 <input v-if="i===3" class="form-control" v-model="vaccineRecordForm[i-1]" type="text">
                 <input v-show="false" class="form-control" v-model="doses.str">
               </div>
-              <div v-if="i===4" style="border: 1px solid lightgray; border-radius: 5px; margin-top: 10px; margin-left: 5%; margin-right: 5%; padding: 10px 10px 5px 10px; overflow: scroll; min-height: 100px">
+              <div v-if="i===4" style="border: 1px solid lightgray; border-radius: 5px; margin-top: 10px; margin-left: 5%; margin-right: 5%; padding: 10px 10px 5px 10px; overflow: auto; min-height: 100px; max-height: 205px;">
                 <div v-for="(vrf, index) in vaccineRecordForm[i-1]" :key="index" style="display: inline-block;">
-                  <img :src="vrf.image" @click="SelectDoses(vrf, index)" :class="vrf.class ? vrf.class : 'img-vaccine'" data-toggle="tooltip" data-placement="bottom" :title="GetDosesTooltip(vrf)"/>
+                  <img :src="vrf.image" @click="SelectDoses(vrf, index)" :class="vrf.class" data-toggle="tooltip" data-placement="bottom" :title="GetDosesTooltip(vrf)"/>
                 </div>
                 <h3 v-if= "vaccineRecordForm[i-1] && vaccineRecordForm[i-1].length === 0" class="text-center">ไม่มีวัคซีน</h3>
               </div>
+              <div v-if="i===4 && vaccineRecordForm[i-1] && vaccineRecordForm[i-1].length > 0" style="color: red; margin: 5px 0px 0px 5%;">*สามารถเลือกสติ๊กเกอร์วัคซีนได้สูงสุด 3 อันเท่านั้น</div>
             </div>
           </div>
           <div class="modal-footer">
@@ -132,7 +133,6 @@ export default {
         var vb = response.body
         // console.log(vb)
         this.account = vb.account
-        console.log(this.account)
         this.dog = vb.dog
         for (var i = 0; i < this.vaccineRecord.length; i++) {
           for (var j = 0; j < vb.vaccine_for.length; j++) {
@@ -187,6 +187,24 @@ export default {
         this.vaccineRecordForm[2] = this.$store.getters.GetUser.license
       }
       this.vaccineRecordForm[3] = this.vaccineRecord[this.currentVL].doses
+      this.vaccineRecordForm[3].forEach(function (vrf) {
+        if (this.vaccineRecord[this.currentVL].doses['selected'] !== undefined) {
+          var selected = false
+          this.vaccineRecord[this.currentVL].doses['selected'].forEach(function (vr) {
+            if (vr.id === vrf.id) {
+              selected = true
+            }
+          }, this)
+          if (selected) {
+            vrf.class = 'img-vaccine-active'
+            this.doses.push(vrf)
+          } else {
+            vrf.class = 'img-vaccine'
+          }
+        } else {
+          vrf.class = 'img-vaccine'
+        }
+      }, this)
       for (var i = 0; i < this.vaccineRecord.length; i++) {
         if (index === i) {
           this.vaccineRecord[i].class = 'tr-selected'
@@ -196,9 +214,13 @@ export default {
       }
     },
     SelectDoses (vrf, index) {
-      if (vrf.class === undefined || vrf.class === 'img-vaccine') {
+      if (vrf.class === 'img-vaccine') {
         vrf.class = 'img-vaccine-active'
         this.doses.push(vrf)
+        if (this.doses.length > 3) {
+          this.doses[0].class = 'img-vaccine'
+          this.doses = this.doses.splice(1, this.doses.length)
+        }
       } else {
         vrf.class = 'img-vaccine'
         for (var i = 0; i < this.doses.length; i++) {
@@ -207,7 +229,7 @@ export default {
           }
         }
       }
-      // console.log(this.doses)
+      console.log(this.doses)
     },
     GetDosesTooltip (vrf) {
       $(document).ready(function () {
@@ -232,7 +254,7 @@ export default {
           this.vaccineRecord[this.currentVL].veterinary = this.vaccineRecordForm[2]
         }
         if (this.doses.length > 0) {
-          this.vaccineRecord[this.currentVL].doses['selected'] = Object.assign({}, this.doses)
+          this.vaccineRecord[this.currentVL].doses['selected'] = this.doses
         }
         this.ResetForm()
         $('#form_modal').modal('toggle')
@@ -404,9 +426,10 @@ export default {
     }
     .img-vaccine {
       border-radius: 6px;
-      width: 125px;
-      height: 75px;
+      width: 140px;
+      height: 90px;
       margin-right: 5px;
+      margin-bottom: 5px;
       border: 3px solid white;
       cursor: pointer;
       display: inline-block;
