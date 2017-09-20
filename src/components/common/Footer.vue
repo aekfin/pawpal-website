@@ -3,7 +3,7 @@
     <footer class="col-xs-12">
       <div class="col-xs-12 col-sm-12 col-md-6 text-right no-padding">
         <div class="title">เกี่ยวกับ</div>
-        <div class="content" style="margin-bottom: 10px;">สนับสนุนโดย</div>
+        <div class="content" style="margin-bottom: 5px;">สนับสนุนโดย</div>
         <div class="content">ที่ประชุมอธิการบดีแห่งประเทศไทย (ทปอ.)</div>
         <div class="content">และ สำนักงานคณะกรรมการการอุดมศึกษา (สกว)</div>
       </div>
@@ -13,7 +13,7 @@
         <div class="content" style="margin-bottom: 5px;">SAIG : software and application interest group</div>
         <div class="content">King Mongkut's Institute of Technology Ladkrabang</div>
       </div>
-      <div class="pull-right" style="margin-top: 50px; color: lightgray;">
+      <div class="pull-right" style="margin-top: 10px; color: lightgray; font-size: 12px;">
         Copyright @ PawPal 2017 by SAIG
       </div>
     </footer>
@@ -39,9 +39,9 @@ export default {
       .title {
         font-size: 20px;
         font-weight: bold;
-        border-bottom: 5px solid lightgray;
-        padding-bottom: 10px;
-        margin-bottom: 15px;
+        border-bottom: 3px solid lightgray;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
       }
       .content {
 

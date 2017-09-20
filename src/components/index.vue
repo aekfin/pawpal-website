@@ -3,7 +3,7 @@
     <div class="router-view">
       <div class="cover">
         <div class="cover-black">
-          <nav-bar :type = "'default'"></nav-bar> 
+          <nav-bar :type = "'default'"></nav-bar>
           <div class="container text-box">
             <div class="col-xs-12 col-sm-12 text-center">
               <div class="col-xs-12 col-sm-10 col-sm-offset-1">
