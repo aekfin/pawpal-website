@@ -17,7 +17,7 @@
             <li v-for="rl in rightList" :key="rl.name" @click="ShowInfomation(rl.action)"><router-link :class="rightLink" :to="rl.url">{{rl.name}}</router-link></li>
           </ul>
           <ul class="nav navbar-nav navbar-right hidden-md hidden-lg">
-            <div class="slide-icon" data-toggle="collapse" data-target="#collapse-nav"><i class="fa fa-bars" aria-hidden="true"></i></div>
+            <div class="slide-icon" data-toggle="collapse" data-target="#collapse-nav"><i class="material-icons">&#xE8D2;</i></div>
           </ul>
       </div>
     </nav>
@@ -50,9 +50,6 @@ export default {
     if (this.$store.getters.IsLogin) {
       this.leftList.push({ name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' })
       var name = this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name
-      if (this.$store.getters.GetUser.license) {
-        name = this.$store.getters.GetUser.license
-      }
       this.rightList.push({ name: name, url: '', action: 'user' })
       this.rightList.push({ name: 'ออกจากระบบ', url: '/logout', action: null })
     } else {
@@ -77,12 +74,16 @@ export default {
     ShowInfomation (info) {
       if (info === 'user') {
         var license = this.$store.getters.GetUser.license
-        if (license === undefined) {
-          license = '-'
+        var tel = this.$store.getters.GetUser.tel_1
+        if (license === undefined || license === null) {
+          license = ''
+        }
+        if (tel === undefined || tel === null) {
+          tel = ''
         }
         var obj = {
           isShown: true,
-          message: '<div class="doctor-info-text"><b>ลายเซ็น: </b>' + license + '</div><div class="doctor-info-text"><b>ชื่อ: </b>' + this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name + '</div><div class="doctor-info-text"><b>เบอร์ติดต่อ: </b>' + this.$store.getters.GetUser.tel_1 + '</div><div class="doctor-info-text"><b>โรงพยาบาล: </b>' + this.$store.getters.GetHospital.name + '</div>',
+          message: '<div class="doctor-info-text"><b>ลายเซ็น: </b>' + license + '</div><div class="doctor-info-text"><b>ชื่อ: </b>' + this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name + '</div><div class="doctor-info-text"><b>เบอร์ติดต่อ: </b>' + tel + '</div><div class="doctor-info-text"><b>โรงพยาบาล: </b>' + this.$store.getters.GetHospital.name + '</div>',
           customClass: 'info-modal',
           type: 'info',
           customIconUrl: require('@/assets/doctor/doctor-placeholder.png'),
@@ -186,10 +187,7 @@ export default {
     .slide-icon {
       color: white;
       margin-top: 3px;
-      font-size: 30px;
-      margin-right: 20px;
-      padding-left: 10px;
-      padding-right: 10px;    
+      font-size: 30px;    
       cursor: pointer;
     }
     .slide-icon:hover, .slide-icon:active, .slide-icon:focus {
