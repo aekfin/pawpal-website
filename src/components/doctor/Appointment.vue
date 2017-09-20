@@ -12,7 +12,7 @@
       </div>
       <div class="alert alert-danger col-xs-12" v-if="alert[0].name" :class="alert[0].class">{{alert[0].name}}</div>
     </div>
-    <div class="container col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 white-card m-t-20 animated fadeIn" v-if="searchResult">
+    <div class="container col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 white-card animated fadeIn" style="margin-bottom: 40px;" v-if="searchResult">
       <loading v-if="isLoading"></loading>
       <div style="padding: 0px 20px" v-else>
         <div v-if="appointments.length > 0 || users.length > 0 || dogs.length > 0">
@@ -197,6 +197,7 @@ export default {
     .white-card {
       padding: 30px 15px;
       margin-top: 1%;
+      margin-bottom: 20px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
     .alert {

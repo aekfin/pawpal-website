@@ -1,56 +1,60 @@
 <template>
   <div id="login" @keyup.enter = "Submit">
     <nav-bar :type = "'dark'"></nav-bar>
-    <div class="title-blue-card">
-      <div class="container">
-        <h2>เข้าสู่ระบบ</h2>
-      </div>
-    </div>
-    <div class="container col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 white-card animated fadeIn">
-      <div class="banner col-xs-12">
-        <div v-if="!veterinarian">หากท่านไม่สามารถเข้าสู่ระบบได้หรือต้องการสมัครใช้งาน กรุณาติดต่อผู้ดูแลระบบ</div>
-        <div v-else class="hospital-label">กรุณาเลือกโรงพยาบาลของท่าน</div>
-      </div>
-      <div class="card-content" v-if="!veterinarian">
-        <div class="col-xs-12">
-          <div class="input-label">อีเมลล์</div>
-          <input type="email" class="form-control input-lg" name="username" v-model="user.email">
-        </div>
-        <div class="col-xs-12 m-t-10">
-          <div class="input-label">รหัสผ่าน</div>
-          <input type="password" class="form-control input-lg" name="password" v-model="user.password">
-        </div>
-        <div class="col-xs-12 m-t-10">
-          <div class="alert alert-danger" v-if="alert">{{alert}}</div>
-        </div>
-        <div class="col-xs-12 margin-t-20 text-right">
-          <input class="btn btn-primary btn-lg" @click="Login" value="เข้าสู่ระบบ" />
+    <div class="router-view">
+      <div class="title-blue-card">
+        <div class="container">
+          <h2>เข้าสู่ระบบ</h2>
         </div>
       </div>
-      <div class="card-content animated fadeIn" v-else>
-        <loading v-if="isLoading"></loading>
-        <div v-else>
+      <div class="container col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 white-card animated fadeIn">
+        <div class="banner col-xs-12">
+          <div v-if="!veterinarian">หากท่านไม่สามารถเข้าสู่ระบบได้หรือต้องการสมัครใช้งาน กรุณาติดต่อผู้ดูแลระบบ</div>
+          <div v-else class="hospital-label">กรุณาเลือกโรงพยาบาลของท่าน</div>
+        </div>
+        <div class="card-content" v-if="!veterinarian">
           <div class="col-xs-12">
-            <select class="form-control input-lg" v-model="hospital" @keypress.enter="SelectHospital">
-              <option v-for="(hospital, i) in hospitals" :key="hospital.name" :value="hospital">{{hospital.name}}</option>
-            </select>
+            <div class="input-label">อีเมลล์</div>
+            <input type="email" class="form-control input-lg" name="username" v-model="user.email">
           </div>
-          <div class="col-xs-12 m-t-20 text-right">
-            <button input class="btn btn-success btn-lg" @click="SelectHospital">เลือกโรงพยาบาลนี้</button>
+          <div class="col-xs-12 m-t-10">
+            <div class="input-label">รหัสผ่าน</div>
+            <input type="password" class="form-control input-lg" name="password" v-model="user.password">
+          </div>
+          <div class="col-xs-12 m-t-10">
+            <div class="alert alert-danger" v-if="alert">{{alert}}</div>
+          </div>
+          <div class="col-xs-12 margin-t-20 text-right">
+            <input class="btn btn-primary btn-lg" @click="Login" value="เข้าสู่ระบบ" />
+          </div>
+        </div>
+        <div class="card-content animated fadeIn" v-else>
+          <loading v-if="isLoading"></loading>
+          <div v-else>
+            <div class="col-xs-12">
+              <select class="form-control input-lg" v-model="hospital" @keypress.enter="SelectHospital">
+                <option v-for="(hospital, i) in hospitals" :key="hospital.name" :value="hospital">{{hospital.name}}</option>
+              </select>
+            </div>
+            <div class="col-xs-12 m-t-20 text-right">
+              <button input class="btn btn-success btn-lg" @click="SelectHospital">เลือกโรงพยาบาลนี้</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/common/Navbar.vue'
 import Loading from '@/components/common/Loading.vue'
+import appFooter from '@/components/common/Footer.vue'
 
 export default {
   components: {
-    NavBar, Loading
+    NavBar, Loading, appFooter
   },
   created () {
   },
@@ -103,7 +107,11 @@ export default {
               })
           })
           .catch(function (error) {
-            this.alert = 'คุณกรอกอีเมลล์หรือรหัสผ่านไม่ถูกต้อง'
+            if (error.body && error.body.detail === 'Please logout.') {
+              this.$router.push('/logout')
+            } else {
+              this.alert = 'คุณกรอกอีเมลล์หรือรหัสผ่านไม่ถูกต้อง'
+            }
             console.log(error)
           })
       }

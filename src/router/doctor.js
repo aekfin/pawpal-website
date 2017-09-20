@@ -33,7 +33,7 @@ var route = {
       }, error => {
         console.log(error)
         if (error.body.success) {
-          next()
+          next('/login')
         } else {
           next('/logout')
         }
