@@ -78,7 +78,7 @@ export default {
       if (info === 'user') {
         var license = this.$store.getters.GetUser.license
         if (license === undefined) {
-          license = '-' 
+          license = '-'
         }
         var obj = {
           isShown: true,
