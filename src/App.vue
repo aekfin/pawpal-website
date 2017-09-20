@@ -48,6 +48,11 @@ export default {
     color: #4c4c4c;
     min-height: 100%;
     overflow: hidden;
+
+    .router-view {
+      min-height: 100vh;
+    }
+
     .btn {
       transition-duration: 0.5s;
     }

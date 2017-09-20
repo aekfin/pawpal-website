@@ -1,16 +1,18 @@
 <template>
   <div id="guest">
     <nav-bar :type = "'dark'"></nav-bar>
-    <router-view></router-view>
+    <router-view class="router-view"></router-view>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/common/Navbar.vue'
+import appFooter from '@/components/common/Footer.vue'
 
 export default {
   components: {
-    NavBar
+    NavBar, appFooter
   }
 }
 </script>

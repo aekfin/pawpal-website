@@ -358,6 +358,7 @@ export default {
   $brown-color: #49392C;
 
   #vaccination {
+    padding-bottom: 40px;
     .white-card {
       padding: 20px 40px;
       margin-top: 20px;
