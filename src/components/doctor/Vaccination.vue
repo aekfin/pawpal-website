@@ -243,14 +243,14 @@ export default {
       this.doses = []
     },
     SaveForm () {
-      if (this.vaccineRecord[this.currentVL].date_record !== '' && this.vaccineRecord[this.currentVL].next_vaccine !== '' && this.vaccineRecord[this.currentVL].veterinary !== '' && this.doses.length > 0) {
+      if (this.vaccineRecord[this.currentVL].date_record !== '' && this.vaccineRecord[this.currentVL].next_vaccine !== '' && this.vaccineRecord[this.currentVL].veterinary !== '' && this.doses.length > 0 && this.vaccineRecord[this.currentVL].veterinary !== undefined) {
         if (this.vaccineRecord[this.currentVL].date_record !== '') {
           this.vaccineRecord[this.currentVL].date_record = this.DateFormat(new Date(this.vaccineRecordForm[0]))
         }
         if (this.vaccineRecord[this.currentVL].next_vaccine !== '') {
           this.vaccineRecord[this.currentVL].next_vaccine = this.DateFormat(new Date(this.vaccineRecordForm[1]))
         }
-        if (this.vaccineRecord[this.currentVL].veterinary !== '') {
+        if (this.vaccineRecord[this.currentVL].veterinary !== '' || this.vaccineRecord[this.currentVL].veterinary !== undefined) {
           this.vaccineRecord[this.currentVL].veterinary = this.vaccineRecordForm[2]
         }
         if (this.doses.length > 0) {
@@ -317,6 +317,7 @@ export default {
           }
         }, response => {
           console.log(response)
+          this.isSaving = false
         })
       }
     },
