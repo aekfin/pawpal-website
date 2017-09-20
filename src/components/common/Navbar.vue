@@ -76,9 +76,13 @@ export default {
   methods: {
     ShowInfomation (info) {
       if (info === 'user') {
+        var license = this.$store.getters.GetUser.license
+        if (license === undefined) {
+          license = '-' 
+        }
         var obj = {
           isShown: true,
-          message: '<div class="doctor-info-text"><b>ลายเซ็น: </b>' + this.$store.getters.GetUser.license + '</div><div class="doctor-info-text"><b>ชื่อ: </b>' + this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name + '</div><div class="doctor-info-text"><b>เบอร์ติดต่อ: </b>' + this.$store.getters.GetUser.tel_1 + '</div><div class="doctor-info-text"><b>โรงพยาบาล: </b>' + this.$store.getters.GetHospital.name + '</div>',
+          message: '<div class="doctor-info-text"><b>ลายเซ็น: </b>' + license + '</div><div class="doctor-info-text"><b>ชื่อ: </b>' + this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name + '</div><div class="doctor-info-text"><b>เบอร์ติดต่อ: </b>' + this.$store.getters.GetUser.tel_1 + '</div><div class="doctor-info-text"><b>โรงพยาบาล: </b>' + this.$store.getters.GetHospital.name + '</div>',
           customClass: 'info-modal',
           type: 'info',
           customIconUrl: require('@/assets/doctor/doctor-placeholder.png'),
