@@ -11,7 +11,7 @@
               <div class="col-xs-2 col-sm-2 col-xs-offset-5 col-sm-offset-5 under-line"></div>
             </div>
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 subtitle">
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+              <p>PawPal Friend of Best Friend พอว์เพาว์ เป็นมากกว่าเพื่อน ที่เข้าใจสุนัขของคุณ</p>
             </div>
             <div class="col-xs-12 col-sm-12 btn-section animated fadeIn" style="display: none;">
               <router-link to="/finder" class="btn-start">เพิ่มสุนัขที่พบ</router-link>
