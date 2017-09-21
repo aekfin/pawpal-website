@@ -34,11 +34,11 @@ export default {
       bottom: 0;
       left: 0;
       padding: 20px 5% 10px 5%;
+      border-top: 1px solid black;
       background-color: #49392C;
       color: white;
       .title {
         font-size: 20px;
-        font-weight: bold;
         border-bottom: 3px solid lightgray;
         padding-bottom: 5px;
         margin-bottom: 10px;
