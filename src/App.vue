@@ -109,7 +109,17 @@ export default {
       background-color: #62A87C;
     }
 
-    .title-dark-blue-green-card {
+    .title-light-green-card {
+      @extend .title-card;
+      background-color: #62C370;
+    }
+    
+    .title-smoke-green-card {
+      @extend .title-card;
+      background-color: #728464;
+    }
+    
+    .title-dark-blue-card {
       @extend .title-card;
       background-color: lighten(#2A3D45, 20%);
     }

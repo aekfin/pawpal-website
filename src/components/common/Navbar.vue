@@ -48,7 +48,10 @@ export default {
     this.rightList = []
     this.leftList = []
     if (this.$store.getters.IsLogin) {
-      this.leftList.push({ name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' })
+      if (this.$store.getters.IsSelectHospital) {
+        this.leftList.push({ name: 'สมุดการนัดหมาย', url: '/doctor/appointment' })
+        this.leftList.push({ name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' })
+      }
       var name = this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name
       this.rightList.push({ name: name, url: '', action: 'user' })
       this.rightList.push({ name: 'ออกจากระบบ', url: '/logout', action: null })
@@ -73,24 +76,35 @@ export default {
   methods: {
     ShowInfomation (info) {
       if (info === 'user') {
-        var license = this.$store.getters.GetUser.license
-        var tel = this.$store.getters.GetUser.tel_1
-        if (license === undefined || license === null) {
-          license = ''
+        if (this.$store.getters.IsSelectHospital) {
+          var license = this.$store.getters.GetUser.license
+          var tel = this.$store.getters.GetUser.tel_1
+          if (license === undefined || license === null) {
+            license = ''
+          }
+          if (tel === undefined || tel === null) {
+            tel = ''
+          }
+          var obj = {
+            isShown: true,
+            message: '<div class="doctor-info-text"><b>ลายเซ็น: </b>' + license + '</div><div class="doctor-info-text"><b>ชื่อ: </b>' + this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name + '</div><div class="doctor-info-text"><b>เบอร์ติดต่อ: </b>' + tel + '</div><div class="doctor-info-text"><b>โรงพยาบาล: </b>' + this.$store.getters.GetHospital.name + '</div>',
+            customClass: 'info-modal',
+            customCloseBtnClass: 'btn btn-primary',
+            type: 'info',
+            customIconUrl: require('@/assets/doctor/doctor-placeholder.png'),
+            customCloseBtnText: 'ปิดหน้าต่าง',
+            onClose: this.onClose,
+            useConfirmBtn: true,
+            customConfirmBtnText: 'เปลี่ยนโรงพยาบาล',
+            customConfirmBtnClass: 'btn btn-warning',
+            onConfirm: function () {
+              this.$router.push('/doctor/')
+            }
+          }
+          this.$refs.infoModal.openSimplert(obj)
+        } else {
+          this.$router.push('/doctor')
         }
-        if (tel === undefined || tel === null) {
-          tel = ''
-        }
-        var obj = {
-          isShown: true,
-          message: '<div class="doctor-info-text"><b>ลายเซ็น: </b>' + license + '</div><div class="doctor-info-text"><b>ชื่อ: </b>' + this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name + '</div><div class="doctor-info-text"><b>เบอร์ติดต่อ: </b>' + tel + '</div><div class="doctor-info-text"><b>โรงพยาบาล: </b>' + this.$store.getters.GetHospital.name + '</div>',
-          customClass: 'info-modal',
-          type: 'info',
-          customIconUrl: require('@/assets/doctor/doctor-placeholder.png'),
-          customCloseBtnText: 'ปิดหน้าต่าง',
-          onClose: this.onClose
-        }
-        this.$refs.infoModal.openSimplert(obj)
       }
     }
   },
