@@ -40,7 +40,7 @@
                 <td>{{user.account_id}}</td>
                 <td>{{user.account_name}}</td>
                 <td style="padding: 0px auto">
-                  <select class="form-control input-lg" v-model="user.model" v-if="user.dog.length > 0" :disabled="user.disabled">
+                  <select class="form-control input-sm" v-model="user.model" v-if="user.dog.length > 0" :disabled="user.disabled">
                     <option v-for="(dog, i) in user.dog" :key="dog.id" :value="dog.id">{{dog.name}}</option>
                   </select>
                   <span v-else>-</span>
@@ -232,6 +232,13 @@ export default {
         .form-control {
           padding: 0px;
           height: 30px;
+        }
+        .input-sm {
+          font-size: 16px;
+          height: 100% !important;
+          option {
+            text-align: center;
+          }
         }
         .form-control:focus, .form-control:active {
           padding: 0px;

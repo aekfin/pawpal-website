@@ -21,6 +21,13 @@
           </div>
         </div>
       </div>
+      <div class="white-card" style="margin: 5%; display: none;">
+        <button class="btn btn-primary btn-lg">Test12345</button>
+        <button class="btn btn-success btn-lg">Test12345</button>
+        <button class="btn btn-info btn-lg">Test12345</button>
+        <button class="btn btn-warning btn-lg">Test12345</button>
+        <button class="btn btn-danger btn-lg">Test12345</button>
+      </div>
     </div>
     <app-footer></app-footer>
   </div>

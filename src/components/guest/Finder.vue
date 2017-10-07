@@ -48,14 +48,15 @@
               <gmap-marker ref="theMarker" :position="position" :clickable="true" :draggable="true" @dragend="DragEnd">
               </gmap-marker>
             </gmap-map>
-            <button class="btn btn-default btn-dark btn-lg col-xs-5" @click="ShowGooglePlace">
+            <button class="btn btn-dark btn-lg col-xs-5" @click="ShowGooglePlace">
               <span v-if="!showGooglePlace" class="glyphicon glyphicon-unchecked"></span>
               <span v-if="showGooglePlace" class="glyphicon glyphicon-check"></span>
               ค้นหาด้วยสถานที่
             </button>
             <div class="col-xs-7" style="padding-left: 5px;" :class="placeGoogle">
+              <input type="text" class="form-control input-lg input-place" placeholder="ป้อนตำแหน่ง" autocomplete="off" v-if="!showGooglePlace" disabled>
               <gmap-place-input :default-place="place" :selectFirstOnEnter="true" :className="'form-control input-lg input-place'"
-                @place_changed="setPlace">
+                @place_changed="setPlace" v-else>
               </gmap-place-input>
             </div>
           </div>
@@ -150,9 +151,9 @@
       },
       ShowGooglePlace () {
         if (this.showGooglePlace) {
-          this.placeGoogle = 'animated fadeOutLeft'
+          this.placeGoogle = 'disabled'
         } else {
-          this.placeGoogle = 'animated fadeInLeft show'
+          this.placeGoogle = 'enabled'
         }
         this.showGooglePlace = !this.showGooglePlace
       },
@@ -325,7 +326,7 @@
     data () {
       return {
         showGooglePlace: false,
-        placeGoogle: 'hide',
+        placeGoogle: 'disabled',
         place: '',
         latLng: {lat: '...', lng: '...'},
         center: {lat: 13.7563309, lng: 100.50176510000006},
@@ -369,8 +370,17 @@
       font-weight: normal;
       font-size: 18px;
       width: 100%;
-      height: 46px;
-      border-radius: 10px;
+      height: 44px;
+      border-radius: 0px 3px 3px 0px;
+      border: 1px solid #49392C;
+      margin-left: -5px;
+    }
+    .btn-dark {
+      border-radius: 3px 0px 0px 3px !important;
+    }
+    .input-place:focus, .input-place:active {
+      border: 1px solid #49392C;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 74, 64, 0.6);
     }
     .latlng-label {
       font-size: 12px;
@@ -416,6 +426,14 @@
     .el-dialog__title {
       font-size: 24px;
     }
+    .input-group-addon {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+    }
+    .form-control {
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
     .btn-found {
       border: 3px solid white;
       color: white;
@@ -426,6 +444,9 @@
     .btn-found:hover {
       color: white;
       background-color: lighten(#84bf09, 10%);
+    }
+    .disabled {
+      user-select: none;
     }
   }
 </style>

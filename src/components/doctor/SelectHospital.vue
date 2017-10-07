@@ -1,6 +1,6 @@
 <template>
   <div id="select-hospital" @keyup.enter = "SelectHospital">
-    <div class="title-dark-blue-card">
+    <div class="title-green2-card">
       <div class="container">
         <h2>โปรดเลือกโรงพยาบาลของท่าน</h2>
       </div>
@@ -51,7 +51,11 @@ export default {
       this.$http.get('/api/hospital/')
         .then(function (response) {
           this.hospitals = response.body
-          this.hospital = this.hospitals[0]
+          if (this.$store.getters.IsSelectHospital) {
+            this.hospital = this.$store.getters.GetHospital
+          } else {
+            this.hospital = this.hospitals[0]
+          }
           this.isLoading = false
         })
         .catch(function (error) {
@@ -71,6 +75,12 @@ export default {
   #select-hospital {
     .white-card {
       padding-bottom: 30px;
+      button {
+        margin: 5px;
+      }
+      .banner {
+        background-color: darken(#55785B, 10%)
+      }
       .form-control {
         width: 100%;
       }

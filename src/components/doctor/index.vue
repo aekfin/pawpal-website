@@ -38,6 +38,8 @@ export default {
       .form-control {
         border: 1px solid $brown-color;
         color: $brown-color;
+        border-radius: 3px;
+        height: 44px;
         width: 75%;
         display: inline-block;
       }
