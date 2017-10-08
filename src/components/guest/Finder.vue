@@ -69,8 +69,8 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 text-center" style="margin-top: 20px;">
-        <div class="btn btn-found btn-lg" @click="AddFoundDog()">เพิ่มสุนัขที่พบ</div>
+      <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" style="margin-top: 20px;">
+        <div class="btn btn-success btn-lg" @click="AddFoundDog()">เพิ่มสุนัขที่พบ</div>
       </div>
     </div>
     <simplert :useRadius="true" :useIcon="true" ref="errorModal"></simplert>
@@ -374,6 +374,9 @@
       border-radius: 0px 3px 3px 0px;
       border: 1px solid #49392C;
       margin-left: -5px;
+    }
+    .btn-success {
+      width: 100%;
     }
     .btn-dark {
       border-radius: 3px 0px 0px 3px !important;

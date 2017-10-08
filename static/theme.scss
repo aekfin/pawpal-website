@@ -1,6 +1,68 @@
 $form-theme-color: #49392C;
 
-.white-card {
+.btn {
+  color: white;
+  transition-duration: 0.5s;
+  border-radius: 2px;
+  border: 2px solid white;
+}
+.btn:hover {
+  box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.btn-lg {
+  border: 3px solid white;
+  border-radius: 3px;
+}
+.btn-lg:hover {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.btn-primary {
+  background-color: #6684A4;
+}
+.btn-primary:hover {
+  background-color: darken(#6684A4, 15%);
+}
+.btn-info {
+  background-color: #45BCD1;
+}
+.btn-info:hover {
+  background-color: darken(#45BCD1, 15%);
+}
+.btn-success {
+  background-color: #51A05C;
+}
+.btn-success:hover {
+  background-color: darken(#51A05C, 15%);
+}
+.btn-warning {
+  background-color: #E8D54A;
+}
+.btn-warning:hover {
+  background-color: darken(#E8D54A, 10%);
+}
+.btn-danger {
+  background-color: #DD4F4F;
+}
+.btn-danger:hover {
+  background-color: darken(#DD4F4F, 15%);
+}
+.btn-default {
+  background-color: #B2AFB2;
+}
+.btn-default:hover {
+  background-color: darken(#B2AFB2, 15%);
+}
+.btn-tranparent {
+  background-color: transparent;
+}
+
+.btn-tranparent:hover {
+  color: #49392C;
+  background-color: white;  
+}
+
+.white-card, .info-modal {
   background-color: white;
   border-radius: 5px;
   margin-top: 10px;
@@ -10,59 +72,10 @@ $form-theme-color: #49392C;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
   .btn {
-    color: white;
-    transition-duration: 0.5s;
-    border-radius: 2px;
     border: none;
-  }
-  .btn:hover {
-    box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
   .btn-lg {
-    border-radius: 3px;
     border: none;
-  }
-  .btn-lg:hover {
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  }
-  .btn-primary {
-    background-color: #6684A4;
-  }
-  .btn-primary:hover {
-    background-color: darken(#6684A4, 15%);
-  }
-  .btn-info {
-    background-color: #45BCD1;
-  }
-  .btn-info:hover {
-    background-color: darken(#45BCD1, 15%);
-  }
-  .btn-success {
-    background-color: #51A05C;
-  }
-  .btn-success:hover {
-    background-color: darken(#51A05C, 15%);
-  }
-  .btn-warning {
-    background-color: #E8D54A;
-  }
-  .btn-warning:hover {
-    background-color: darken(#E8D54A, 10%);
-  }
-  .btn-danger {
-    background-color: #DD4F4F;
-  }
-  .btn-danger:hover {
-    background-color: darken(#DD4F4F, 15%);
-  }
-  .btn-tan {
-    background-color: #D8AC65;
-  }
-  .btn-tan:hover {
-    background-color: darken(#D8AC65, 15%);
-  }
-  .btn-black {
-    background-color: #28231C;
   }
   .banner {
     border-top-left-radius: 5px;
@@ -109,7 +122,7 @@ $form-theme-color: #49392C;
 
 .title-smoke-green-card {
   @extend .title-card;
-  background-color: #536149;
+  background-color: #727D6A;
 }
 
 .title-green2-card {
@@ -155,3 +168,11 @@ $form-theme-color: #49392C;
   padding-bottom: 10px;
 }
 
+.input-group-addon {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.form-control {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}

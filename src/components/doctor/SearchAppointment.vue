@@ -256,33 +256,33 @@ export default {
     }
     .label-yellow {
       @extend .hint-label;
-      background-color:#FFF176
+      background-color: lighten(#E8D54A, 5%);
     }
     .label-blue {
       @extend .hint-label;
-      background-color: #BBDEFB;
+      background-color: lighten(#45BCD1, 15%);
     }
     .label-red {
       @extend .hint-label;
-      background-color: #ffcdd2;
+      background-color: lighten(#DD4F4F, 20%);
     }
     .active-yellow {
-      background-color: darken(#FFF176, 10%) !important;  
+      background-color: #E8D54A !important;  
     }
     .active-blue {
-      background-color: darken(#BBDEFB, 10%);
+      background-color: lighten(#45BCD1, 15%);
     }
     .active-red {
-      background-color: darken(#ffcdd2, 10%);
+      background-color: lighten(#DD4F4F, 10%);
     }
     .tr-yellow {
-      background-color: lighten(#FFF176, 10%);
+      background-color: lighten(#E8D54A, 15%);
     }
     .tr-blue {
-      background-color: lighten(#BBDEFB, 10%);
+      background-color: lighten(#45BCD1, 30%);
     }
     .tr-red {
-      background-color:#ffcdd2;
+      background-color: lighten(#DD4F4F, 20%);
     }
     .tr-yellow:hover {
       @extend .active-yellow;
