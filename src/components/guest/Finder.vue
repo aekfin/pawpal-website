@@ -69,7 +69,8 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" style="margin-top: 20px;">
+      <loading v-if="isLoading" class="col-xs-12"></loading>
+      <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" style="margin-top: 20px;" v-else>
         <div class="btn btn-success btn-lg" @click="AddFoundDog()">เพิ่มสุนัขที่พบ</div>
       </div>
     </div>
@@ -87,8 +88,8 @@
             :viewport="{ width: 300, height: 300, type: 'square' }"
             :enableOrientation="true">
         </vue-croppie>
-        <el-button size="large" type="primary" @click="Rotate(90)"> หมุนรูปภาพ</el-button>
-        <el-button size="large" type="success" @click="Crop">ยืนยันการแก้ไข</el-button>
+        <button class="btn btn-primary btn-lg" @click="Rotate(90)"> หมุนรูปภาพ</button>
+        <button class="btn btn-success btn-lg" style="width: auto" @click="Crop">ยืนยันการแก้ไข</button>
       </div>
     </el-dialog>
   </div>
@@ -103,6 +104,7 @@
   import Datepicker from 'vuejs-datepicker'
   import VueCroppie from 'vue-croppie'
   import Simplert from 'vue2-simplert'
+  import Loading from '@/components/common/Loading.vue'
 
   Vue.use(VueCroppie)
   Vue.use(VueGoogleMaps, {
@@ -116,7 +118,7 @@
   export default {
     name: 'finder',
     components: {
-      appForm, Datepicker, Simplert
+      appForm, Datepicker, Simplert, Loading
     },
     created () {
       this.dogForm[0].model = this.dogForm[0].options[0]
@@ -289,20 +291,32 @@
         if (this.RequireForm() === 'pass') {
           var dog = {
             'color_primary': this.dogForm[1].model,
-            'name': this.finderForm[0].model,
-            'dominance': this.dogForm[3].model,
-            'longtitude': this.latLng.lng,
             'color_secondary': this.dogForm[2].model,
-            'location': this.finderForm[2].model,
-            'note': this.finderForm[2].model,
-            'breed': this.dogForm[0].model,
+            'dominance': this.dogForm[3].model,
+            'name': this.finderForm[0].model,
             'tel': this.finderForm[1].model,
+            'note': this.finderForm[2].model,
+            'date_found': (this.dateForm[0].model).toISOString().substring(0, 10),
+            'time_found': this.dateForm[1].model,
+            'longtitude': this.latLng.lng,
+            'location': this.finderForm[2].model,
+            'breed': this.dogForm[0].model,
             'latitude': this.latLng.lat
           }
+          this.isLoading = true
           this.$http.post('/api/v2/found/', dog).then(response => {
-            console.log(response)
-          }, response => {
-            console.log(response)
+            for (var i = 0; i < this.images.length; i++) {
+              this.$http.post('/api/v2/add-image/', {'found': response.body.id, 'image': this.images[i].modified_src}).then(response => {
+                console.log(response)
+                this.isLoading = false
+                window.scrollTo(0, 0)
+                this.$router.push('/found-dog')
+              }, error => {
+                console.log(error)
+              })
+            }
+          }, error => {
+            console.log(error)
           })
         } else {
           let obj = {
@@ -333,13 +347,14 @@
         position: {lat: 13.7563309, lng: 100.50176510000006},
         zoom: 12,
         first: true,
+        isLoading: false,
         cropModal: false,
         cropImage: null,
         images: [],
         imgPlaceholder: require('@/assets/finder/dogupload3.png'),
         dateForm: [
           { name: 'เมื่อวันที่', placeholder: '', type: 'date', model: new Date(), require: true },
-          { name: 'เวลา', placeholder: 'กรุณาระบบเวลาที่พบ', type: 'time', model: '', require: false }
+          { name: 'เวลา', placeholder: 'กรุณาระบบเวลาที่พบ', type: 'time', model: '00:00:00', require: false }
         ],
         dogForm: [
           { name: 'สายพันธุ์', placeholder: '', type: 'selector', model: '', require: true, options: this.$store.state.breeds },
@@ -379,6 +394,7 @@
       width: 100%;
     }
     .btn-dark {
+      font-size: 18px;
       border-radius: 3px 0px 0px 3px !important;
     }
     .input-place:focus, .input-place:active {

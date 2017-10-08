@@ -54,7 +54,7 @@ export default {
     font-size: 18px;
     height: 48px;
     padding: 6px 12px;
-    font-size: 14px;
+    font-size: 18px;
     line-height: 1.42857143;
     color: #555;
     background-color: #fff;
