@@ -38,6 +38,8 @@ export default {
       .form-control {
         border: 1px solid $brown-color;
         color: $brown-color;
+        border-radius: 3px;
+        height: 44px;
         width: 75%;
         display: inline-block;
       }
@@ -60,7 +62,7 @@ export default {
       }
       .form-control:focus, .form-control:active {
         border: 0px solid $brown-color;
-        box-shadow: 0px 0px 10px rgb(	105, 165, 173);
+        box-shadow: 0px 0px 10px rgb(97,76,59);
       }
       .router-link-active {
         font-size: 18px;
@@ -83,7 +85,7 @@ export default {
         height: 75px;
         border-radius: 50%;
         border: 2px solid lighten(yellow, 10%);
-        margin-top: -20px;
+        margin-top: -15px;
         margin-left: 10px;
         position: absolute;
       }

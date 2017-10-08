@@ -42,6 +42,7 @@ export default {
   }
 
   #app {
+    @import "../static/theme.scss";
     font-family: "Mitr", sans-serif;
     font-size: 16px;
     background-color: darken(#E0CDBA, 25%);
@@ -53,103 +54,13 @@ export default {
       min-height: 100vh;
     }
 
-    .btn {
-      transition-duration: 0.5s;
-    }
-
     h1, h2, h3, h4, h5 {
       color: #4c4c4c;
-    }
-
-    .white-card {
-      background-color: white;
-      border-radius: 10px;
-      margin-top: 10px;
-      padding: 20px;
-      .card-content {
-      margin-bottom: 10px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-      }
-      .banner {
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        font-size: 16px;
-        margin-bottom: 30px;
-        color: white;
-        padding: 30px 10%;
-        background-color: #477b82;
-      }
-    }
-
-    .title-card {
-      color: white;
-      width: 100%;
-      padding-top: 35px;
-      height: 100px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.4);
-      margin-bottom: 10px;
-      h1, h2, h3, h4, h5 {
-        color: white;
-        margin: 0px;
-      }
-    }
-
-    .title-brown-card {
-      @extend .title-card;
-      background-color: #524A40;
-    }
-
-    .title-green-card {
-      @extend .title-card;
-      background-color: #84bf09;
-    }
-
-    .title-blue-green-card {
-      @extend .title-card;
-      background-color: #62A87C;
-    }
-
-    .title-dark-blue-green-card {
-      @extend .title-card;
-      background-color: lighten(#2A3D45, 20%);
-    }
-
-    .title-blue-card {
-      @extend .title-card;
-      background-color: #69A5AD;
-    }
-
-    .title-red-card {
-      @extend .title-card;
-      background-color: #EF3E36;
-    }
-
-    .title-yellow-card {
-      @extend .title-card;
-      background-color: #e4ba24;
     }
 
     .card-right-side {
       padding-left: 20px;
       padding-right: 0px;
-    }
-
-    .btn-dark {
-      margin-bottom: 10px; 
-      z-index: 10;
-      background-color: $form-theme-color;
-      color: white;
-    }
-    .btn-dark:hover, .btn-dark:active, .btn-dark:focus {
-      margin-bottom: 10px; 
-      z-index: 10;
-      background-color: $form-theme-color;
-      color: white;
-    }
-
-    .bottom-line {
-      border-bottom: 3px solid #A58675;
-      padding-bottom: 10px;
     }
 
     .no-padding {

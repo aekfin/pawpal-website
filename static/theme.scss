@@ -1,0 +1,178 @@
+$form-theme-color: #49392C;
+
+.btn {
+  color: white;
+  transition-duration: 0.5s;
+  border-radius: 2px;
+  border: 2px solid white;
+}
+.btn:hover {
+  box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.btn-lg {
+  border: 3px solid white;
+  border-radius: 3px;
+}
+.btn-lg:hover {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.btn-primary {
+  background-color: #6684A4;
+}
+.btn-primary:hover {
+  background-color: darken(#6684A4, 15%);
+}
+.btn-info {
+  background-color: #45BCD1;
+}
+.btn-info:hover {
+  background-color: darken(#45BCD1, 15%);
+}
+.btn-success {
+  background-color: #51A05C;
+}
+.btn-success:hover {
+  background-color: darken(#51A05C, 15%);
+}
+.btn-warning {
+  background-color: #E8D54A;
+}
+.btn-warning:hover {
+  background-color: darken(#E8D54A, 10%);
+}
+.btn-danger {
+  background-color: #DD4F4F;
+}
+.btn-danger:hover {
+  background-color: darken(#DD4F4F, 15%);
+}
+.btn-default {
+  background-color: #B2AFB2;
+}
+.btn-default:hover {
+  background-color: darken(#B2AFB2, 15%);
+}
+.btn-tranparent {
+  background-color: transparent;
+}
+
+.btn-tranparent:hover {
+  color: #49392C;
+  background-color: white;  
+}
+
+.white-card, .info-modal {
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 20px;
+  .card-content {
+    margin-bottom: 10px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  }
+  .btn {
+    border: none;
+  }
+  .btn-lg {
+    border: none;
+  }
+  .banner {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 30px;
+    color: white;
+    padding: 30px 10%;
+    background-color: #477b82;
+  }
+}
+.title-card {
+  color: white;
+  width: 100%;
+  padding-top: 35px;
+  height: 100px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.4);
+  margin-bottom: 10px;
+  h1, h2, h3, h4, h5 {
+    color: white;
+    margin: 0px;
+  }
+}
+
+.title-brown-card {
+  @extend .title-card;
+  background-color: #524A40;
+}
+
+.title-green-card {
+  @extend .title-card;
+  background-color: #84bf09;
+}
+
+.title-blue-green-card {
+  @extend .title-card;
+  background-color: #62A87C;
+}
+
+.title-light-green-card {
+  @extend .title-card;
+  background-color: #62C370;
+}
+
+.title-smoke-green-card {
+  @extend .title-card;
+  background-color: #727D6A;
+}
+
+.title-green2-card {
+  @extend .title-card;
+  background-color: #55785B;
+}
+
+.title-dark-blue-card {
+  @extend .title-card;
+  background-color: lighten(#2A3D45, 20%);
+}
+
+.title-blue-card {
+  @extend .title-card;
+  background-color: #69A5AD;
+}
+
+.title-red-card {
+  @extend .title-card;
+  background-color: #EF3E36;
+}
+
+.title-yellow-card {
+  @extend .title-card;
+  background-color: #e4ba24;
+}
+
+.btn-dark {
+  margin-bottom: 10px;
+  border-radius: 0px;
+  background-color: $form-theme-color;
+  color: white;
+}
+
+.btn-dark:hover, .btn-dark:active, .btn-dark:focus {
+  margin-bottom: 10px; 
+  background-color: darken($form-theme-color, 5%);
+  color: white;
+}
+
+.bottom-line {
+  border-bottom: 3px solid #A58675;
+  padding-bottom: 10px;
+}
+
+.input-group-addon {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.form-control {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}

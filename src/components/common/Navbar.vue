@@ -2,23 +2,23 @@
   <div id="app-navbar">
     <nav class="navbar" :class="navbar">
       <div class="container-fluid">
-          <div class="navbar-header">
-            <router-link class="navbar-brand leftLink" to="/">
-                <div :class="brandTitle">
-                  <img :src="require('@/assets/logopawpal_text2.png')" v-if="this.type === 'dark'"/>
-                  <img :src="require('@/assets/logopawpal_text.png')" v-else/>
-                </div>
-            </router-link>
-          </div>          
-          <ul class="nav navbar-nav navbar-left hidden-xs hidden-sm">
-            <li v-for="ll in leftList" :key="ll.name" @click="ShowInfomation(ll.action)"><router-link :class="rightLink" :to="ll.url">{{ll.name}}</router-link></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm">
-            <li v-for="rl in rightList" :key="rl.name" @click="ShowInfomation(rl.action)"><router-link :class="rightLink" :to="rl.url">{{rl.name}}</router-link></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right hidden-md hidden-lg">
-            <div class="slide-icon" data-toggle="collapse" data-target="#collapse-nav"><i class="material-icons">&#xE8D2;</i></div>
-          </ul>
+        <div class="navbar-header">
+          <router-link class="navbar-brand leftLink" to="/">
+              <div :class="brandTitle">
+                <img :src="require('@/assets/logopawpal_text2.png')" v-if="this.type === 'dark'"/>
+                <img :src="require('@/assets/logopawpal_text.png')" v-else/>
+              </div>
+          </router-link>
+        </div>          
+        <ul class="nav navbar-nav navbar-left hidden-xs hidden-sm">
+          <li v-for="ll in leftList" :key="ll.name" @click="ShowInfomation(ll.action)"><router-link :class="rightLink" :to="ll.url">{{ll.name}}</router-link></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm">
+          <li v-for="rl in rightList" :key="rl.name" @click="ShowInfomation(rl.action)"><router-link :class="rightLink" :to="rl.url">{{rl.name}}</router-link></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right hidden-md hidden-lg">
+          <div class="slide-icon" data-toggle="collapse" data-target="#collapse-nav"><i class="material-icons">&#xE8D2;</i></div>
+        </ul>
       </div>
     </nav>
     <div class="collapse" id="collapse-nav">
@@ -48,17 +48,20 @@ export default {
     this.rightList = []
     this.leftList = []
     if (this.$store.getters.IsLogin) {
-      this.leftList.push({ name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' })
+      if (this.$store.getters.IsSelectHospital) {
+        this.leftList.push({ name: 'สมุดการนัดหมาย', url: '/doctor/appointment' })
+        this.leftList.push({ name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' })
+      }
       var name = this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name
       this.rightList.push({ name: name, url: '', action: 'user' })
-      this.rightList.push({ name: 'ออกจากระบบ', url: '/logout', action: null })
+      this.rightList.push({ name: 'ออกจากระบบ', url: '/logout' })
     } else {
       this.leftList = [
-        { name: 'เพิ่มสุนัขที่พบ', url: '/finder', action: null },
-        { name: 'ประกาศสุนัขที่พบ', url: '/found-dog', action: null },
-        { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog', action: null }
+        { name: 'เพิ่มสุนัขที่พบ', url: '/finder' },
+        { name: 'ประกาศสุนัขที่พบ', url: '/found-dog' },
+        { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
       ]
-      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login', action: null })
+      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login' })
     }
     for (var i = 0; i < this.leftList.length; i++) {
       this.mobileList.push(this.leftList[i])
@@ -73,24 +76,35 @@ export default {
   methods: {
     ShowInfomation (info) {
       if (info === 'user') {
-        var license = this.$store.getters.GetUser.license
-        var tel = this.$store.getters.GetUser.tel_1
-        if (license === undefined || license === null) {
-          license = ''
+        if (this.$store.getters.IsSelectHospital) {
+          var license = this.$store.getters.GetUser.license
+          var tel = this.$store.getters.GetUser.tel_1
+          if (license === undefined || license === null) {
+            license = ''
+          }
+          if (tel === undefined || tel === null) {
+            tel = ''
+          }
+          var obj = {
+            isShown: true,
+            message: '<div class="doctor-info-text"><b>ลายเซ็น: </b>' + license + '</div><div class="doctor-info-text"><b>ชื่อ: </b>' + this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name + '</div><div class="doctor-info-text"><b>เบอร์ติดต่อ: </b>' + tel + '</div><div class="doctor-info-text"><b>โรงพยาบาล: </b>' + this.$store.getters.GetHospital.name + '</div>',
+            customClass: 'info-modal',
+            customCloseBtnClass: 'btn btn-default',
+            type: 'info',
+            customIconUrl: require('@/assets/doctor/doctor-placeholder.png'),
+            customCloseBtnText: 'ปิดหน้าต่าง',
+            onClose: this.onClose,
+            useConfirmBtn: true,
+            customConfirmBtnText: 'เปลี่ยนโรงพยาบาล',
+            customConfirmBtnClass: 'btn btn-success',
+            onConfirm: function () {
+              this.$router.push('/doctor/')
+            }
+          }
+          this.$refs.infoModal.openSimplert(obj)
+        } else {
+          this.$router.push('/doctor')
         }
-        if (tel === undefined || tel === null) {
-          tel = ''
-        }
-        var obj = {
-          isShown: true,
-          message: '<div class="doctor-info-text"><b>ลายเซ็น: </b>' + license + '</div><div class="doctor-info-text"><b>ชื่อ: </b>' + this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name + '</div><div class="doctor-info-text"><b>เบอร์ติดต่อ: </b>' + tel + '</div><div class="doctor-info-text"><b>โรงพยาบาล: </b>' + this.$store.getters.GetHospital.name + '</div>',
-          customClass: 'info-modal',
-          type: 'info',
-          customIconUrl: require('@/assets/doctor/doctor-placeholder.png'),
-          customCloseBtnText: 'ปิดหน้าต่าง',
-          onClose: this.onClose
-        }
-        this.$refs.infoModal.openSimplert(obj)
       }
     }
   },
@@ -104,9 +118,9 @@ export default {
       mobileList: [],
       rightList: [],
       leftList: [
-        { name: 'เพิ่มสุนัขที่พบ', url: '/finder', action: null },
-        { name: 'ประกาศสุนัขที่พบ', url: '/found-dog', action: null },
-        { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog', action: null }
+        { name: 'เพิ่มสุนัขที่พบ', url: '/finder' },
+        { name: 'ประกาศสุนัขที่พบ', url: '/found-dog' },
+        { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
       ]
     }
   }
@@ -114,7 +128,7 @@ export default {
 </script>
 
 <style lang="scss">
-    #app-navbar {
+  #app-navbar {
     .navbar {
       margin-bottom: 0px;
     }
@@ -126,6 +140,11 @@ export default {
     .info-modal {
       color: black;
       margin-bottom: auto;
+      background-color: transparent;
+    }
+    .simplert__footer {
+      padding-top: 5px;
+      padding-bottom: 28px;
     }
     .brand-title {
       color: #ffffff;

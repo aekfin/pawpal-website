@@ -1,7 +1,7 @@
 <template>
   <div id="vaccication-history">
-    <div class="title-dark-blue-green-card">
-      <div class="container">
+    <div class="title-smoke-green-card">
+      <div class="container" style="margin-top: -5px;">
         <h2 v-if="dog" style="display: inline-block;">ประวัติการฉีดวัคซีนทั้งหมดของ</b></h2>
         <div v-if="dog" class="dog-sm-view">{{dog.name}}<img v-if="dog && dog.image_list.length > 0":src="dog.image_list[0].image" class="img-dog"/></div>
       </div>
@@ -43,7 +43,7 @@ export default {
   created () {
     this.isLoading.dog = true
     this.isLoading.record = true
-    this.$http.get('/api/dog/' + this.$route.params.dog_id + '/vaccine_log/').then(response => {
+    this.$http.get('/api/dog/' + this.$route.params.dog_id + '/vaccine-log/').then(response => {
       this.dog = response.body.dog
       this.account = response.body.account
       this.isLoading.dog = false

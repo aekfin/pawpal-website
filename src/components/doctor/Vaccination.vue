@@ -1,7 +1,7 @@
 <template>
   <div id="vaccination">
     <div class="title-blue-green-card">
-      <div class="container">
+      <div class="container" style="margin-top: -5px;">
         <h2 style="display: inline-block;" v-if="dog">สมุดบันทึกประวัติการฉีดวัคซีนของ</h2>
         <div class="dog-sm-view" @click="dialogVisible = true" v-if="dog">{{dog.name}}<img :src="dog.image[0].image" class="img-dog"/></div>
       </div>

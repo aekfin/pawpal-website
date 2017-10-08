@@ -1,21 +1,25 @@
 <template>
-  <div id="SelectHospital">
-    <div class="title-blue-green-card">
+  <div id="select-hospital" @keyup.enter = "SelectHospital">
+    <div class="title-green2-card">
       <div class="container">
-        <h2>เลือกโรงพยาบาลของคุณ</h2>
+        <h2>โปรดเลือกโรงพยาบาลของท่าน</h2>
       </div>
     </div>
     <div class="container col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 white-card animated fadeIn">
       <div class="banner col-xs-12">
-        <span>กรุณาใส่รหัสการนัดหมายของคนไข้ เพื่อความรวดเร็วในการบันทึกประวัติการฉีดวัคซีน</span>
+        <div>หากท่านไม่พบโรงพยาบาลของท่านหรือเกิดปัญหาใดๆ กรุณาติดต่อผู้ดูแลระบบ</div>
       </div>
-      <div class="card-content">
-        <div class="col-xs-12">
-          <div class="col-xs-12 no-padding">
-            <input type="text" class="form-control input-lg yellow" v-model="searchText" placeholder="รหัสการนัดหมาย, ชื่อเจ้าของสุนัข, เบอร์โทร, ที่อยู่">
-            <span class="btn btn-warning btn-lg" @click="Searching()">ค้นหา</span>
+      <div class="card-content animated fadeIn">
+        <loading class="col-xs-12" v-if="isLoading"></loading>
+        <div v-else>
+          <div class="col-xs-12">
+            <select class="form-control input-lg" v-model="hospital">
+              <option v-for="(hospital, i) in hospitals" :key="hospital.name" :value="hospital">{{hospital.name}}</option>
+            </select>
           </div>
-          <div class="alert alert-danger col-xs-12" v-if="alert[0].name" :class="alert[0].class">{{alert[0].name}}</div>
+          <div class="col-xs-12 m-t-20 text-right">
+            <button input class="btn btn-success btn-lg" @click="SelectHospital">เลือกโรงพยาบาลนี้</button>
+          </div>
         </div>
       </div>
     </div>
@@ -23,25 +27,66 @@
 </template>
 
 <script>
+import NavBar from '@/components/common/Navbar.vue'
+import Loading from '@/components/common/Loading.vue'
+import appFooter from '@/components/common/Footer.vue'
+
 export default {
+  components: {
+    NavBar, Loading, appFooter
+  },
   data () {
     return {
+      hospitals: [],
+      hospital: null,
+      alert: null,
+      isLoading: true
     }
+  },
+  created () {
+    this.fetchHospital()
   },
   methods: {
     fetchHospital () {
       this.$http.get('/api/hospital/')
         .then(function (response) {
-          console.log(response)
+          this.hospitals = response.body
+          if (this.$store.getters.IsSelectHospital) {
+            this.hospital = this.$store.getters.GetHospital
+          } else {
+            this.hospital = this.hospitals[0]
+          }
+          this.isLoading = false
         })
         .catch(function (error) {
+          this.alert = 'ระบบไม่สามารถเข้าถึงข้อมูลโรงพยาบาลได้'
           console.log(error)
         })
+    },
+    SelectHospital () {
+      this.$store.commit('SelectHospital', this.hospital)
+      window.location.href = '/'
     }
   }
 }
 </script>
 
 <style lang="scss">
-
+  #select-hospital {
+    .white-card {
+      padding-bottom: 30px;
+      button {
+        margin: 5px;
+      }
+      .banner {
+        background-color: darken(#55785B, 10%)
+      }
+      .form-control {
+        width: 100%;
+      }
+      .card-content {
+        padding: 0px 50px;
+      }
+    }
+  }
 </style>

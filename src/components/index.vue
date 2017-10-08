@@ -14,12 +14,19 @@
               <div class="col-xs-12 col-sm-8 col-sm-offset-2 subtitle">
                 <p>PawPal Friend of Best Friend พอว์เพาว์ เป็นมากกว่าเพื่อน ที่เข้าใจสุนัขของคุณ</p>
               </div>
-              <div class="col-xs-12 col-sm-12 btn-section animated fadeIn" style="display: none;">
-                <router-link to="/finder" class="btn-start">เพิ่มสุนัขที่พบ</router-link>
+              <div class="col-xs-12 col-sm-12 btn-section animated fadeIn">
+                <router-link v-for="(btn, i) in btnList" :key="btn" :to="btn.url" class="btn btn-tranparent btn-lg">{{btn.name}}</router-link>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="white-card" style="margin: 5%; display: none;">
+        <button class="btn btn-primary btn-lg">Test12345</button>
+        <button class="btn btn-success btn-lg">Test12345</button>
+        <button class="btn btn-info btn-lg">Test12345</button>
+        <button class="btn btn-warning btn-lg">Test12345</button>
+        <button class="btn btn-danger btn-lg">Test12345</button>
       </div>
     </div>
     <app-footer></app-footer>
@@ -33,9 +40,26 @@ import appFooter from '@/components/common/Footer.vue'
 export default {
   name: 'landing',
   created () {
+    if (this.$store.getters.IsLogin) {
+      if (this.$store.getters.IsSelectHospital) {
+        this.btnList.push({ name: 'สมุดการนัดหมาย', url: '/doctor/appointment' })
+        this.btnList.push({ name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' })
+      }
+    } else {
+      this.btnList = [
+        { name: 'เพิ่มสุนัขที่พบ', url: '/finder' },
+        { name: 'ประกาศสุนัขที่พบ', url: '/found-dog' },
+        { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
+      ]
+    }
   },
   components: {
     navBar, appFooter
+  },
+  data () {
+    return {
+      btnList: []
+    }
   }
 }
 </script>
@@ -77,6 +101,9 @@ export default {
     .btn-section {
       margin-top: 50px;
       margin-bottom: 80px;
+    }
+    .btn {
+      margin: 0px 5px;
     }
     .btn-start {
       padding: 10px 50px 10px 50px;

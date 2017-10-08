@@ -91,7 +91,7 @@ export default {
     .btn-page {
       color: white;
       background-color: #49392C;
-      border-radius: 10px;
+      border-radius: 5px;
       padding: 10px 30px;
       margin-right: 5px;
       margin-right: 0px;
@@ -102,7 +102,7 @@ export default {
     .btn-page-number {
       color: #49392C;
       background-color: white;
-      border-radius: 10px;
+      border-radius: 5px;
       padding: 10px 20px;
       margin-right: 5px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -110,22 +110,22 @@ export default {
     .btn-page-number-active {
       @extend .btn-page-number;
       color: white;
-      background-color: lighten(#49392C, 5%);
+      background-color: #49392C;
     }
     .btn-page-active {
       @extend .btn-page;
-      background-color: lighten(#49392C, 10%);
+      background-color: darken(#49392C, 5%);
     }
     .btn-page-number:hover {
       color: white;
-      background-color: #49392C;
+      background-color: darken(#49392C, 5%);
     }
     .btn-page:hover {
-      background-color: lighten(#49392C, 10%);
+      background-color: darken(#49392C, 5%);
     }
     .border {
       border: 3px solid white;
-      border-radius: 12px;
+      border-radius: 5px;
     }
     .sm {
       padding: 5px 20px; 

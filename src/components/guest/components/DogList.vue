@@ -94,6 +94,7 @@ export default {
     .card:hover {
       box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
       img {
+        transition-duration: 0.5s;
         filter: brightness(130%)
       }
     }
@@ -135,6 +136,7 @@ export default {
       height: 200px;
     }
     .bright {
+      transition-duration: 0.5s;
       filter: brightness(150%);
     }
     .desc {

@@ -3,6 +3,7 @@ import store from '../vuex/store'
 const DoctorPage = () => import('@/components/doctor')
 const VaccinationPage = () => import('@/components/doctor/Vaccination.vue')
 const VaccinationRecordPage = () => import('@/components/doctor/VaccinationRecord.vue')
+const SearchAppointmentPage = () => import('@/components/doctor/SearchAppointment.vue')
 const AppointmentPage = () => import('@/components/doctor/Appointment.vue')
 const SelectHospitalPage = () => import('@/components/doctor/SelectHospital.vue')
 import Vue from 'vue'
@@ -17,21 +18,24 @@ var route = {
   component: DoctorPage,
   children: [
     { path: '/', name: 'SelectHospitalPage', component: SelectHospitalPage },
-    { path: 'vaccination/', name: 'AppointmentPage', component: AppointmentPage },
+    { path: 'vaccination/', name: 'SearchAppointmentPage', component: SearchAppointmentPage },
+    { path: 'appointment/', name: 'AppointmentPage', component: AppointmentPage },
     { path: 'vaccination/:appointment_id/', name: 'VaccinationPage', component: VaccinationPage },
     { path: 'record/:dog_id/', name: 'VaccinationRecordPage', component: VaccinationRecordPage }
   ],
   beforeEnter: (to, from, next) => {
     if (store.getters.IsLogin) {
       Vue.http.get('/api/session/').then(response => {
-        // console.log(response)
-        if (response.body.success && store.getters.IsSelectHospital) {
-          next()
+        if (response.body.success) {
+          if (to.path === '/doctor' || store.getters.IsSelectHospital) {
+            next()
+          } else {
+            next('/doctor')
+          }
         } else {
           next('/logout')
         }
       }, error => {
-        console.log(error)
         if (error.body.success) {
           next('/login')
         } else {

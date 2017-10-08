@@ -1,5 +1,5 @@
 <template>
-  <div id="login" @keyup.enter = "Submit">
+  <div id="login" @keyup.enter = "Login">
     <nav-bar :type = "'dark'"></nav-bar>
     <div class="router-view">
       <div class="title-blue-card">
@@ -9,10 +9,9 @@
       </div>
       <div class="container col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 white-card animated fadeIn">
         <div class="banner col-xs-12">
-          <div v-if="!veterinarian">หากท่านไม่สามารถเข้าสู่ระบบได้หรือต้องการสมัครใช้งาน กรุณาติดต่อผู้ดูแลระบบ</div>
-          <div v-else class="hospital-label">กรุณาเลือกโรงพยาบาลของท่าน</div>
+          <div>หากท่านไม่สามารถเข้าสู่ระบบได้หรือเกิดปัญหาใดๆ กรุณาติดต่อผู้ดูแลระบบ</div>
         </div>
-        <div class="card-content" v-if="!veterinarian">
+        <div class="card-content">
           <div class="col-xs-12">
             <div class="input-label">อีเมลล์</div>
             <input type="email" class="form-control input-lg" name="username" v-model="user.email">
@@ -25,20 +24,7 @@
             <div class="alert alert-danger" v-if="alert">{{alert}}</div>
           </div>
           <div class="col-xs-12 margin-t-20 text-right">
-            <input class="btn btn-primary btn-lg" @click="Login" value="เข้าสู่ระบบ" />
-          </div>
-        </div>
-        <div class="card-content animated fadeIn" v-else>
-          <loading v-if="isLoading"></loading>
-          <div v-else>
-            <div class="col-xs-12">
-              <select class="form-control input-lg" v-model="hospital" @keypress.enter="SelectHospital">
-                <option v-for="(hospital, i) in hospitals" :key="hospital.name" :value="hospital">{{hospital.name}}</option>
-              </select>
-            </div>
-            <div class="col-xs-12 m-t-20 text-right">
-              <button input class="btn btn-success btn-lg" @click="SelectHospital">เลือกโรงพยาบาลนี้</button>
-            </div>
+            <button class="btn btn-primary btn-lg" @click="Login">เข้าสู่ระบบ</button>
           </div>
         </div>
       </div>
@@ -73,38 +59,14 @@ export default {
         }
       }
     },
-    Submit () {
-      console.log(this.veterinarian)
-      if (this.veterinarian) {
-        this.SelectHospital()
-      } else {
-        this.Login()
-      }
-    },
-    SelectHospital () {
-      this.$store.commit('SelectHospital', this.hospital)
-      window.location.href = '/'
-    },
     Login () {
       if (this.CheckRequired()) {
-        var self = this
         this.$http.post('/api/login/', this.user)
           .then(function (response) {
             console.log(response)
-            response.body.hospital = null
-            self.$store.commit('Login', response.body)
-            self.veterinarian = true
-            self.isLoading = true
-            this.$http.get('/api/hospital/')
-              .then(function (response) {
-                self.hospitals = response.body
-                self.hospital = self.hospitals[0]
-                self.isLoading = false
-              })
-              .catch(function (error) {
-                this.alert = 'ระบบไม่สามารถเข้าถึงข้อมูลโรงพยาบาลได้'
-                console.log(error)
-              })
+            this.$store.commit('Login', response.body)
+            this.isLoading = true
+            window.location.href = '/doctor'
           })
           .catch(function (error) {
             if (error.body && error.body.detail === 'Please logout.') {
@@ -120,10 +82,7 @@ export default {
   data () {
     return {
       alert: null,
-      veterinarian: false,
-      hospital: null,
       isLoading: false,
-      hospitals: [],
       user: {
         email: null, password: null
       }
