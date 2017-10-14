@@ -8,7 +8,7 @@
     <div class="container col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 white-card text-center animated fadeIn">
       <div class="col-xs-12 no-padding">
         <input type="text" class="form-control input-lg" v-model="searchText" placeholder="รหัสนัดหมาย, รหัสสมาชิก, ชื่อเจ้าของสุนัข, ชื่อสุนัข, เบอร์โทร, ที่อยู่" @keyup.enter = "Searching()">
-        <span class="btn btn-brown btn-lg" @click="Searching()">ค้นหา</span>
+        <span class="btn btn-brown btn-lg" style="margin-top: -5px;" @click="Searching()">ค้นหา</span>
       </div>
       <div class="alert alert-danger col-xs-12" v-if="alert[0].name" :class="alert[0].class">{{alert[0].name}}</div>
     </div>
@@ -16,12 +16,14 @@
       <loading v-if="isLoading"></loading>
       <div style="padding: 0px 20px" v-else>
         <div v-if="appointments.length > 0 || users.length > 0 || dogs.length > 0">
-          <div class="pull-left">
+          <div class="col-xs-12 col-sm-8 no-padding" style="margin-bottom: 40px;">
             <div class="label-yellow">จากรายการนัดหมาย</div>
             <div class="label-blue">จากรายชื่อสมาชิก</div>
             <div class="label-red">จากรายชื่อสุนัข</div>
           </div>
-          <div class="btn btn-lg btn-success pull-right" style="display: inline-block;" v-if="isSelected" @click="SelectingDog()">เข้าสู่หน้าวัคซีน</div>
+          <div class="col-xs-12 col-sm-3 no-padding col-sm-offset-1">
+            <div class="btn btn-lg btn-success" style="width: 100%;" v-if="isSelected" @click="SelectingDog()">เข้าสู่สมุดวัคซีน</div>
+          </div>
           <table class="table table-hover">
             <thead>
               <tr>
@@ -207,7 +209,6 @@ export default {
     .btn{
       width: 20%;
       display: inline-block;
-      margin-top: -5px;
       transition-duration: 0.5s;
     }
     .spinner {
@@ -221,14 +222,16 @@ export default {
       text-align: center;
       th {
         font-size: 18px;
-        padding-top: 30px;
+        color: white;
+        font-weight: normal;
+        background-color: $brown-color;
         border-bottom: 3px solid $brown-color;
         text-align: center;
       }
       td {
         vertical-align: middle;
         cursor: pointer;
-        border-bottom: 1px solid lighten(#49392C, 15%);
+        border-bottom: 1px solid #49392C;
         .form-control {
           padding: 0px;
           height: 30px;
@@ -252,6 +255,7 @@ export default {
       font-size: 14px;
       padding: 10px 20px;
       border-radius: 5px;
+      color: black;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
     .label-yellow {
@@ -267,12 +271,15 @@ export default {
       background-color: lighten(#DD4F4F, 20%);
     }
     .active-yellow {
+      color: black;
       background-color: #E8D54A !important;  
     }
     .active-blue {
+      color: black;
       background-color: lighten(#45BCD1, 15%);
     }
     .active-red {
+      color: black;
       background-color: lighten(#DD4F4F, 10%);
     }
     .tr-yellow {

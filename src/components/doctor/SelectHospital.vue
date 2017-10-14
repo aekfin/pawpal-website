@@ -74,6 +74,7 @@ export default {
 <style lang="scss">
   #select-hospital {
     .white-card {
+      padding: 0px;
       padding-bottom: 30px;
       button {
         margin: 5px;

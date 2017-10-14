@@ -7,14 +7,19 @@
     </div>
     <div class="container">
       <div class="white-card col-xs-12 animated fadeIn">
-        <div class="input-group col-xs-12">
-          <div class="input-group-addon input-lg">ประจำวันที่</div>
-          <select class="form-control input-lg" v-model="date" @change="FetchAppointments()">
-            <option v-for="(date, i) in dates" :key="date.getTime()" :value="date.getTime()">{{DateFormat(date)}}</option>
-          </select>        
+        <div class="col-xs-12 col-sm-8 no-padding" style="margin-bottom: 40px;">
+          <div class="input-group">
+            <div class="input-group-addon input-lg">ประจำวันที่</div>
+            <select class="form-control input-lg" v-model="date" @change="FetchAppointments()">
+              <option v-for="(date, i) in dates" :key="date.getTime()" :value="date.getTime()">{{DateFormat(date)}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-3 col-sm-offset-1 no-padding">
+          <buttun class="btn btn-success btn-lg" style="width: 70%; margin-left: 30%;" v-if="appointment" @click="GoToVaccineBook(appointment.key)">เข้าสู่สมุดวัคซีน</buttun>   
         </div>
         <loading v-if="isLoading"></loading>
-        <div class="input-group col-xs-12" style="margin-top: 30px" v-else>
+        <div class="input-group col-xs-12" v-else>
           <table class="table table-hover" v-if="appointments.length > 0">
             <thead>
               <tr>
@@ -22,7 +27,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(appointment, i) in appointments" :key="i" @click="GoToVaccineBook(appointment.key)" class="contents">
+              <tr v-for="(appointment, i) in appointments" :key="i" @click="ClickAppointment(appointment)" :class="appointment.class">
                 <td>{{appointment.key}}</td>
                 <td>{{appointment.dog}}</td>
                 <td>{{appointment.account_name}}</td>
@@ -63,6 +68,7 @@ export default {
       date: null,
       dates: [],
       headers: ['รหัสการนัดหมาย', 'ชื่อสุนัข', 'ชื่อเจ้าของ', 'เบอร์ติดต่อ', 'วัคซีนที่ต้องการฉีด'],
+      appointment: null,
       appointments: []
     }
   },
@@ -85,6 +91,21 @@ export default {
         $('[data-toggle="tooltip"]').tooltip()
       })
     },
+    ClickAppointment (apm) {
+      this.appointments.forEach(function (appointment) {
+        if (apm === appointment) {
+          if (appointment.class === 'content-active') {
+            appointment.class = 'content'
+            this.appointment = null
+          } else {
+            appointment.class = 'content-active'
+            this.appointment = appointment
+          }
+        } else {
+          appointment.class = 'content'
+        }
+      }, this)
+    },
     GoToVaccineBook (key) {
       if (this.dates[0].getTime() === this.date) {
         this.$router.push('/doctor/vaccination/' + key)
@@ -103,6 +124,7 @@ export default {
           if (appointment.tooltip.length > 0) {
             appointment.tooltip = appointment.tooltip.substring(0, appointment.tooltip.length - 2)
           }
+          appointment.class = 'content'
           this.appointments.push(appointment)
         }, this)
         this.RefreshTooltip()
@@ -129,12 +151,14 @@ export default {
     .form-control {
       border-top-right-radius: 3px;
       border-bottom-right-radius: 3px;
+      width: 100% !important;
     }
-    .contents-active {
-      background-color: lighten(#49392C, 60%);
+    .content-active {
+      color: black;
+      background-color: lighten(#49392C, 40%);
     }
-    .contents:hover {
-      @extend .contents-active;
+    .content:hover {
+      @extend .content-active;
     }
     .tooltip {
       width: 100%;
@@ -149,11 +173,14 @@ export default {
         font-size: 18px;
         text-align: center;
         cursor: default;
+        color: white;
+        font-weight: normal;
+        background-color: #49392C;
         border-bottom: 3px solid #49392C;
       }
       td {
         text-align: center;
-        border-bottom: 1px solid lighten(#49392C, 15%);
+        border-bottom: 1px solid #49392C;
       }
     }
   }
