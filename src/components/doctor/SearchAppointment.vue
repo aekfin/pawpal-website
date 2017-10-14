@@ -195,7 +195,7 @@ export default {
   
   #search-appointment {
     .white-card {
-      padding: 30px 15px;
+      padding: 40px 25px;
       margin-top: 1%;
       margin-bottom: 20px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -228,7 +228,7 @@ export default {
       td {
         vertical-align: middle;
         cursor: pointer;
-        border-bottom: 1px solid $brown-color;
+        border-bottom: 1px solid lighten(#49392C, 15%);
         .form-control {
           padding: 0px;
           height: 30px;

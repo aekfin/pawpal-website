@@ -109,7 +109,7 @@
   Vue.use(VueCroppie)
   Vue.use(VueGoogleMaps, {
     load: {
-      key: 'AIzaSyC5Zj99qcTk6zn3_TBnr7gMdO6oxbCxhJ8',
+      key: 'AIzaSyCgh_Mj91pf2vXMF2GYVNG5-V-etzaBggg',
       v: '3',
       libraries: 'places'
     }

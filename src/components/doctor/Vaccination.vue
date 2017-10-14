@@ -101,12 +101,14 @@
             </div>
           </div>
           <div class="modal-footer">
-            <div class="pull-left">
-              <button type="button" class="btn btn-danger btn-lg" @click="ClearForm">ล้างข้อมูล</button>
-            </div>
-            <div class="pull-right">
-              <button type="button" class="btn btn-default btn-lg" data-dismiss="modal" @click="ResetForm">ยกเลิก</button>
-              <button type="button" class="btn btn-success btn-lg" @click="SaveForm">บันทึกข้อมูล</button>
+            <div style="margin: 0px 5%;">
+              <div class="pull-left">
+                <button type="button" class="btn btn-danger btn-lg" @click="ClearForm">ล้างข้อมูล</button>
+              </div>
+              <div class="pull-right">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal" @click="ResetForm">ยกเลิก</button>
+                <button type="button" class="btn btn-success btn-lg" @click="SaveForm">บันทึกข้อมูล</button>
+              </div>
             </div>
           </div>
         </div>
@@ -376,7 +378,6 @@ export default {
       font-size: 14px !important;
     }
     .white-card {
-      padding: 20px 40px;
       margin-top: 20px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
       h3 {

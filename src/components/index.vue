@@ -86,7 +86,10 @@ export default {
       width: 100%;
       height: 100%;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.4)
-    } 
+    }
+    .modal-footer {
+      padding: 15px 30px;
+    }
     .text-box {
       margin-top: 80px;
     }
@@ -105,21 +108,8 @@ export default {
     .btn {
       margin: 0px 5px;
     }
-    .btn-start {
-      padding: 10px 50px 10px 50px;
-      border-radius: 50px;
-      background-color: #7C5139;
-      color: #E1C4A5;
-      font-size: 20px;
-      transition-duration: 1s;
-      box-shadow: 0 0 20px #4E3326;
-    }
-    .btn-start:hover {
-      text-decoration: none;
-      color: #7C5139;
-      cursor: pointer;
-      background-color: #E1C4A5;   
-      box-shadow: 0 0 30px white;
+    .btn-tranparent {
+      font-size: 18px !important;
     }
     h1 {
       color: white;
