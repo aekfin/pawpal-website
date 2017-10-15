@@ -8,8 +8,8 @@
           <i v-else class="material-icons btn btn-page btn-lg page-disabled" :class="innerClass">&#xE5CB;</i>
         </li>
         <li class="numbers" v-for="(page, i) in pages" :key="i">
-          <div class="btn btn-page-number-active btn-lg" :class="innerClass" v-if="page === pagination.current">{{page}}</div>
-          <div class="btn btn-page-number btn-lg" :class="innerClass" @click="GoToPage(page)" v-else>{{page}}</div>
+          <div class="btn btn-page-number-active btn-lg" v-if="page === pagination.current">{{page}}</div>
+          <div class="btn btn-page-number btn-lg" @click="GoToPage(page)" v-else>{{page}}</div>
         </li>
         <li class="pull-right">
           <i v-if="next" class="material-icons btn btn-page btn-lg" :class="innerClass" @click="GoToPage(pagination.current+1)">&#xE5CC;</i>
@@ -90,7 +90,7 @@ export default {
   #pagination {
     .btn-page {
       color: white;
-      background-color: #49392C;
+      background-color: lighten(#49392C, 10%);
       border-radius: 5px;
       padding: 10px 30px;
       margin-right: 5px;
@@ -110,7 +110,7 @@ export default {
     .btn-page-number-active {
       @extend .btn-page-number;
       color: white;
-      background-color: #49392C;
+      background-color: lighten(#49392C, 10%);
     }
     .btn-page-active {
       @extend .btn-page;
@@ -128,14 +128,12 @@ export default {
       border-radius: 5px;
     }
     .sm {
-      padding: 5px 20px; 
+      font-size: 24px !important;
+      padding: 10px 30px !important; 
     }
     .numbers {
       .border {
         border: 2px solid white;
-      }
-      .sm {
-        padding: 5px 10px; 
       }
     }
     .page-disabled {

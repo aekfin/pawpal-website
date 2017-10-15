@@ -9,14 +9,14 @@
     <div class="container">
       <div class="white-card col-xs-12 animated fadeIn">
         <h3>รายละเอียดของสุนัข</h3>
-        <loading v-if="isLoading.dog"></loading>
+        <loading  v-if="isLoading.dog"></loading>
         <div v-else>
           <dog-information :dog="dog" :account="account" v-if="dog"></dog-information>
         </div>
       </div>
       <div class="white-card col-xs-12 animated fadeIn" v-if="vaccineRecord !== undefined">
         <h3>ประวัติการฉีดวัคซีนของสุนัข</h3>
-        <loading v-if="isLoading.record"></loading>
+        <loading :theme="'dark'" :size="'normal'" v-if="isLoading.record"></loading>
         <div id="vaccine-table" v-else>
           <div v-if="vaccineRecord && vaccineRecord.length > 0" class="when-vaccination">บันทึกเมื่อวันที่ <b>{{DateFormat(vaccineRecord[0].date_record)}}</b></div>
           <view-table :tableHeader = "tableHeader" :vaccineRecord = "vaccineRecord" style="margin-bottom: 50px;"></view-table>

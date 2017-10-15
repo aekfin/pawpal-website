@@ -24,7 +24,7 @@ export default {
   #doctor {
     .white-card {
       margin-top: 3%;
-      padding: 0px 0px 50px 0px;
+      padding: 40px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
       .input-label {
         font-size: 20px;
@@ -72,6 +72,8 @@ export default {
       font-size: 30px;
       font-weight: bold;
       margin: 30px 0px;
+      height: 100%;
+      color: $brown-color;
     }
     .dog-sm-view {
       font-size: 30px;

@@ -67,7 +67,12 @@ export default {
       padding-left: 0px;
       padding-right: 0px;
     }
-
+    .btn-lg {
+      height: 47px;
+    }
+    .input-lg {
+      height: 47px !important;
+    }
     .m-t-10 {
       margin-top: 10px !important;
     }

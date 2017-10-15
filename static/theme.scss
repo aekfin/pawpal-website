@@ -12,16 +12,18 @@ $form-theme-color: #49392C;
 .btn-lg {
   border: 3px solid white;
   border-radius: 3px;
+  font-size: 20px;
+  padding: 10px 15px;
 }
 .btn-lg:hover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 .btn-primary {
-  background-color: #6684A4;
+  background-color: #546D87;
 }
 .btn-primary:hover {
-  background-color: darken(#6684A4, 15%);
+  background-color: darken(#546D87, 10%);
 }
 .btn-info {
   background-color: #45BCD1;
@@ -62,7 +64,7 @@ $form-theme-color: #49392C;
   background-color: white;  
 }
 
-.white-card, .info-modal {
+.white-card, .info-modal, .el-dialog, .modal-content {
   background-color: white;
   border-radius: 5px;
   margin-top: 10px;
@@ -75,7 +77,9 @@ $form-theme-color: #49392C;
     border: none;
   }
   .btn-lg {
+    font-size: 18px;
     border: none;
+    padding: 10px 15px;
   }
   .banner {
     border-top-left-radius: 5px;
@@ -87,6 +91,11 @@ $form-theme-color: #49392C;
     background-color: #477b82;
   }
 }
+
+.modal-content {
+  padding: 15px 0px;
+}
+
 .title-card {
   color: white;
   width: 100%;

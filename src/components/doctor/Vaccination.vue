@@ -11,12 +11,12 @@
         รายละเอียดสุนัข
       </span>
       <dog-information :dog="dog" :account="account"></dog-information>
-      <div class="text-center" style="margin-top: 30px;"><a v-if="dog" :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-vaccines2 btn-lg" style="border: none;">ดูประวัติการฉีดวัคซีนทั้งหมด</a></div>
+      <div class="text-center" style="margin-top: 30px;"><a v-if="dog" :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-info btn-lg" style="border: none;">ดูประวัติการฉีดวัคซีนทั้งหมด</a></div>
     </el-dialog>
     <div class="container animated fadeIn">
       <div class="container-fluid white-card">
         <h3 class="text-center"><b>ตารางบันทึกการฉีดวัคซีน และป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
-        <loading v-if="isLoading" style="padding-bottom: 100px;"></loading>
+        <loading :theme="'dark'" :size="'normal'" v-if="isLoading" style="padding-bottom: 100px;"></loading>
         <table class="table table-hover" v-else>
           <thead>
             <tr>
@@ -54,10 +54,10 @@
         </table>
       </div>
       <nav aria-label="...">
-        <loading v-if="isSaving"></loading>
-        <ul class="pager" v-if="!isSaving">
-          <li><a v-if="dog" :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-vaccines2 btn-lg">ดูประวัติการฉีดวัคซีนทั้งหมด</a></li>
-          <li @click="CheckVaccineToRecord()"><span class="btn btn-vaccines btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
+        <loading :theme="'light'" :size="'normal'" v-if="isSaving"></loading>
+        <ul class="pager" v-else>
+          <li><a v-if="dog" :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-primary btn-lg">ดูประวัติการฉีดวัคซีนทั้งหมด</a></li>
+          <li @click="CheckVaccineToRecord()"><span class="btn btn-success btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>
       </nav>
     </div>
@@ -101,8 +101,15 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal" @click="ResetForm">ย้อนกลับ</button>
-            <button type="button" class="btn btn-primary" @click="SaveForm">บันทึกข้อมูล</button>
+            <div style="margin: 0px 5%;">
+              <div class="pull-left">
+                <button type="button" class="btn btn-danger btn-lg" @click="ClearForm">ล้างข้อมูล</button>
+              </div>
+              <div class="pull-right">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal" @click="ResetForm">ยกเลิก</button>
+                <button type="button" class="btn btn-success btn-lg" @click="SaveForm">บันทึกข้อมูล</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -242,6 +249,14 @@ export default {
       this.vaccineRecord[this.currentVL].class = ''
       this.doses = []
     },
+    ClearForm () {
+      this.vaccineRecord[this.currentVL].date_record = ''
+      this.vaccineRecord[this.currentVL].next_vaccine = ''
+      this.vaccineRecord[this.currentVL].veterinary = ''
+      this.vaccineRecord[this.currentVL].doses['selected'] = []
+      this.ResetForm()
+      $('#form_modal').modal('toggle')
+    },
     SaveForm () {
       if (this.vaccineRecord[this.currentVL].date_record !== '' && this.vaccineRecord[this.currentVL].next_vaccine !== '' && this.vaccineRecord[this.currentVL].veterinary !== '' && this.doses.length > 0 && this.vaccineRecord[this.currentVL].veterinary !== undefined) {
         if (this.vaccineRecord[this.currentVL].date_record !== '') {
@@ -359,8 +374,10 @@ export default {
 
   #vaccination {
     padding-bottom: 40px;
+    .date-input {
+      font-size: 14px !important;
+    }
     .white-card {
-      padding: 20px 40px;
       margin-top: 20px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
       h3 {
@@ -467,30 +484,11 @@ export default {
       font-size: 14px;
       line-height: 1.42857143;
       color: #555;
+      font-size: 18px;
       background-color: #fff;
       background-image: none;
       border: 1px solid #ccc;
       border-radius: 4px;
-    }
-    .btn-vaccines {
-      cursor: pointer; 
-      color: white;
-      border: 2px solid white;
-      margin-top: -7px;
-      font-size: 20px;
-      transition-duration: 0.3s;
-      background-color: $pagination-color;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    }
-    .btn-vaccines2 {
-      @extend .btn-vaccines;
-      background-color:  darken(royalblue, 10%);
-    }
-    .btn.btn-vaccines:hover {
-      background-color: $table-color;
-    }
-    .btn.btn-vaccines2:hover {
-      background-color: royalblue;
     }
     .simplert__header {
       padding-bottom: 18px;
