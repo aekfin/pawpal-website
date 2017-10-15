@@ -34,6 +34,7 @@ var router = new Router({
           window.location.href = '/login'
         }, response => {
           console.log(response)
+          window.location.href = '/'
         })
       }
     },
