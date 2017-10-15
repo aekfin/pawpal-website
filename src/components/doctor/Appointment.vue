@@ -9,18 +9,18 @@
       <div class="white-card col-xs-12 animated fadeIn">
         <div class="col-xs-12 col-sm-8 no-padding" style="margin-bottom: 40px;">
           <div class="input-group">
-            <div class="input-group-addon input-lg">ประจำวันที่</div>
+            <div class="input-group-addon input-lg">การนัดหมายในวันที่</div>
             <select class="form-control input-lg" v-model="date" @change="FetchAppointments()">
               <option v-for="(date, i) in dates" :key="date.getTime()" :value="date.getTime()">{{DateFormat(date)}}</option>
             </select>
           </div>
         </div>
         <div class="col-xs-12 col-sm-3 col-sm-offset-1 no-padding">
-          <buttun class="btn btn-success btn-lg" style="width: 70%; margin-left: 30%;" v-if="appointment" @click="GoToVaccineBook(appointment.key)">เข้าสู่สมุดวัคซีน</buttun>   
+          <button class="btn btn-success btn-lg" style="width: 70%; margin-left: 30%;" v-if="appointment" @click="GoToVaccineBook(appointment.key)">เข้าสู่สมุดวัคซีน</button>   
         </div>
-        <loading v-if="isLoading"></loading>
-        <div class="input-group col-xs-12" v-else>
-          <table class="table table-hover" v-if="appointments.length > 0">
+        <loading class="col-xs-12" :theme="'dark'" :size="'normal'" v-if="isLoading"></loading>
+        <div class="col-xs-12 no-padding" style="min-height: 240px;" v-else>
+          <table class="table table-hover animated fadeIn" v-if="appointments.length > 0">
             <thead>
               <tr>
                 <th v-for="(h, i) in headers" :key="h">{{h}}</th>

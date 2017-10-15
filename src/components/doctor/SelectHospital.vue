@@ -10,7 +10,7 @@
         <div>หากท่านไม่พบโรงพยาบาลของท่านหรือเกิดปัญหาใดๆ กรุณาติดต่อผู้ดูแลระบบ</div>
       </div>
       <div class="card-content animated fadeIn">
-        <loading class="col-xs-12" v-if="isLoading"></loading>
+        <loading class="col-xs-12" :theme="'dark'" :size="'normal'" v-if="isLoading"></loading>
         <div v-else>
           <div class="col-xs-12">
             <select class="form-control input-lg" v-model="hospital">

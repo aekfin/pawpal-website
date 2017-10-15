@@ -1,62 +1,86 @@
 <template>
-  <div class="loading">
-    <div class="spinner">
-      <div class="bounce1"></div>
-      <div class="bounce2"></div>
-      <div class="bounce3"></div>
+  <div id="loading">
+    <div class="paw">
+      <img class = "paw-left-1" :width = "width" :height = "height" :src="image" />
+      <img class = "paw-right-1" :width = "width" :height = "height" :src="image" />
+      <img class = "paw-left-2" :width = "width" :height = "height" :src="image" />
+      <img class = "paw-right-2" :width = "width" :height = "height" :src="image" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-
+  props: ['theme', 'size'],
+  created () {
+    switch (this.theme) {
+      case 'light':
+        this.image = require('../../assets/paw_print_white.png')
+        break
+      default:
+        this.image = require('../../assets/paw_print_brown.png')
+    }
+    switch (this.sizes) {
+      case 'small':
+        this.width = 50
+        this.height = 50
+        break
+      default:
+        this.width = 100
+        this.height = 100
+    }
+  },
+  data () {
+    return {
+      image: null,
+      width: null,
+      height: null
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-  $spinner-size: 30px;
-  $color: #49392C;
-
-  .spinner {
-    margin: 100px auto 50px;
-    width: ($spinner-size * 3) + 16px;
+  #loading {
+    width: 100%;
+    height: 240px;
     text-align: center;
-  }
-
-  .spinner > div {
-    width: $spinner-size;
-    height: $spinner-size;
-    background-color: $color;
-
-    border-radius: 100%;
-    display: inline-block;
-    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-  }
-
-  .spinner .bounce1 {
-    -webkit-animation-delay: -0.32s;
-    animation-delay: -0.32s;
-  }
-
-  .spinner .bounce2 {
-    -webkit-animation-delay: -0.16s;
-    animation-delay: -0.16s;
-  }
-
-  @-webkit-keyframes sk-bouncedelay {
-    0%, 80%, 100% { -webkit-transform: scale(0) }
-    40% { -webkit-transform: scale(1.0) }
-  }
-
-  @keyframes sk-bouncedelay {
-    0%, 80%, 100% { 
-      -webkit-transform: scale(0);
-      transform: scale(0);
-    } 40% { 
-      -webkit-transform: scale(1.0);
-      transform: scale(1.0);
+    .paw {
+      height: 100%;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    .paw > img {
+      opacity: 0;
+      margin: 20px;
+      display: inline-block;
+      transform: rotate(90deg);
+      position: relative;
+    }
+    .paw > .paw-left-1 {
+      animation: walking 5s 0s infinite;
+    }
+    .paw > .paw-right-1 {
+      top: 100px;
+      animation: walking 5s 1s infinite;
+    }
+    .paw > .paw-left-2 {
+      animation: walking 5s 2s infinite;
+    }
+    .paw > .paw-right-2 {
+      top: 100px;
+      animation: walking 5s 3s infinite;
+    }
+    @keyframes walking {
+      0% {
+        opacity: 0;
+      }
+      20% {
+        opacity: 1.0;
+      }
+      60% {
+        opacity: 0;
+      }
     }
   }
 </style>

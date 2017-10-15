@@ -16,7 +16,7 @@
     <div class="container animated fadeIn">
       <div class="container-fluid white-card">
         <h3 class="text-center"><b>ตารางบันทึกการฉีดวัคซีน และป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
-        <loading v-if="isLoading" style="padding-bottom: 100px;"></loading>
+        <loading :theme="'dark'" :size="'normal'" v-if="isLoading" style="padding-bottom: 100px;"></loading>
         <table class="table table-hover" v-else>
           <thead>
             <tr>
@@ -54,8 +54,8 @@
         </table>
       </div>
       <nav aria-label="...">
-        <loading v-if="isSaving"></loading>
-        <ul class="pager" v-if="!isSaving">
+        <loading :theme="'light'" :size="'normal'" v-if="isSaving"></loading>
+        <ul class="pager" v-else>
           <li><a v-if="dog" :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-primary btn-lg">ดูประวัติการฉีดวัคซีนทั้งหมด</a></li>
           <li @click="CheckVaccineToRecord()"><span class="btn btn-success btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>

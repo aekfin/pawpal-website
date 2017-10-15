@@ -69,7 +69,7 @@
           </div>
         </div>
       </div>
-      <loading v-if="isLoading" class="col-xs-12"></loading>
+      <loading :theme="'light'" :size="'normal'" v-if="isLoading" class="col-xs-12"></loading>
       <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" style="margin-top: 20px;" v-else>
         <div class="btn btn-success btn-lg" @click="AddFoundDog()">เพิ่มสุนัขที่พบ</div>
       </div>

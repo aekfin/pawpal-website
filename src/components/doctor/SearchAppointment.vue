@@ -13,7 +13,7 @@
       <div class="alert alert-danger col-xs-12" v-if="alert[0].name" :class="alert[0].class">{{alert[0].name}}</div>
     </div>
     <div class="container col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 white-card animated fadeIn" style="margin-bottom: 40px;" v-if="searchResult">
-      <loading v-if="isLoading"></loading>
+      <loading :theme="'dark'" :size="'normal'" v-if="isLoading"></loading>
       <div style="padding: 0px 20px" v-else>
         <div v-if="appointments.length > 0 || users.length > 0 || dogs.length > 0">
           <div class="col-xs-12 col-sm-8 no-padding" style="margin-bottom: 40px;">
