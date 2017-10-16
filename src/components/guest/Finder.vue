@@ -289,10 +289,15 @@
       },
       AddFoundDog () {
         if (this.RequireForm() === 'pass') {
+          var images = []
+          for (var i = 0; i < this.images.length; i++) {
+            images.push(this.images[i].modified_src)
+          }
           var dog = {
             'color_primary': this.dogForm[1].model,
             'color_secondary': this.dogForm[2].model,
             'dominance': this.dogForm[3].model,
+            'image': images,
             'name': this.finderForm[0].model,
             'tel': this.finderForm[1].model,
             'note': this.finderForm[2].model,
@@ -305,16 +310,9 @@
           }
           this.isLoading = true
           this.$http.post('/api/v2/found/', dog).then(response => {
-            for (var i = 0; i < this.images.length; i++) {
-              this.$http.post('/api/v2/add-image/', {'found': response.body.id, 'image': this.images[i].modified_src}).then(response => {
-                console.log(response)
-                this.isLoading = false
-                window.scrollTo(0, 0)
-                this.$router.push('/found-dog')
-              }, error => {
-                console.log(error)
-              })
-            }
+            this.isLoading = false
+            window.scrollTo(0, 0)
+            this.$router.push('/found-dog')
           }, error => {
             console.log(error)
           })
