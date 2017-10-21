@@ -11,10 +11,10 @@
           </router-link>
         </div>          
         <ul class="nav navbar-nav navbar-left hidden-xs hidden-sm">
-          <li v-for="ll in leftList" :key="ll.name" @click="ShowInfomation(ll.action)"><router-link :class="rightLink" :to="ll.url">{{ll.name}}</router-link></li>
+          <li v-for="ll in leftList" :key="ll.name" @click="ShowInfomation(ll.action)"><router-link :class="$route.path===ll.url? rightLinkActive : rightLink" :to="ll.url">{{ll.name}}</router-link></li>
         </ul>
         <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm">
-          <li v-for="rl in rightList" :key="rl.name" @click="ShowInfomation(rl.action)"><router-link :class="rightLink" :to="rl.url">{{rl.name}}</router-link></li>
+          <li v-for="rl in rightList" :key="rl.name" @click="ShowInfomation(rl.action)"><router-link :class="$route.path===rl.url? rightLinkActive : rightLink" :to="rl.url">{{rl.name}}</router-link></li>
         </ul>
         <ul class="nav navbar-nav navbar-right hidden-md hidden-lg">
           <div class="slide-icon" data-toggle="collapse" data-target="#collapse-nav"><i class="material-icons">&#xE8D2;</i></div>
@@ -40,6 +40,7 @@ export default {
       this.navbar = 'navbar-dark'
       this.brandTitle = 'brand-title-dark'
       this.rightLink = 'right-link-dark'
+      this.rightLinkActive = 'right-link-dark-active'
     } else {
       this.collapse = 'collapse-nav tranparent'
     }
@@ -49,19 +50,26 @@ export default {
     this.leftList = []
     if (this.$store.getters.IsLogin) {
       if (this.$store.getters.IsSelectHospital) {
-        this.leftList.push({ name: 'สมุดการนัดหมาย', url: '/doctor/appointment' })
-        this.leftList.push({ name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' })
+        this.leftList = [
+          { name: 'สมุดการนัดหมาย', url: '/doctor/appointment' },
+          { name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' }
+        ]
       }
       var name = this.$store.getters.GetUser.first_name + ' ' + this.$store.getters.GetUser.last_name
-      this.rightList.push({ name: name, url: '', action: 'user' })
-      this.rightList.push({ name: 'ออกจากระบบ', url: '/logout' })
+      this.rightList = [
+        { name: name, url: '', action: 'user' },
+        { name: 'ออกจากระบบ', url: '/logout' }
+      ]
     } else {
       this.leftList = [
         { name: 'เพิ่มสุนัขที่พบ', url: '/finder' },
         { name: 'ประกาศสุนัขที่พบ', url: '/found-dog' },
         { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
       ]
-      this.rightList.push({ name: 'เข้าสู่ระบบ', url: '/login' })
+      this.rightList = [
+        { name: 'การวิเคราะห์เชิงสถิติ', url: '/dashboard' },
+        { name: 'เข้าสู่ระบบ', url: '/login' }
+      ]
     }
     for (var i = 0; i < this.leftList.length; i++) {
       this.mobileList.push(this.leftList[i])
@@ -75,6 +83,10 @@ export default {
   },
   methods: {
     ShowInfomation (info) {
+      var elements = document.getElementsByClassName(this.rightLink)
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].blur()
+      }
       if (info === 'user') {
         if (this.$store.getters.IsSelectHospital) {
           var license = this.$store.getters.GetUser.license
@@ -114,6 +126,7 @@ export default {
       navbar: '',
       brandTitle: 'brand-title',
       rightLink: 'right-link',
+      rightLinkActive: 'right-link-dark-active',
       collapse: 'collapse-nav',
       mobileList: [],
       rightList: [],
@@ -134,7 +147,8 @@ export default {
     }
     .navbar-dark {
       background-color: #49392C; 
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.3);
+      // box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.3);
+      border-bottom: 3px solid white;
       border-radius: 0px;
     }
     .info-modal {
@@ -191,13 +205,15 @@ export default {
       @extend .right-link;
       color: white;
     }
-    .right-link-dark:hover {
+    .right-link-dark-active {
       color: #441002;
       background-color: white;
     }
+    .right-link-dark:hover {
+      @extend .right-link-dark-active
+    }
     .right-link-dark:focus {
-      color: #441002;
-      background-color: white;
+      @extend .right-link-dark-active
     }
     .navbar-nav > li > a {
       padding-top: 18px;
@@ -209,7 +225,7 @@ export default {
       font-size: 30px;    
       cursor: pointer;
     }
-    .slide-icon:hover, .slide-icon:active, .slide-icon:focus {
+    .slide-icon:hover, .slide-icon:focus {
       color: white;
     }
     .collapse-nav {
@@ -229,9 +245,6 @@ export default {
         a:hover, a:active, a:focus {
           text-decoration: none;
         }
-      }
-      li:hover, li:active, li:focus {
-        background-color: #795e49;
       }
     }
     .tranparent {
