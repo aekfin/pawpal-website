@@ -82,6 +82,7 @@ devMiddleware.waitUntilValid(() => {
 })
 
 var server = app.listen(port)
+server.keepAliveTimeout = 120000
 
 module.exports = {
   ready: readyPromise,
