@@ -36,6 +36,7 @@
 <script>
 import navBar from '@/components/common/Navbar.vue'
 import appFooter from '@/components/common/Footer.vue'
+import $ from 'jquery'
 
 export default {
   name: 'landing',
@@ -52,6 +53,7 @@ export default {
         { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
       ]
     }
+    $('#paw-loading').css('display', 'none')
   },
   components: {
     navBar, appFooter

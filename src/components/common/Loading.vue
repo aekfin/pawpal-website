@@ -45,42 +45,6 @@ export default {
     width: 100%;
     height: 240px;
     text-align: center;
-    .paw {
-      height: 100%;
-      margin-top: 20px;
-      margin-bottom: 20px;
-    }
-    .paw > img {
-      opacity: 0;
-      margin: 20px;
-      display: inline-block;
-      transform: rotate(90deg);
-      position: relative;
-    }
-    .paw > .paw-left-1 {
-      animation: walking 5s 0s infinite;
-    }
-    .paw > .paw-right-1 {
-      top: 100px;
-      animation: walking 5s 1s infinite;
-    }
-    .paw > .paw-left-2 {
-      animation: walking 5s 2s infinite;
-    }
-    .paw > .paw-right-2 {
-      top: 100px;
-      animation: walking 5s 3s infinite;
-    }
-    @keyframes walking {
-      0% {
-        opacity: 0;
-      }
-      20% {
-        opacity: 1.0;
-      }
-      60% {
-        opacity: 0;
-      }
-    }
+    @import '../../../static/loading.css'
   }
 </style>
