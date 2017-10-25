@@ -34,7 +34,7 @@ export default {
       bottom: 0;
       left: 0;
       padding: 20px 5% 10px 5%;
-      border-top: 1px solid black;
+      border-top: 3px solid white;
       background-color: #49392C;
       color: white;
       .title {

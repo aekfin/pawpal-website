@@ -349,7 +349,7 @@
         cropModal: false,
         cropImage: null,
         images: [],
-        imgPlaceholder: require('@/assets/finder/dogupload3.png'),
+        imgPlaceholder: require('@/assets/finder/dog-upload.png'),
         dateForm: [
           { name: 'เมื่อวันที่', placeholder: '', type: 'date', model: new Date(), require: true },
           { name: 'เวลา', placeholder: 'กรุณาระบบเวลาที่พบ', type: 'time', model: '00:00:00', require: false }
