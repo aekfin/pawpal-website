@@ -18,6 +18,7 @@
   import Cookie from 'js-cookie'
   import MeterialIcons from 'material-design-icons'
   import 'material-design-icons/iconfont/material-icons.css'
+  import $ from 'jquery'
 
   Vue.use(Bootstrap)
   Vue.use(Animate)
@@ -29,6 +30,7 @@
 export default {
     name: 'app',
     created () {
+      $('#paw-loading').css('display', 'none')
     }
 }
 </script>
