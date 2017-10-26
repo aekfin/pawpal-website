@@ -13,7 +13,7 @@
               {{dog.color_primary}}<span v-if="dog.color_secondary">, {{dog.color_secondary}}</span>
             </span>
           </div>
-          <div class="desc">
+          <div class="desc" v-if="dog.finder">
             <span v-if="type === 'found'">
               <span class="col-xs-5 no-padding">ชื่อผู้พบ : </span>
               <span class="col-xs-7 no-padding">{{dog.finder.name}}</span>

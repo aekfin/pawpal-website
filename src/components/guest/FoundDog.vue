@@ -25,6 +25,25 @@ import DogFilter from '@/components/guest/components/DogFilter.vue'
 import Pagination from '@/components/common/Pagination.vue'
 
 export default {
+  created () {
+    this.$http.get('/api/v2/found/').then(response => {
+      console.log(response.body)
+      this.dogs = []
+      this.filters[1].options = []
+      response.body.results.forEach(function (dog) {
+        dog.img = require('@/assets/finder/dog-upload.png')
+        this.dogs.push(dog)
+        if (this.filters[1].options.indexOf(dog.color_primary) < 0) {
+          this.filters[1].options.push(dog.color_primary)
+        }
+        if (this.filters[1].options.indexOf(dog.color_secondary) < 0) {
+          this.filters[1].options.push(dog.color_secondary)
+        }
+      }, this)
+    }, error => {
+      console.log(error)
+    })
+  },
   components: {
     DogList, DogFilter, Pagination
   },
@@ -36,9 +55,9 @@ export default {
         showPages: 5
       },
       filters: [
-        { name: 'สายพันธุ์', options: this.$store.state.breeds },
-        { name: 'สีขน', options: ['น้ำตาล', 'ดำ', 'ขาว'] },
-        { name: 'วันที่พบ', options: ['เรียงจากวันที่เจอก่อน', 'เรียงจากวันที่เจอล่าสุด'] }
+        { name: 'สายพันธุ์', model: '', options: this.$store.state.breeds },
+        { name: 'สีขน', model: '', options: ['น้ำตาล', 'ดำ', 'ขาว'] },
+        { name: 'วันที่พบ', model: '', options: ['เรียงจากวันที่พบก่อนหน้า', 'เรียงจากวันที่พบล่าสุด'] }
       ],
       dogs: [
         { breed: 'Golden Retriever', color_primary: 'ทอง', color_secondary: 'น้ำตาล', dominance: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', date: new Date().toDateString(), img: require('@/assets/finder/dog-upload.png'), finder: {name: 'นาย A', tel: '080-000-0000', place: ''} },

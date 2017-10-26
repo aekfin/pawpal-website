@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     count: 0,
-    breeds: ['Yorkshire Terrier', 'Maltese', 'French Bulldog', 'Pug', 'Chihuahua', 'Dachshund', 'Shih-Tzu', 'Papiyong', 'English Bulldog', 'Basset Hound', 'Pomeranian', 'Jack Russell Terrier', 'Shiba Inu', 'Alaskan Malamute', 'บางแก้ว', 'ไทยหลังอาน', 'Boston Terrier', 'Bull Terrier', 'Welsh Corgi', 'Cocker Spaniel', 'Dachshund', 'Cavalier King Charles Spaniel', 'Schnauzer', 'Poodle', 'French Bulldog', 'Mastiff', 'Maltese', 'Collie', 'Basset Hound', 'Akita', 'St. Bernard', 'Scottish Terrier', 'Shar-pei', 'Dalmatians', 'Chow Chow', 'Pekingese'],
+    breeds: ['Yorkshire Terrier', 'Maltese', 'French Bulldog', 'Pug', 'Chihuahua', 'Dachshund', 'Shih-Tzu', 'Papiyong', 'English Bulldog', 'Basset Hound', 'Beagle', 'Pomeranian', 'Jack Russell Terrier', 'Shiba Inu', 'Alaskan Malamute', 'บางแก้ว', 'ไทยหลังอาน', 'Boston Terrier', 'Bull Terrier', 'Welsh Corgi', 'Cocker Spaniel', 'Dachshund', 'Cavalier King Charles Spaniel', 'Schnauzer', 'Poodle', 'French Bulldog', 'Mastiff', 'Maltese', 'Collie', 'Basset Hound', 'Akita', 'St. Bernard', 'Scottish Terrier', 'Shar-pei', 'Dalmatians', 'Chow Chow', 'Pekingese'],
     user: { email: '' },
     errorLogin: null
   },
