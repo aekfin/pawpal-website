@@ -98,6 +98,7 @@ export default {
       margin-right: 0px;
       font-size: 32px;
       font-weight: bold;
+      transition-duration: 0.5s;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
     .btn-page-number {
@@ -107,6 +108,7 @@ export default {
       padding: 10px 20px;
       padding-top: 8px;
       margin-right: 5px;
+      transition-duration: 0.3s;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
     .btn-page-number-active {

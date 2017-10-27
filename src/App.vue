@@ -47,7 +47,7 @@ export default {
     @import "../static/theme.scss";
     font-family: "Mitr", sans-serif;
     font-size: 16px;
-    background-color: #77694c;
+    background-color: #B29558;
     color: #4c4c4c;
     min-height: 100%;
     overflow: hidden;
