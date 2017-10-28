@@ -4,9 +4,9 @@
       <div class="col-xs-12 col-sm-12 col-md-4" v-for="(filter, i) in filters" :key="i">
         <div class="input-group"> 
           <div class="input-group-addon input-lg" style="width: 120px">{{filter.name}}</div>
-          <select class="form-control input-lg">
-            <option value="null" disabled selected>-- โปรดเลือก{{filter.name}} --</option>
-            <option v-for="(option,i) in filter.options" :key="option" :value="option">{{option}}</option>
+          <select class="form-control input-lg" v-model="filter.model" @change="FilterChanging()">
+            <option :value="null" disabled>-- โปรดเลือก{{filter.name}} --</option>
+            <option v-for="(option, i) in filter.options" :key="option" :value="option">{{option}}</option>
           </select>
         </div>
       </div>
@@ -16,7 +16,12 @@
 
 <script>
 export default {
-  props: ['filters']
+  props: ['filters'],
+  methods: {
+    FilterChanging () {
+      this.$emit('filtering')
+    }
+  }
 }
 </script>
 

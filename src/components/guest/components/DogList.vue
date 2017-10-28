@@ -13,7 +13,7 @@
               {{dog.color_primary}}<span v-if="dog.color_secondary">, {{dog.color_secondary}}</span>
             </span>
           </div>
-          <div class="desc">
+          <div class="desc" v-if="dog.finder">
             <span v-if="type === 'found'">
               <span class="col-xs-5 no-padding">ชื่อผู้พบ : </span>
               <span class="col-xs-7 no-padding">{{dog.finder.name}}</span>
@@ -26,7 +26,7 @@
           <div class="desc">
             <div v-if="type === 'found'">
               <span class="col-xs-5 no-padding">วันที่พบ : </span>
-              <span class="col-xs-7 no-padding">{{dog.date}}</span>
+              <span class="col-xs-7 no-padding">{{DateFormat(dog.date_found)}}</span>
             </div>
             <div v-if="type === 'missing'">
               <span class="col-xs-5 no-padding">วันที่หาย : </span>
@@ -59,12 +59,10 @@ export default {
     DogModal
   },
   methods: {
-    handleClose (done) {
-      this.$confirm('Are you sure to close this dialog?')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => {})
+    DateFormat (date) {
+      date = new Date(date)
+      var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
+      return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear()
     }
   },
   data () {
@@ -88,11 +86,12 @@ export default {
       margin-bottom: 30px;
       border-radius: 5px;
       border: 3px solid white;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+      transition-duration: 0.3s;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
       cursor: pointer;
     }
     .card:hover {
-      box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
       img {
         transition-duration: 0.5s;
         filter: brightness(130%)

@@ -32,6 +32,10 @@ module.exports = {
         target: 'http://161.246.6.240:10102/',
         changeOrigin: true
       },
+      '/media/v2': {
+        target: 'http://161.246.6.240:10102/',
+        changeOrigin: true
+      },
       '/api': {
           target: 'http://161.246.6.240:10101/',
           changeOrigin: true

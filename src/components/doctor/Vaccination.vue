@@ -68,7 +68,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+            <button type="button" class="close" data-dismiss="modal"><i class="material-icons">&#xE14C;</i></button>
             <div v-if="vaccineRecord[currentVL]" class="modal-title text-center">
               <h3 class="th-header">{{vaccineRecord[currentVL].vaccinationFor.th}}</h3>
               <h4 class="en-header">({{vaccineRecord[currentVL].vaccinationFor.en}})</h4>
