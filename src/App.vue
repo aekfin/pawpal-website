@@ -93,13 +93,13 @@ export default {
 
     .input-group {
       input {
-        color: $form-theme-color;
+        color: lighten($form-theme-color, 10%);
       }
       select {
-        color: $form-theme-color;
+        color: lighten($form-theme-color, 10%);
       }
       .form-control {
-        border: 1px solid $form-theme-color;
+        border: 1px solid lighten($form-theme-color, 20%);
       }
       .input-group-addon {
         background-color: $form-theme-color;
@@ -107,8 +107,8 @@ export default {
         color: white;
       }
       .form-control:focus {
-        border: 1px solid black;
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 74, 64, 0.6);
+        border: 1px solid $form-theme-color;
+        box-shadow: 0 0 5px lighten($form-theme-color, 10%);
       }
     }
 
