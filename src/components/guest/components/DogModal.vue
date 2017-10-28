@@ -17,9 +17,10 @@
                 <div><div class="dog_bold">สายพันธุ์: </div><div class="dog_regular">{{dog.breed}}</div></div>
                 <div><div class="dog_bold">สีหลัก: </div><div class="dog_regular">{{dog.color_primary}}</div></div>
                 <div><div class="dog_bold">สีรอง: </div><div class="dog_regular"><span v-if="dog.color_secondary">{{dog.color_secondary}}</span><span v-else>ไม่มี</span></div></div>
-                <div><div class="dog_bold_more">ลักษณะเด่น: </div><div class="dog_regular_more">{{dog.dominance}}</div></div>
+                <div><div class="dog_bold_more">ลักษณะเด่น: </div><div class="dog_regular_more">{{dog.dominance}}</div></div>                
                 <div style="margin-top: 10px;"><div class="dog_bold">ชื่อผู้พบ: </div><div class="dog_regular">{{dog.finder.name}}</div></div>
                 <div><div class="dog_bold">เบอร์ติดต่อ: </div><div class="dog_regular">{{dog.finder.tel}}</div></div>
+                <div><div class="dog_bold">วันที่พบ: </div><div class="dog_regular">{{DateFormat(dog.date_found)}}</div></div>
                 <div><div class="dog_bold">หมายเหตุ: </div><div class="dog_regular">{{dog.finder.place}}</div></div>
               </div>
             </div>
@@ -41,7 +42,13 @@ export default {
   name: 'DogModal',
   props: ['type', 'dog'],
   created () {
-    console.log(this.dog)
+  },
+  methods: {
+    DateFormat (date) {
+      date = new Date(date)
+      var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
+      return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear()
+    }
   },
   data () {
     return {
@@ -78,10 +85,12 @@ export default {
   .img-rounded {
     height: 250px;
     width: 250px;
+    border-radius: 3px;
   }
   .img-rounded-sm {
     height: 150px;
     width: 150px;
+    border-radius: 3px;
   }
   .modal-header {
     border-bottom: none;

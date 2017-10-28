@@ -65,3 +65,21 @@ body {
 #paw-loading > .paw > .paw-right-2 {
 	top: 150px;
 }
+
+@media screen and (max-width: 770px) {
+	#paw-loading > .paw >img {
+		width: 50px;
+		height: 50px;
+		margin: 5px;
+	}
+	
+	#paw-loading > .paw > .paw-right-1 {
+		top: 50px;
+	}
+	
+	#paw-loading > .paw > .paw-right-2 {
+		top: 50px;
+	}
+	
+}
+

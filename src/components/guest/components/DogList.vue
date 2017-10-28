@@ -26,7 +26,7 @@
           <div class="desc">
             <div v-if="type === 'found'">
               <span class="col-xs-5 no-padding">วันที่พบ : </span>
-              <span class="col-xs-7 no-padding">{{dog.date}}</span>
+              <span class="col-xs-7 no-padding">{{DateFormat(dog.date_found)}}</span>
             </div>
             <div v-if="type === 'missing'">
               <span class="col-xs-5 no-padding">วันที่หาย : </span>
@@ -59,12 +59,10 @@ export default {
     DogModal
   },
   methods: {
-    handleClose (done) {
-      this.$confirm('Are you sure to close this dialog?')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => {})
+    DateFormat (date) {
+      date = new Date(date)
+      var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
+      return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear()
     }
   },
   data () {

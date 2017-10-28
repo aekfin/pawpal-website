@@ -10,19 +10,7 @@ var route = {
   component: GuestPage,
   children: [
     { path: '/finder', name: 'FinderPage', component: FinderPage },
-    { path: '/found-dog',
-      name: 'FoundPage',
-      component: FoundDogPage,
-      children: [
-        { path: 'filter[breed=:breed][color=:color][date=:date]' },
-        { path: 'filter[breed=:breed][color=:color]' },
-        { path: 'filter[breed=:breed][date=:date]' },
-        { path: 'filter[color=:color][date=:date]' },
-        { path: 'filter[breed=:breed]' },
-        { path: 'filter[color=:color]' },
-        { path: 'filter[date=:date]' }
-      ]
-    },
+    { path: '/found-dog', name: 'FoundPage', component: FoundDogPage },
     { path: '/missing-dog', name: 'MissingPage', component: MissingDogPage },
     { path: '/dashboard', name: 'DashboardPage', component: DashboardPage }
   ]
