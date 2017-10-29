@@ -53,7 +53,10 @@ export default {
       this.cardDetail = 'card-dark-detail'
       this.card = 'card dark'
     }
-    console.log(this.type)
+    var elements = document.getElementsByClassName('img-dog')
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].style.height = elements[i].offsetWidth + 'px'
+    }
   },
   components: {
     DogModal
@@ -83,8 +86,8 @@ export default {
       margin-bottom: 5px; 
     }
     .card {
-      margin-bottom: 30px;
-      border-radius: 5px;
+      margin: 10px 0px;
+      border-radius: 3px;
       border: 3px solid white;
       transition-duration: 0.3s;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -125,14 +128,13 @@ export default {
       border-right: 1px solid #E1C4A5;
       border-bottom: 1px solid #E1C4A5;
       color: #3F2D27;
-      background-color: #E1C4A5;
+      background-color: #e6b05b;
       h4 {
         color: #3F2D27;
       }
     }
     .img-dog {
       width: 100%;
-      height: 200px;
     }
     .bright {
       transition-duration: 0.5s;

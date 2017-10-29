@@ -1,8 +1,13 @@
 <template>
   <div id="dashboard">
-    <div class="container" style="margin-top: 30px; margin-bottom: 30px;">
-      <thailand-map class="col-xs-7" :provinces="provinces" :region="region" :selectedRegion="selectedRegion"></thailand-map>
-      <statistic class="col-xs-5"></statistic>
+    <div class="title-yellow-card">
+      <div class="container">
+        <h2>การวิเคราะห์เชิงสถิติ</h2>
+      </div>
+    </div>
+    <div class="container" style="margin-top: 20px; margin-bottom: 30px;">
+      <thailand-map class="col-xs-7" :provinces="provinces" :region="region" @changingSelector="ChangeGraph"></thailand-map>
+      <statistic class="col-xs-5" :selectedRegion="selectedRegion" :selectedProvince="selectedProvince"></statistic>
     </div>
   </div>
 </template>
@@ -14,12 +19,16 @@
     components: {
       Statistic, ThailandMap
     },
-    mounted () {
-      this.selectedRegion = 'all'
+    methods: {
+      ChangeGraph (selectedRegion, selectedProvince) {
+        this.selectedRegion = selectedRegion
+        this.selectedProvince = selectedProvince
+      }
     },
     data () {
       return {
         selectedRegion: null,
+        selectedProvince: null,
         region: {
           northern: [ 4, 12, 13, 16, 22, 25, 33, 36, 37, 39, 40, 44, 53, 54, 65, 74, 75 ],
           northeastern: [ 3, 5, 10, 19, 20, 26, 27, 42, 43, 45, 47, 52, 55, 56, 68, 69, 70, 72, 73, 76 ],

@@ -5,7 +5,6 @@
         <div class="input-group"> 
           <div class="input-group-addon input-lg" style="width: 120px">{{filter.name}}</div>
           <select class="form-control input-lg" v-model="filter.model" @change="FilterChanging()">
-            <option :value="null" disabled>-- โปรดเลือก{{filter.name}} --</option>
             <option v-for="(option, i) in filter.options" :key="option" :value="option">{{option}}</option>
           </select>
         </div>
@@ -28,11 +27,15 @@ export default {
 <style lang="scss">
   #dog-filter {
     .white-card {
+      margin-top: 15px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
     .card-sm {
       padding: 30px;
       border-radius: 4px;
+    }
+    select {
+      padding: 0px 16px;
     }
     .input-group {
       margin-right: auto;
