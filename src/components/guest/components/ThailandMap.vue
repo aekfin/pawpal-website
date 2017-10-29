@@ -7,7 +7,7 @@
         <option value="central">ภาคกลาง</option>
         <option value="southern">ภาคใต้</option>
       </select>
-      <select id="province-selector" style="top: 8%" v-model="selectedProvince">
+      <select id="province-selector" v-model="selectedProvince" @change="ShowMarker()">
         <option v-for="(sp, i) in showProvinces" :key="sp.th" :value="sp.th">{{sp.th}}</option>
       </select>
       <div id="map">
@@ -24,12 +24,12 @@
   export default {
     mounted () {
       this.AddMarkers()
-      this.selectedRegion = 'all'
       this.ShowMarkers()
     },
-    props: ['provinces', 'region', 'selectedRegion'],
+    props: ['provinces', 'region'],
     data () {
       return {
+        selectedRegion: 'all',
         selectedProvince: null,
         showProvinces: []
       }
@@ -45,7 +45,23 @@
         $('#label-' + index).css('display', 'none')
       },
       ShowLabel (index) {
-        $('#label-' + index).css('display', 'block')
+        if ($('#marker-' + index).css('opacity') === '1') {
+          $('#label-' + index).css('display', 'block')
+        }
+      },
+      ShowMarker () {
+        if (this.selectedProvince === 'จังหวัดทั้งหมด') {
+          this.ShowMarkers()
+        } else {
+          for (var i = 0; i < this.provinces.length; i++) {
+            if (this.selectedProvince === this.provinces[i].th) {
+              $('#marker-' + i).css('opacity', 1.0)
+            } else {
+              $('#marker-' + i).css('opacity', 0)
+            }
+          }
+          this.$emit('changingSelector', this.selectedRegion, this.selectedProvince)
+        }
       },
       ShowMarkers () {
         for (var i = 0; i < this.provinces.length; i++) {
@@ -77,6 +93,7 @@
           $('#marker-' + provincesByRegion[i]).css('opacity', 1.0)
           this.showProvinces.push(this.provinces[provincesByRegion[i]])
         }
+        this.$emit('changingSelector', this.selectedRegion, this.selectedProvince)
       }
     }
   }
@@ -98,7 +115,7 @@
       margin-left: auto;
       margin-right: auto;
       position: relative;
-      background-image: url('https://i.imgur.com/bpUKqMq.png');
+      background-image: url('../../../assets/thailand_map.png');
       background-size: contain;
     }
 
@@ -144,15 +161,14 @@
       }
     }
     select {
-      font-size: 20px;
-      border-radius: 5px;
+      font-size: 18px;
+      border-radius: 3px;
       padding-left: 10px;
-      height: 35px;
+      height: 32px;
       width: 40%;
       z-index: 10;
       color: lighten($form-theme-color, 10%);
       border: 1px solid lighten($form-theme-color, 20%);
-      text-align: center;
       position: absolute;      
     }
     select:focus {
@@ -161,10 +177,11 @@
       box-shadow: 0 0 5px lighten($form-theme-color, 20%);
     }
     #region-selector {
+      top: 4%;
       left: 55%;
     }
     #province-selector {
-      top: 8%;
+      top: 9%;
       left: 55%;
     }
   }
