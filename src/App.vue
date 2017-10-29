@@ -60,6 +60,14 @@ export default {
       color: #4c4c4c;
     }
 
+    .not-found {
+      font-size: 30px;
+      font-weight: bold;
+      margin: 30px 0px;
+      height: 100%;
+      color: #49392C;
+    }
+    
     .card-right-side {
       padding-left: 20px;
       padding-right: 0px;

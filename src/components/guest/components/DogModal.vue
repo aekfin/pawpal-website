@@ -26,7 +26,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <h4>สุนัขที่มีลักษณะคล้ายคลึงกัน</h4>
+            <h4 style="color: white;">สุนัขที่มีลักษณะคล้ายคลึงกัน</h4>
             <div v-for="sd in similar_dog" :key="sd.name" style="width: 20%; display: inline-block; padding-left: 5px; padding-right: 5px;">
               <img class="img-rounded img-rounded-sm" :src="sd.img">
             </div>
@@ -83,14 +83,19 @@ export default {
     padding-right: 0px;
   }
   .img-rounded {
-    height: 250px;
-    width: 250px;
+    height: 300px;
+    width: 300px;
     border-radius: 3px;
   }
   .img-rounded-sm {
     height: 150px;
     width: 150px;
     border-radius: 3px;
+    border: 3px solid white;
+  }
+  .modal-content {
+    border: none;
+    padding-bottom: 0px !important;
   }
   .modal-header {
     border-bottom: none;
@@ -104,6 +109,8 @@ export default {
     text-align: left;
     padding-left: 40px;
     padding-right: 40px;
+    padding-bottom: 30px;
+    background-color: #49392C;
   }
   .width-100 {
     width: 100%;

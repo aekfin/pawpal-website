@@ -68,13 +68,6 @@ export default {
         font-size: 18px;
       }
     }
-    .not-found {
-      font-size: 30px;
-      font-weight: bold;
-      margin: 30px 0px;
-      height: 100%;
-      color: $brown-color;
-    }
     .dog-sm-view {
       font-size: 30px;
       font-weight: bold;

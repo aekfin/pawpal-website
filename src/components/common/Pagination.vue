@@ -1,6 +1,5 @@
 <template>
   <div id="pagination">
-    <!-- <div @click="$emit('close')">Hello</div> -->
     <nav aria-label="..." v-if="display">
       <ul class="pager">
         <li class="pull-left">
@@ -147,6 +146,9 @@ export default {
     .page-disabled:hover {
       cursor: not-allowed;
       background-color: gray;
+    }
+    .pager {
+      margin: 0px;
     }
   }
 </style>
