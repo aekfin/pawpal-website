@@ -116,7 +116,7 @@ export default {
       }
       .form-control:focus {
         border: 1px solid $form-theme-color;
-        box-shadow: 0 0 5px lighten($form-theme-color, 10%);
+        box-shadow: 0 0 7px lighten($form-theme-color, 20%);
       }
     }
 
