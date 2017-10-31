@@ -63,6 +63,14 @@ export default {
       this.dogs = []
       dogs.forEach(function (dog) {
         this.dogs.push(dog)
+        var images = []
+        for (var i = 1; i <= dog.img.length; i++) {
+          var dogObj = { id: null, image: null }
+          dogObj.id = i
+          dogObj.image = dog.img[i - 1]
+          images.push(dogObj)
+        }
+        dog.img = images
       }, this)
     },
     AddingColor () {

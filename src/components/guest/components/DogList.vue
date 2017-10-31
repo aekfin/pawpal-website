@@ -68,18 +68,7 @@ export default {
       var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
       return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear()
     },
-    mounted () {
-      this.ClickDog(this.dogs[0])
-    },
     ClickDog (dog) {
-      var images = []
-      for (var i = 1; i <= dog.img.length; i++) {
-        var dogObj = { id: null, image: null }
-        dogObj.id = i
-        dogObj.image = dog.img[i - 1]
-        images.push(dogObj)
-      }
-      dog.img = images
       this.selected_dog = dog
     }
   },

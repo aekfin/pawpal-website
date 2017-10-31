@@ -27,8 +27,9 @@
           </div>
           <div class="modal-footer">
             <h4 style="color: white;">สุนัขที่มีลักษณะคล้ายคลึงกัน</h4>
-            <div v-for="sd in similar_dog" :key="sd.name" style="width: 20%; display: inline-block; padding-left: 5px; padding-right: 5px;">
-              <img class="img-rounded img-rounded-sm" :src="sd.img">
+            <loading :theme="'light'" :size="'normal'" v-if="isLoading"></loading>
+            <div class="similar-dog" v-for="sd in similarDogs" :key="sd.name" v-else>
+              <img class="img-rounded img-rounded-sm" :src="sd.image">
             </div>
           </div>
         </div>
@@ -39,12 +40,23 @@
 
 <script>
 import ImagesView from '@/components/common/ImagesView.vue'
+import Loading from '@/components/common/Loading.vue'
 
 export default {
   name: 'DogModal',
   props: ['type', 'dog'],
   components: {
-    ImagesView
+    ImagesView, Loading
+  },
+  updated () {
+    if (this.dogID !== this.dog.id) {
+      this.dogID = this.dog.id
+      this.$http.get('/api/v2/found/' + this.dog.id + '/').then(response => {
+        this.similarDogs = response.body.similar_dog
+      }, error => {
+        console.log(error)
+      })
+    }
   },
   methods: {
     DateFormat (date) {
@@ -55,13 +67,9 @@ export default {
   },
   data () {
     return {
-      similar_dog: [
-        { breed: 'Siberian Husky', color_primary: 'ขาว', color_secondary: 'ดำ', dominance: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', img: require('@/assets/finder/dog-upload.png'), owner: {name: 'นาย AA', tel: '080-000-0000', place: ''} },
-        { breed: 'Chihuahua', color_primary: 'ขาว', color_secondary: 'น้ำตาลเข้ม', dominance: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', img: require('@/assets/finder/dog-upload.png'), owner: {name: 'นาย AB', tel: '080-000-0000', place: ''} },
-        { breed: 'Chihuahua', color_primary: 'ขาว', color_secondary: 'น้ำตาลอ่อน', dominance: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', img: require('@/assets/finder/dog-upload.png'), owner: {name: 'นาย AC', tel: '080-000-0000', place: ''} },
-        { breed: 'Malamute', color_primary: 'ขาว', color_secondary: 'น้ำตาล', dominance: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', img: require('@/assets/finder/dog-upload.png'), owner: {name: 'นาย AD', tel: '080-000-0000', place: ''} },
-        { breed: 'Pekines', color_primary: 'ขาว', color_secondary: 'น้ำตาล', dominance: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', img: require('@/assets/finder/dog-upload.png'), owner: {name: 'นาย AE', tel: '080-000-0000', place: ''} }
-      ]
+      dogID: null,
+      similarDogs: [],
+      isLoading: false
     }
   }
 }
@@ -131,6 +139,12 @@ export default {
     font-weight: bold;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .similar-dog {
+    width: 20%;
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
   }
   .dog_regular {
     width: 65%;
