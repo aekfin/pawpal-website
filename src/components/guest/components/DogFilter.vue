@@ -6,7 +6,7 @@
         <div class="col-xs-8 no-padding">
           <select class="form-control input-lg" v-model="filter.model" @change="FilterChanging()">
             <option v-for="(option, i) in filter.options" :key="option" :value="option">
-              <spanv v-if="i === 1">{{option.substring(0, 22)}}</spanv>
+              <span v-if="i === 1">{{option.substring(0, 22)}}</span>
               <span v-else>{{option.substring(0, 25)}}</span>
             </option>
           </select>

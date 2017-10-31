@@ -1,5 +1,5 @@
 <template>
-  <div class="DogModal">
+  <div class="DogModal" v-if="dog">
     <!-- Modal -->
     <div class="modal fade" id="detail_modal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-lg" role="document">
@@ -11,7 +11,7 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-xs-12 col-sm-6 text-right">
-                <img class="img-rounded" :src="dog.img">
+                <ImagesView :images="dog.img"></ImagesView>
               </div>
               <div class="col-xs-12 col-sm-6 text-left">
                 <div><div class="dog_bold">สายพันธุ์: </div><div class="dog_regular">{{dog.breed}}</div></div>
@@ -38,10 +38,13 @@
 </template>
 
 <script>
+import ImagesView from '@/components/common/ImagesView.vue'
+
 export default {
   name: 'DogModal',
   props: ['type', 'dog'],
-  created () {
+  components: {
+    ImagesView
   },
   methods: {
     DateFormat (date) {

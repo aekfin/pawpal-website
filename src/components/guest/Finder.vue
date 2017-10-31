@@ -312,7 +312,7 @@
           this.$http.post('/api/v2/found/', dog).then(response => {
             this.isLoading = false
             window.scrollTo(0, 0)
-            this.$router.push('/found-dog/filter[date=เรียงจากวันที่พบล่าสุด]')
+            this.$router.push('/found-dog')
           }, error => {
             console.log(error)
           })
