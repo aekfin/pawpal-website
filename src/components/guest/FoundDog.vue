@@ -33,9 +33,10 @@ import Loading from '@/components/common/Loading.vue'
 
 export default {
   created () {
-    this.$store.state.breeds.unshift('ไม่จำกัดสายพันธุ์')
+    var breeds = this.$store.state.breeds.slice()
+    breeds.unshift('ไม่จำกัดสายพันธุ์')
     this.filters = [
-      { name: 'สายพันธุ์', model: 'ไม่จำกัดสายพันธุ์', options: this.$store.state.breeds },
+      { name: 'สายพันธุ์', model: 'ไม่จำกัดสายพันธุ์', options: breeds },
       { name: 'สีขน', model: 'ไม่จำกัดสี', options: null },
       { name: 'วันที่พบ', model: 'เรียงจากวันที่พบล่าสุด', options: ['เรียงจากวันที่พบก่อนหน้า', 'เรียงจากวันที่พบล่าสุด'] }
     ]
@@ -62,6 +63,14 @@ export default {
       this.dogs = []
       dogs.forEach(function (dog) {
         this.dogs.push(dog)
+        var images = []
+        for (var i = 1; i <= dog.img.length; i++) {
+          var dogObj = { id: null, image: null }
+          dogObj.id = i
+          dogObj.image = dog.img[i - 1]
+          images.push(dogObj)
+        }
+        dog.img = images
       }, this)
     },
     AddingColor () {

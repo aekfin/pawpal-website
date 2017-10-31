@@ -214,7 +214,9 @@
       },
       Crop () {
         let options = {
-          format: 'jpeg'
+          type: 'base64',
+          format: 'jpeg',
+          size: { width: 300, height: 300 }
         }
         var index = this.FindImage()
         this.$refs.croppieRef.result(options, (output) => {
@@ -223,6 +225,7 @@
         this.$refs.croppieRef.get((data) => {
           this.images[index].crop = data
         })
+        this.$refs.croppieRef.setZoom(1.5)
         this.cropModal = false
       },
       RemoveImage (image) {
@@ -312,7 +315,7 @@
           this.$http.post('/api/v2/found/', dog).then(response => {
             this.isLoading = false
             window.scrollTo(0, 0)
-            this.$router.push('/found-dog/filter[date=เรียงจากวันที่พบล่าสุด]')
+            this.$router.push('/found-dog')
           }, error => {
             console.log(error)
           })

@@ -1,8 +1,9 @@
 <template>
   <div id="dog-list">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(dog, i) in dogs" :key="i">
-      <div :class="card" data-toggle="modal" data-target="#detail_modal" @click="selected_dog = dog">
-        <img :src="dog.img" class="img-dog">
+      <div :class="card" data-toggle="modal" data-target="#detail_modal" @click="ClickDog(dog)">
+        <img :src="dog.img[0]" class="img-dog" v-if="dog.img[0].image === undefined">
+        <img :src="dog.img[0].image" class="img-dog" v-else>
         <div :class="cardDetail">
           <h4 class="text-center">{{dog.breed}}</h4>
           <div class="desc">
@@ -66,13 +67,16 @@ export default {
       date = new Date(date)
       var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
       return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear()
+    },
+    ClickDog (dog) {
+      this.selected_dog = dog
     }
   },
   data () {
     return {
       card: 'card',
       cardDetail: 'card-detail',
-      selected_dog: this.dogs[0],
+      selected_dog: null,
       dialogVisible: false
     }
   }
