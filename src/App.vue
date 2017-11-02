@@ -141,7 +141,7 @@ export default {
     // bootstrap grid sm
     @media only screen and (max-width: 992px) {
       #app {
-        background-color: darken(#E0CDBA, 10%);
+        background-color: #C9B7A4;
       }
       .card-right-side{
         padding-left: 0px;
