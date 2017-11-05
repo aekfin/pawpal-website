@@ -1,10 +1,10 @@
 <template>
   <div id="loading">
-    <div class="paw">
-      <img class = "paw-left-1" :width = "width" :height = "height" :src="image" />
-      <img class = "paw-right-1" :width = "width" :height = "height" :src="image" />
-      <img class = "paw-left-2" :width = "width" :height = "height" :src="image" />
-      <img class = "paw-right-2" :width = "width" :height = "height" :src="image" />
+    <div :class="paw">
+      <img class = "paw-left-1" :src="image" />
+      <img class = "paw-right-1" :src="image" />
+      <img class = "paw-left-2" :src="image" />
+      <img class = "paw-right-2" :src="image" />
     </div>
   </div>
 </template>
@@ -20,18 +20,17 @@ export default {
       default:
         this.image = require('../../assets/paw_print_brown.png')
     }
-    switch (this.sizes) {
+    switch (this.size) {
       case 'small':
-        this.width = 50
-        this.height = 50
+        this.paw = 'paw paw-sm'
         break
       default:
-        this.width = 100
-        this.height = 100
+        this.paw = 'paw'
     }
   },
   data () {
     return {
+      paw: '',
       image: null,
       width: null,
       height: null
@@ -43,7 +42,6 @@ export default {
 <style lang="scss">
   #loading {
     width: 100%;
-    height: 240px;
     text-align: center;
     @import '../../../static/loading.css'
   }

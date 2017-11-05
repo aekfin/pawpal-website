@@ -33,6 +33,19 @@ body {
 	top: 100px;
 	animation: walking 5s 3s infinite;
 }
+.paw-sm {
+	height: 150px !important;
+}
+.paw-sm > img {
+	width: 50px !important;
+	height: 50px !important;
+}
+.paw-sm > .paw-right-1 {
+	top: 50px;
+}
+.paw-sm > .paw-right-2 {
+	top: 50px;
+}
 @keyframes walking {
 	0% {
 		opacity: 0;

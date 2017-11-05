@@ -69,18 +69,37 @@
           </div>
         </div>
       </div>
-      <loading :theme="'light'" :size="'normal'" v-if="isLoading" class="col-xs-12"></loading>
+      <loading :theme="'light'" :size="'normal'" v-if="isLoading" class="col-xs-12" style="margin-top: 30px;"></loading>
       <div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4" style="margin-top: 20px;" v-else>
         <div class="btn btn-success btn-lg" @click="AddFoundDog()">เพิ่มสุนัขที่พบ</div>
       </div>
     </div>
     <simplert :useRadius="true" :useIcon="true" ref="errorModal"></simplert>
-    <simplert :useRadius="true" :useIcon="true" ref="successModal"></simplert>
+    <el-dialog
+      title = "กรุณาตั้งรหัสผ่าน"
+      :visible.sync="passwordModal"
+      :close-on-click-modal = "false"
+      :show-close="true"
+      size="tiny">
+      <div class="text-left" style="padding: 10px;">
+        *รหัสผ่านนี้จะใช้สำหรับการลบประกาศสุนัขที่ท่านแจ้งพบ เมื่อท่านไม่ต้องการแจ้งสุนัขที่พบแล้วหรือสุนัขที่ท่านพบได้คืนสู่เจ้าของแล้ว
+      </div>
+      <loading :theme="'dark'" :size="'small'" v-if="isLoading"></loading>
+      <div v-else>
+        <div class="input-group" style="width: 100%;">
+          <input class="form-control input-lg" style="border-radius: 3px;" v-model="confirmPassword"/>
+        </div>
+        <div class="text-center" style="padding-top: 20px;">
+          <div class="btn btn-success btn-lg" :disabled="confirmPassword.length < 4" @click="Adding()">ยืนยันรหัสผ่าน</div>
+        </div>
+      </div>
+    </el-dialog>
     <el-dialog
       title = "แก้ไขรูปภาพ"
       :visible.sync="cropModal"
       :close-on-click-modal = "false"
       :show-close="false"
+      top="5%"
       size="large">
       <div class="text-center">
         <vue-croppie 
@@ -292,6 +311,21 @@
       },
       AddFoundDog () {
         if (this.RequireForm() === 'pass') {
+          this.passwordModal = true
+        } else {
+          let obj = {
+            title: 'ท่านกรอกข้อมูลไม่ครบถ้วน',
+            message: 'โปรดใส่ <b><u>' + this.RequireForm() + '</u>*</b> ให้เรียบร้อย',
+            customCloseBtnText: 'เข้าใจแล้ว',
+            customCloseBtnClass: 'btn btn-danger',
+            type: 'error',
+            onClose: this.onClose
+          }
+          this.$refs.errorModal.openSimplert(obj)
+        }
+      },
+      Adding () {
+        if (this.confirmPassword.length > 3) {
           var images = []
           for (var i = 0; i < this.images.length; i++) {
             images.push(this.images[i].modified_src)
@@ -309,7 +343,8 @@
             'longtitude': this.latLng.lng,
             'location': this.finderForm[2].model,
             'breed': this.dogForm[0].model,
-            'latitude': this.latLng.lat
+            'latitude': this.latLng.lat,
+            'password': '12345678'
           }
           this.isLoading = true
           this.$http.post('/api/v2/found/', dog).then(response => {
@@ -319,15 +354,6 @@
           }, error => {
             console.log(error)
           })
-        } else {
-          let obj = {
-            title: 'ท่านกรอกข้อมูลไม่ครบถ้วน',
-            message: 'โปรดใส่ <b><u>' + this.RequireForm() + '</u>*</b> ให้เรียบร้อย',
-            customCloseBtnText: 'เข้าใจแล้ว',
-            type: 'error',
-            onClose: this.onClose
-          }
-          this.$refs.errorModal.openSimplert(obj)
         }
       }
     },
@@ -342,6 +368,7 @@
       return {
         showGooglePlace: false,
         placeGoogle: 'disabled',
+        confirmPassword: '',
         place: '',
         latLng: {lat: '...', lng: '...'},
         center: {lat: 13.7563309, lng: 100.50176510000006},
@@ -349,6 +376,7 @@
         zoom: 12,
         first: true,
         isLoading: false,
+        passwordModal: false,
         cropModal: false,
         cropImage: null,
         images: [],
@@ -440,6 +468,15 @@
       padding-top: 10px;
       padding-bottom: 10px;
     }
+    .el-dialog--tiny {
+      width: 30vw;
+    }
+    .simplert__header {
+      padding-bottom: 10px;
+    }
+    .simplert__footer {
+      padding-top: 0px;
+    }
     .dialog-footer {
       text-align: center;
     }
@@ -467,6 +504,16 @@
     }
     .disabled {
       user-select: none;
+    }
+  }
+  @media only screen and (max-width: 992px) {
+    #finder {
+      .simplert__content {
+        width: 100%;
+      }
+      .el-dialog {
+        width: 80vw;
+      }
     }
   }
 </style>
