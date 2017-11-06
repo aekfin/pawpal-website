@@ -7,7 +7,7 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><i class="material-icons">&#xE14C;</i></button>
             <h3>รายละเอียดสุนัข 
-              <div class="btn btn-danger btn-sm" style="margin-left: 5px;" data-toggle="modal" data-target="#password_modal">ลบสุนัข</div>
+              <div class="btn btn-danger btn-sm" style="margin-left: 5px; margin-top: -5px;" data-toggle="modal" data-target="#password_modal">ลบสุนัข</div>
             </h3>
           </div>
           <div class="modal-body">
@@ -41,8 +41,8 @@
       <div class="modal-dialog modal-md" style="top: 5vh;" role="document">
         <div class="modal-content" style="padding: 30px;">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><i class="material-icons">&#xE14C;</i></button>
-            <h3>กรุณากรอกรหัสผ่าน</h3>
+            <button type="button" class="close" data-dismiss="modal" @click="ResetInput()"><i class="material-icons">&#xE14C;</i></button>
+            <h3 style="margin: 0px;">กรุณากรอกรหัสผ่าน</h3>
           </div>
           <div class="modal-body">
           <div class="input-group" style="width: 100%;">
@@ -50,10 +50,13 @@
               *กรุณากรอกรหัสผ่านที่ท่านได้ทำการตั้งเมื่อตอนที่เพิ่มหมาที่พบ
             </div>
             <div class="input-group" style="width: 100%;">
-              <input class="form-control input-lg" style="border-radius: 3px;" v-model="password"/>
+              <input class="form-control input-lg" style="border-radius: 3px;" v-model="password" v-if="!wrongPassword"/>
+              <input class="form-control input-lg" style="border-radius: 3px; color: red;" @click="wrongPassword = false" v-model="password" v-else/>
             </div>
-            <div class="text-center" style="padding-top: 20px;">
-              <div class="btn btn-success btn-lg" @click="passwordModal = false">ยืนยันรหัสผ่าน</div>
+            <div style="height: 23px; color: red;" v-if="wrongPassword">รหัสผ่านไม่ถูกต้อง</div>
+            <div style="height: 23px;" v-else></div>
+            <div class="text-center" style="margin-top: 10px;">
+              <div class="btn btn-success btn-lg" style="width: 100%;" @click="RemoveDog()">ยืนยันรหัสผ่าน</div>
             </div>
           </div>
           </div>
@@ -88,12 +91,25 @@ export default {
       date = new Date(date)
       var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
       return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear()
+    },
+    RemoveDog () {
+      this.$http.post('/api/v2/found/delete/', { 'found_id': this.dogID, 'password': this.password }).then(response => {
+        console.log(response.body)
+      }, error => {
+        console.log(error)
+        this.wrongPassword = true
+      })
+    },
+    ResetInput () {
+      this.password = ''
+      this.wrongPassword = false
     }
   },
   data () {
     return {
       passwordModal: false,
       password: '',
+      wrongPassword: false,
       dogID: null,
       similarDogs: [],
       isLoading: false
@@ -150,6 +166,7 @@ export default {
       padding-right: 40px;
       padding-bottom: 30px;
       background-color: #49392C;
+      min-height: 240px;
     }
     .width-100 {
       width: 100%;

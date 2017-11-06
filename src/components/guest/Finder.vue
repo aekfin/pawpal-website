@@ -87,7 +87,7 @@
       <loading :theme="'dark'" :size="'small'" v-if="isLoading"></loading>
       <div v-else>
         <div class="input-group" style="width: 100%;">
-          <input class="form-control input-lg" style="border-radius: 3px;" v-model="confirmPassword"/>
+          <input class="form-control input-lg" style="border-radius: 3px;" v-model="confirmPassword" @keyup.enter="Adding()"/>
         </div>
         <div class="text-center" style="padding-top: 20px;">
           <div class="btn btn-success btn-lg" :disabled="confirmPassword.length < 4" @click="Adding()">ยืนยันรหัสผ่าน</div>
@@ -344,7 +344,7 @@
             'location': this.finderForm[2].model,
             'breed': this.dogForm[0].model,
             'latitude': this.latLng.lat,
-            'password': '12345678'
+            'password': this.confirmPassword
           }
           this.isLoading = true
           this.$http.post('/api/v2/found/', dog).then(response => {

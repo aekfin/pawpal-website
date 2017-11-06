@@ -113,6 +113,7 @@ export default {
       this.isLoading = true
       this.$http.get('/api/v2/found/' + path).then(response => {
         this.AddingDog(response.body.results)
+        this.pagination.total = response.body.total_pages
         this.isLoading = false
       }, error => {
         console.log(error)
