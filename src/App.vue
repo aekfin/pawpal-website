@@ -137,15 +137,14 @@ export default {
     .fadeInTo {
       animation-name: fadeInTo;
     }
-
-    // bootstrap grid sm
-    @media only screen and (max-width: 992px) {
-      #app {
-        background-color: #C9B7A4;
-      }
-      .card-right-side{
-        padding-left: 0px;
-      }
+  }
+  // bootstrap grid sm
+  @media only screen and (max-width: 992px) {
+    #app {
+      background-color: #C9B7A4;
+    }
+    .card-right-side{
+      padding-left: 0px;
     }
   }
 </style>

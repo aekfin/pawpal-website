@@ -130,11 +130,17 @@
       position: absolute;
     }
 
-    .marker:hover {
+    .marker-active {
       width: $marker-zoom-size;
       height: $marker-zoom-size;
-      border: $border-size solid #333;
+      border: $border-size solid red;
       background-color: white;
+    }
+
+    .marker:hover {
+      @extend .marker-active;
+      border: $border-size solid #333;
+      background-color: #333;
     }
 
     .marker-label {

@@ -101,7 +101,7 @@ export default {
       box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
       img {
         transition-duration: 0.5s;
-        filter: brightness(130%)
+        filter: brightness(125%)
       }
     }
     .dark:hover {
@@ -142,7 +142,7 @@ export default {
     }
     .bright {
       transition-duration: 0.5s;
-      filter: brightness(150%);
+      filter: brightness(125%);
     }
     .desc {
       font-size: 13px;

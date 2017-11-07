@@ -10,6 +10,12 @@ $form-theme-color: #49392C;
 .btn:hover {
   box-shadow: 0 0px 9px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
+.btn-sm {
+  border: 3px solid white;
+  border-radius: 3px;
+  font-size: 14px;
+  padding: 3px 5px;
+}
 .btn-lg {
   border: 3px solid white;
   border-radius: 3px;
@@ -62,7 +68,7 @@ $form-theme-color: #49392C;
   background-color: white;  
 }
 
-.white-card, .info-modal, .el-dialog, .modal-content {
+.white-card, .info-modal, .el-dialog, .modal-content, .simplert__content {
   background-color: white;
   border-radius: 5px;
   margin-top: 10px;
@@ -78,6 +84,11 @@ $form-theme-color: #49392C;
   }
   .btn:hover {
     box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  }
+  .btn-sm {
+    border-radius: 3px;
+    font-size: 14px;
+    padding: 3px 5px;  
   }
   .btn-lg {
     font-size: 18px;
