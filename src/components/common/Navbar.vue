@@ -64,6 +64,7 @@ export default {
       this.leftList = [
         { name: 'เพิ่มสุนัขที่พบ', url: '/finder' },
         { name: 'ประกาศสุนัขที่พบ', url: '/found-dog' },
+        { name: 'ประกาศสุนัขรออุปการะ', url: '/adopted-dog' },
         { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
       ]
       this.rightList = [

@@ -2,7 +2,7 @@
   <div id="image-view">
     <el-carousel height="224px" :autoplay="false" indicator-position="none" type="card" :interval="10000000" arrow="always">
       <el-carousel-item v-for="image in images" :key="image.id">
-        <img class="img-rounded" height="200px" :src="image.image"/>
+        <img class="img-rounded" :src="image.image"/>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -22,6 +22,8 @@ export default {
 <style lang="scss">
   #image-view {
     .img-rounded {
+      width: 220px;
+      height: 220px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
     }
     .el-carousel__item h3 {
