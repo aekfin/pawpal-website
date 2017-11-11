@@ -95,6 +95,7 @@ export default {
     RemoveDog () {
       this.$http.post('/api/v2/found/delete/', { 'found_id': this.dogID, 'password': this.password }).then(response => {
         console.log(response.body)
+        window.location.reload()
       }, error => {
         console.log(error)
         this.wrongPassword = true

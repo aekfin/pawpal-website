@@ -98,7 +98,13 @@ export default {
     .m-t-30 {
       margin-top: 30px !important;
     }
-
+    .form-control {
+      border: 1px solid lighten($form-theme-color, 20%);
+    }
+    .form-control:focus, .form-control:active {
+      border: 1px solid $form-theme-color;
+      box-shadow: 0 0 7px lighten($form-theme-color, 20%);
+    }
     .input-group {
       input {
         color: lighten($form-theme-color, 10%);
@@ -106,17 +112,10 @@ export default {
       select {
         color: lighten($form-theme-color, 10%);
       }
-      .form-control {
-        border: 1px solid lighten($form-theme-color, 20%);
-      }
       .input-group-addon {
         background-color: $form-theme-color;
         border: 1px solid $form-theme-color;
         color: white;
-      }
-      .form-control:focus {
-        border: 1px solid $form-theme-color;
-        box-shadow: 0 0 7px lighten($form-theme-color, 20%);
       }
     }
 

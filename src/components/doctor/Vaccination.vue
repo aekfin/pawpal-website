@@ -61,29 +61,35 @@
         </ul>
       </nav>
     </div>
+    <simplert :useRadius="true" :useIcon="true" ref="errorModal2"></simplert>
     <simplert :useRadius="true" :useIcon="true" ref="successModal"></simplert>
     <!-- Modal -->
     <div class="modal fade" id="form_modal" tabindex="-1" role="dialog"> 
       <simplert :useRadius="true" :useIcon="true" ref="errorModal"></simplert>
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header" style="border: none;">
             <button type="button" class="close" data-dismiss="modal"><i class="material-icons">&#xE14C;</i></button>
             <div v-if="vaccineRecord[currentVL]" class="modal-title text-center">
               <h3 class="th-header">{{vaccineRecord[currentVL].vaccinationFor.th}}</h3>
               <h4 class="en-header">({{vaccineRecord[currentVL].vaccinationFor.en}})</h4>
             </div>
+            <div class="text-center mode">
+              <input type="radio" name="mode" value="0" v-model="mode"><div>บันทึกแบบปกติ</div>
+              <input type="radio" name="mode" value="1" v-model="mode"><div>บันทึกครั้งสุดท้าย</div>
+              <input type="radio" name="mode" value="2" v-model="mode"><div>เลื่อนการนัดหมาย</div>
+            </div>
           </div>
-          <div class="modal-body" style="vertical-align: top;">
-            <div v-for="(th, i) in tableHeader" :key="i" v-if="i > 0">
+          <div class="modal-body" style="vertical-align: top; margin-bottom: 30px;">
+            <div v-for="(th, i) in tableHeader" :key="i" v-if="i > 0 && (mode === '0' || (mode === '1' && i !== 2) || (mode === '2' && i === 2))">
               <div style="width: 50%; text-align: right; display: inline-block; padding-right: 5%;"> 
                 <h4>{{th.th}}</h4>
               </div>
               <div style="width: 45%; text-align: left; display: inline-block;">
-                <datepicker 
+                <datepicker
                   v-if = "i <= 2" 
                   v-model = "vaccineRecordForm[i-1]" 
-                  :bootstrapStyling = "false" 
+                  :bootstrapStyling = "false"
                   :input-class = "'date-input width-100'" 
                   :wrapper-class = "'width-100'"
                   :format = "'dd MMM yyyy'">
@@ -91,7 +97,7 @@
                 <input v-if="i===3" class="form-control" v-model="vaccineRecordForm[i-1]" type="text">
                 <input v-show="false" class="form-control" v-model="doses.str">
               </div>
-              <div v-if="i===4" style="border: 1px solid lightgray; border-radius: 5px; margin-top: 10px; margin-left: 5%; margin-right: 5%; padding: 10px 10px 5px 10px; overflow: auto; min-height: 100px; max-height: 205px;">
+              <div v-if="i===4" style="border: 1px solid #896b52; border-radius: 5px; margin-top: 10px; margin-left: 5%; margin-right: 5%; padding: 10px 10px 5px 10px; overflow: auto; min-height: 100px; max-height: 205px;">
                 <div v-for="(vrf, index) in vaccineRecordForm[i-1]" :key="index" style="display: inline-block;">
                   <img :src="vrf.image" @click="SelectDoses(vrf, index)" :class="vrf.class" data-toggle="tooltip" data-placement="bottom" :title="GetDosesTooltip(vrf)"/>
                 </div>
@@ -134,7 +140,7 @@ export default {
       var vf = response.body
       this.vaccineRecord = []
       for (var i = 0; i < vf.length; i++) {
-        this.vaccineRecord.push({ vaccinationFor: { id: vf[i].id, th: vf[i].note, en: vf[i].name, routine: vf[i].routine }, date_record: null, next_vaccine: null, veterinary: null, doses: vf[i].vaccine_stock_list, class: null })
+        this.vaccineRecord.push({ vaccinationFor: { id: vf[i].id, th: vf[i].note, en: vf[i].name, routine: vf[i].routine }, date_record: null, next_vaccine: null, veterinary: null, doses: vf[i].vaccine_stock_list, class: null, mode: '0', filled: false })
       }
       this.$http.post('/api/vaccine-book/', {appointment_key: this.$route.params.appointment_id}).then(response => {
         var vb = response.body
@@ -147,6 +153,7 @@ export default {
               this.vaccineRecord[i].date_record = this.DateFormat(new Date())
               this.vaccineRecord[i].next_vaccine = this.MakeRoutine(new Date(), this.vaccineRecord[i].vaccinationFor.routine)
               this.vaccineRecord[i].veterinary = this.$store.getters.GetUser.license
+              this.vaccineRecord[i].filled = false
             }
           }
         }
@@ -178,6 +185,7 @@ export default {
     },
     OpenForm (index) {
       this.currentVL = index
+      this.mode = this.vaccineRecord[this.currentVL].mode
       if (this.vaccineRecord[this.currentVL].date_record) {
         this.vaccineRecordForm[0] = this.vaccineRecord[this.currentVL].date_record
       } else {
@@ -247,6 +255,7 @@ export default {
     ResetForm () {
       this.vaccineRecordForm = [null, null, null, null]
       this.vaccineRecord[this.currentVL].class = ''
+      this.mode = '0'
       this.doses = []
     },
     ClearForm () {
@@ -254,23 +263,50 @@ export default {
       this.vaccineRecord[this.currentVL].next_vaccine = ''
       this.vaccineRecord[this.currentVL].veterinary = ''
       this.vaccineRecord[this.currentVL].doses['selected'] = []
+      this.vaccineRecord[this.currentVL].filled = false
       this.ResetForm()
       $('#form_modal').modal('toggle')
     },
     SaveForm () {
-      if (this.vaccineRecord[this.currentVL].date_record !== '' && this.vaccineRecord[this.currentVL].next_vaccine !== '' && this.vaccineRecord[this.currentVL].veterinary !== '' && this.doses.length > 0 && this.vaccineRecord[this.currentVL].veterinary !== undefined) {
-        if (this.vaccineRecord[this.currentVL].date_record !== '') {
-          this.vaccineRecord[this.currentVL].date_record = this.DateFormat(new Date(this.vaccineRecordForm[0]))
-        }
-        if (this.vaccineRecord[this.currentVL].next_vaccine !== '') {
-          this.vaccineRecord[this.currentVL].next_vaccine = this.DateFormat(new Date(this.vaccineRecordForm[1]))
-        }
-        if (this.vaccineRecord[this.currentVL].veterinary !== '' || this.vaccineRecord[this.currentVL].veterinary !== undefined) {
-          this.vaccineRecord[this.currentVL].veterinary = this.vaccineRecordForm[2]
-        }
-        if (this.doses.length > 0) {
-          this.vaccineRecord[this.currentVL].doses['selected'] = this.doses
-        }
+      var filled = false
+      this.vaccineRecord[this.currentVL].mode = this.mode
+      switch (this.mode) {
+        case '0':
+          if (this.vaccineRecordForm[0] !== '' && this.vaccineRecordForm[1] !== '' && this.vaccineRecordForm[2] !== '' && this.doses.length > 0) {
+            this.vaccineRecord[this.currentVL].date_record = this.DateFormat(new Date(this.vaccineRecordForm[0]))
+            this.vaccineRecord[this.currentVL].next_vaccine = this.DateFormat(new Date(this.vaccineRecordForm[1]))
+            this.vaccineRecord[this.currentVL].veterinary = this.vaccineRecordForm[2]
+            this.vaccineRecord[this.currentVL].doses['selected'] = this.doses
+            filled = true
+          } else {
+            filled = false
+          }
+          break
+        case '1':
+          if (this.vaccineRecordForm[0] !== '' && this.vaccineRecordForm[2] !== '' && this.doses.length > 0) {
+            this.vaccineRecord[this.currentVL].date_record = this.DateFormat(new Date(this.vaccineRecordForm[0]))
+            this.vaccineRecord[this.currentVL].next_vaccine = ''
+            this.vaccineRecord[this.currentVL].veterinary = this.vaccineRecordForm[2]
+            this.vaccineRecord[this.currentVL].doses['selected'] = this.doses
+            filled = true
+          } else {
+            filled = false
+          }
+          break
+        case '2':
+          if (this.vaccineRecordForm[1] !== '') {
+            this.vaccineRecord[this.currentVL].date_record = ''
+            this.vaccineRecord[this.currentVL].next_vaccine = this.DateFormat(new Date(this.vaccineRecordForm[1]))
+            this.vaccineRecord[this.currentVL].veterinary = ''
+            this.vaccineRecord[this.currentVL].doses['selected'] = []
+            filled = true
+          } else {
+            filled = false
+          }
+          break
+      }
+      if (filled) {
+        this.vaccineRecord[this.currentVL].filled = true
         this.ResetForm()
         $('#form_modal').modal('toggle')
       } else {
@@ -298,30 +334,48 @@ export default {
       var vaccineRecord = []
       this.isSaving = true
       for (var i = 0; i < this.vaccineRecord.length; i++) {
-        if (this.vaccineRecord[i].date_record && this.vaccineRecord[i].next_vaccine && this.vaccineRecord[i].veterinary && this.vaccineRecord[i].doses['selected'] && this.vaccineRecord[i].doses['selected'][0]) {
+        if (this.vaccineRecord[i].filled) {
           vaccineRecord.push(this.vaccineRecord[i])
           this.recordList += '<div style="padding-left: 10px; font-size: 12px; margin-top: 3px;">- ' + this.vaccineRecord[i].vaccinationFor.th + '</div>'
         }
       }
-      this.SaveVaccineRecord(vaccineRecord)
+      if (vaccineRecord.length > 0) {
+        this.SaveVaccineRecord(vaccineRecord)
+      } else {
+        let obj = {
+          title: 'เกิดข้อผิดพลาด',
+          message: 'กรุณาบันทึกประวัติการฉีดวัคซีนอย่างน้อย 1 โรค',
+          type: 'error',
+          customCloseBtnText: 'ปิดหน้าต่าง',
+          onClose: null
+        }
+        this.$refs.errorModal2.openSimplert(obj)
+        this.isSaving = false
+      }
     },
     SaveVaccineRecord (vaccineRecord) {
       for (var i = 0; i < vaccineRecord.length; i++) {
         var vaccineStockList = []
         var j = 0
-        while (vaccineRecord[i].doses['selected'][j]) {
+        while (vaccineRecord[i].doses['selected'] && vaccineRecord[i].doses['selected'][j]) {
           vaccineStockList.push(vaccineRecord[i].doses['selected'][j].id)
           j++
         }
-        var dateRecord = new Date(vaccineRecord[i].date_record)
-        var nextVaccine = new Date(vaccineRecord[i].next_vaccine)
+        var dateRecord = ''
+        var nextVaccine = ''
+        if (vaccineRecord[i].date_record) {
+          dateRecord = new Date(vaccineRecord[i].date_record).toISOString().substring(0, 10)
+        }
+        if (vaccineRecord[i].next_vaccine) {
+          nextVaccine = new Date(vaccineRecord[i].next_vaccine).toISOString().substring(0, 10)
+        }
         var vr = {
           'vaccine_for': vaccineRecord[i].vaccinationFor.id,
           'dog': this.dog.id,
           'note': '',
           'vaccine_stock_list': vaccineStockList,
-          'date_record': new Date(dateRecord.getTime() - (dateRecord.getTimezoneOffset() * 60000)).toISOString().substring(0, 10),
-          'next_vaccine': new Date(nextVaccine.getTime() - (nextVaccine.getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
+          'date_record': dateRecord,
+          'next_vaccine': nextVaccine
         }
         var index = i
         this.$http.post('/api/vaccine-record/', vr).then(response => {
@@ -360,6 +414,7 @@ export default {
         { th: 'สัตวแพทย์/เลขที่ใบอนุญาต', en: 'Veteinary / License No.' },
         { th: 'ชื่อวัคซีน/หมายเลขการผลิต', en: 'Name / Lot No.' }
       ],
+      mode: '0',
       vaccineRecord: []
     }
   }
@@ -374,8 +429,18 @@ export default {
 
   #vaccination {
     padding-bottom: 40px;
-    .date-input {
-      font-size: 14px !important;
+    .form-control {
+      font-size: 16px;
+    }
+    .mode {
+      input[type='radio'] {
+        margin-right: 3px;
+      }
+      div {
+        margin-right: 10px;
+        font-size: 16px;
+        display: inline-block;
+      }
     }
     .white-card {
       margin-top: 20px;
@@ -481,13 +546,12 @@ export default {
       width: 100%;
       height: 34px;
       padding: 6px 12px;
-      font-size: 14px;
+      font-size: 16px;
       line-height: 1.42857143;
       color: #555;
-      font-size: 18px;
       background-color: #fff;
       background-image: none;
-      border: 1px solid #ccc;
+      border: 1px solid #896b52;
       border-radius: 4px;
     }
     .simplert__header {

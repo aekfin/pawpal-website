@@ -61,8 +61,7 @@ export default {
         width: 55%;
       }
       .form-control:focus, .form-control:active {
-        border: 0px solid $brown-color;
-        box-shadow: 0px 0px 10px rgb(97,76,59);
+        padding-left: 16px;
       }
       .router-link-active {
         font-size: 18px;

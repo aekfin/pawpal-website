@@ -8,7 +8,7 @@
     <div class="container col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 white-card text-center animated fadeIn">
       <div class="col-xs-12 no-padding">
         <input type="text" class="form-control input-lg" v-model="searchText" placeholder="รหัสนัดหมาย, รหัสสมาชิก, ชื่อเจ้าของสุนัข, ชื่อสุนัข, เบอร์โทร, ที่อยู่" @keyup.enter = "Searching()">
-        <span class="btn btn-brown btn-lg" style="margin-top: -5px;" @click="Searching()">ค้นหา</span>
+        <span class="btn btn-brown btn-lg" style="margin-top: -4px;" @click="Searching()">ค้นหา</span>
       </div>
       <div class="alert alert-danger col-xs-12" v-if="alert[0].name" :class="alert[0].class">{{alert[0].name}}</div>
     </div>
