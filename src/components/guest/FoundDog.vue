@@ -115,6 +115,7 @@ export default {
         this.AddingDog(response.body.results)
         this.pagination.total = response.body.total_pages
         this.isLoading = false
+        window.scrollTo(0, 0)
       }, error => {
         console.log(error)
         this.dogs = []

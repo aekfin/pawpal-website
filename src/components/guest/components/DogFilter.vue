@@ -50,6 +50,10 @@ export default {
       padding: 10px 16px;
       font-size: 18px;
     }
+    .form-control {
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
     select {
       padding: 0px 16px;
       border: none;

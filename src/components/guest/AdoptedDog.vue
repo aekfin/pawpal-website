@@ -7,26 +7,30 @@
     </div>
     <div class="container-fluid filter-tab">
       <div class="white-card col-xs-12" style="padding: 20px 50px;">
-        <input id="searchImage" type="file" accept="image/*" style="display: none;">
-        <div class="col-sm-6 col-md-6 col-lg-7 no-padding">
-          <input type="text" class="form-control input-lg" placeholder="อัพโหลดรูปภาพ หรือ ใส่ลิงค์รูปภาพ" v-model="inputUrlImg" v-if="!localImg">
-          <div class="input-local-file" v-else>
-            <label class="local-file" @click="RemoveImage()">{{imgPreview.name}}<i class="material-icons close-icon">&#xE5CD;</i></label>
-          </div>
-        </div>
-        <div class="col-sm-3 col-md-3 col-lg-2">
-          <div class="btn btn-primary btn-lg" style="width: 100%;" @click="SelectImage()">อัพโหลดรูปภาพ</div>
-        </div>
-        <div class="col-sm-3 col-md-3 col-lg-3" style="padding-left: 0px;">
-          <div class="btn btn-success btn-lg" style="width: 100%;">ค้นหาด้วยรูปภาพสุนัข</div>
-        </div>
-        <div class="col-xs-12 text-center" style="margin-top: 10px;" v-if="showPreview">
-          <img id="img-preview" class="img-preview" :src="imgPreview.src" @click="SelectImage()"/>
-        </div>
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="ค้นหาสุนัขด้วยรูปภาพ" name="first">
+            <input id="searchImage" type="file" accept="image/*" style="display: none;">
+            <div class="col-sm-6 col-md-6 col-lg-7 no-padding">
+              <input type="text" class="form-control input-lg" placeholder="อัพโหลดรูปภาพ หรือ ใส่ลิงค์รูปภาพ" v-model="inputUrlImg" v-if="!localImg">
+              <div class="input-local-file" v-else>
+                <label class="local-file" @click="RemoveImage()">{{imgPreview.name}}<i class="material-icons close-icon">&#xE5CD;</i></label>
+              </div>
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-2">
+              <div class="btn btn-primary btn-lg" style="width: 100%;" @click="SelectImage()">อัพโหลดรูปภาพ</div>
+            </div>
+            <div class="col-sm-3 col-md-3 col-lg-3" style="padding-left: 0px;">
+              <div class="btn btn-success btn-lg" style="width: 100%;">ค้นหาด้วยรูปภาพสุนัข</div>
+            </div>
+            <div class="col-xs-12 text-center" style="margin-top: 10px;" v-if="showPreview">
+              <img id="img-preview" class="img-preview" :src="imgPreview.src" @click="SelectImage()"/>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="ค้นหาสุนัขด้วยตัวกรอง" name="second">
+            <dog-filter class="animated-t fadeInTo" :filters = "filters" @filtering="Filtering()"></dog-filter>
+          </el-tab-pane>
+        </el-tabs>        
       </div>
-    </div>
-    <div class="container-fluid filter-tab">
-      <dog-filter class="animated-t fadeInTo" :filters = "filters" @filtering="Filtering()"></dog-filter>
     </div>
     <div class="container">
       <div class="container-fluid" style="margin: 30px 0px; min-height: 377px;">
