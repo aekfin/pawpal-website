@@ -67,6 +67,9 @@ export default {
         font-size: 18px;
       }
     }
+    .not-found {
+      margin: 0px;
+    }
     .dog-sm-view {
       font-size: 30px;
       font-weight: bold;

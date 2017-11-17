@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard">
-    <div class="title-yellow-card">
+    <div class="title-blue-card">
       <div class="container">
         <h2>การวิเคราะห์เชิงสถิติ</h2>
       </div>

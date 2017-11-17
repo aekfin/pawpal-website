@@ -30,16 +30,16 @@ export default {
 <style lang="scss">
   #dog-filter {
     .white-card {
-      margin-top: 15px;
+      margin-top: 0px;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
     .card-sm {
-      padding: 30px;
+      padding: 0px;
       border-radius: 4px;
       text-align: center;
     }
     .filter {
-      margin: 5px 0px;
+      margin: 0px;
     }
     .filter-label {
       background-color: #49392C;
@@ -51,8 +51,8 @@ export default {
       font-size: 18px;
     }
     .form-control {
-      border-top-left-radius: 0px;
-      border-bottom-left-radius: 0px;
+      border-top-left-radius: 0px !important;
+      border-bottom-left-radius: 0px !important;
     }
     select {
       padding: 0px 16px;

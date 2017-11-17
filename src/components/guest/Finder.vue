@@ -1,6 +1,6 @@
 <template>
   <div id="finder">
-    <div class="title-green-card">
+    <div class="title-red-purple-card">
       <div class="container">
         <h2> เพิ่มข้อมูลสุนัขที่พบ</h2>
       </div>

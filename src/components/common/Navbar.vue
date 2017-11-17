@@ -148,8 +148,7 @@ export default {
     }
     .navbar-dark {
       background-color: #49392C; 
-      // box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.3);
-      border-bottom: 3px solid white;
+      border: none;
       border-radius: 0px;
     }
     .info-modal {
@@ -198,27 +197,38 @@ export default {
       cursor: pointer;
       font-size: 16px;
       color: #b1b1b1;
+      border-bottom: 3px solid transparent;
     }
     .right-link:hover {
-      color: #441002;
+      padding-bottom: 12px;
+      color: white;
+      background-color: transparent;
+      border-bottom: 3px solid white;
+      transition-duration: 0.5s;
     }
     .right-link-dark {
       @extend .right-link;
       color: white;
+      border-bottom: 3px solid #49392C;
     }
     .right-link-dark-active {
-      color: #441002;
-      background-color: white;
+      color: white;
+      background-color: #49392C;
+      transition-duration: 0.3s;
+      border-bottom: 3px solid white;
     }
     .right-link-dark:hover {
-      @extend .right-link-dark-active
+      @extend .right-link-dark-active;
+      background-color: darken(#49392C, 20%);
+      border-bottom: 3px solid darken(#49392C, 20%);
     }
-    .right-link-dark:focus {
-      @extend .right-link-dark-active
+    .right-link-dark-active:hover {
+      @extend .right-link-dark-active;
+      background-color: darken(#49392C, 20%);
     }
     .navbar-nav > li > a {
-      padding-top: 18px;
-      padding-bottom: 15px;
+      padding-top: 15px;
+      padding-bottom: 12px;
     }
     .slide-icon {
       color: white;

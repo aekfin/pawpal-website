@@ -57,7 +57,11 @@
             </tbody>
           </table>
         </div>
-        <div class="col-xs-12 text-center not-found" v-else>ไม่พบข้อมูล</div>
+        <div class="col-xs-12 text-center not-found" v-else>
+            <img src="../../assets/not-found.png"/>
+            <h3>ขออภัย ไม่พบการนัดหมาย</h3>
+            <h5>โปรดตรวจสอบคำที่ท่านค้นหาใหม่อีกครั้ง</h5>
+        </div>
         <div style="display: none;">{{this.refresh}}</div>
       </div>
     </div>
