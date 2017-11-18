@@ -39,7 +39,9 @@ export default {
       text-align: center;
     }
     .filter {
+      height: 60px;
       margin: 0px;
+      margin-top: 5px;
     }
     .filter-label {
       background-color: #49392C;

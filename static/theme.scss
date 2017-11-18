@@ -5,22 +5,25 @@ $form-theme-color: #49392C;
   transition-duration: 0.5s;
   border-radius: 2px;
   border: 2px solid white;
-  box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-.btn:hover {
-  box-shadow: 0 0px 9px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-}
+
 .btn-sm {
   border: 3px solid white;
   border-radius: 3px;
   font-size: 14px;
   padding: 3px 5px;
 }
+
 .btn-lg {
   border: 3px solid white;
   border-radius: 3px;
   font-size: 20px;
   padding: 10px 15px;
+  box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.btn-lg:hover {
+  box-shadow: 0 0px 9px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 .btn-primary {
@@ -83,17 +86,23 @@ $form-theme-color: #49392C;
     box-shadow: none;
   }
   .btn:hover {
-    box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
   }
   .btn-sm {
     border-radius: 3px;
     font-size: 14px;
     padding: 3px 5px;  
   }
+  .btn-sm:hover {
+    box-shadow: none;
+  }
   .btn-lg {
     font-size: 18px;
     border: none;
     padding: 10px 15px;
+  }
+  .btn-lg:hover {
+    box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
   .banner {
     border-top-left-radius: 5px;
@@ -196,10 +205,10 @@ $form-theme-color: #49392C;
   border-bottom-right-radius: 3px;
 }
 .el-tabs__header {
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 .el-tabs__content {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 .el-tabs__nav-scroll {
   border-bottom: 1px solid lighten(#A58675, 10%);
