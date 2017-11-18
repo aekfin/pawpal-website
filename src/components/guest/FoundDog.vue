@@ -1,19 +1,27 @@
 <template>
   <div id="foundDog">
-    <div class="title-yellow-card">
+    <div class="title-red-card">
       <div class="container">
         <h2>ประกาศสุนัขที่พบ</h2>
       </div>
     </div>
     <div class="container-fluid filter-tab">
-      <dog-filter class="animated-t fadeInTo" :filters = "filters" @filtering="Filtering()"></dog-filter>
+      <div class="white-card col-xs-12" style="padding: 20px 50px;">
+        <el-tabs v-model="tab">
+          <el-tab-pane label="ค้นหาสุนัขด้วยตัวกรอง" name="filter">
+            <dog-filter class="animated-t fadeInTo" :filters = "filters" @filtering="Filtering()"></dog-filter>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
     </div>
     <div class="container">
       <div class="container-fluid" style="margin: 30px 0px; min-height: 377px;">
         <loading :theme="'light'" :size="'normal'" v-if="isLoading"></loading>
         <div v-else>
-          <div class="text-center not-found white-card animated-t fadeIn" v-if = "dogs && dogs.length === 0">
-              ไม่พบสุนัข
+          <div class="text-center white-card not-found animated-t fadeIn" v-if = "dogs && dogs.length === 0">
+            <img src="../../assets/not-found.png"/>
+            <h3>ขออภัย ไม่พบข้อมูลของสุนัข</h3>
+            <h5>โปรดตรวจสอบตัวกรองที่ท่านใช้ หรือสุนัขที่ท่านต้องการยังไม่มีข้อมูล</h5>
           </div>
           <dog-list class="animated-t fadeInTo" :theme="'light'" :type="'found'" :dogs="dogs" v-else></dog-list>
         </div>
@@ -115,6 +123,7 @@ export default {
         this.AddingDog(response.body.results)
         this.pagination.total = response.body.total_pages
         this.isLoading = false
+        window.scrollTo(0, 0)
       }, error => {
         console.log(error)
         this.dogs = []
@@ -130,6 +139,7 @@ export default {
         total: 1,
         showPages: 5
       },
+      tab: 'filter',
       filters: [],
       dogs: []
     }
@@ -142,10 +152,6 @@ export default {
     padding-bottom: 40px;
     .filter-tab {
       padding: 0px 5%;
-    }
-    .not-found {
-      font-size: 48px;
-      margin: 100px;
     }
   }
 </style>

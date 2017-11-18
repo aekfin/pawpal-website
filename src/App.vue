@@ -61,11 +61,29 @@ export default {
     }
 
     .not-found {
-      font-size: 30px;
       font-weight: bold;
       margin: 30px 0px;
+      padding: 40px;
+      padding-bottom: 50px;
       height: 100%;
       color: #49392C;
+      img {
+        width: 150px;
+        height: 150px;
+        cursor: default;
+      }
+      img:hover {
+        box-shadow: none;
+      }
+      h3 {
+        color: #49392C;
+        margin-top: 10px;
+        font-size: 40px;
+      }
+      h5 {
+        color: lighten(#49392C, 10%);
+        font-size: 20px;
+      }
     }
     
     .card-right-side {
@@ -76,9 +94,6 @@ export default {
     .no-padding {
       padding-left: 0px;
       padding-right: 0px;
-    }
-    .btn-lg {
-      height: 47px;
     }
     .input-lg {
       height: 47px !important;

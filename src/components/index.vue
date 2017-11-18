@@ -49,6 +49,7 @@ export default {
       this.btnList = [
         { name: 'เพิ่มสุนัขที่พบ', url: '/finder' },
         { name: 'ประกาศสุนัขที่พบ', url: '/found-dog' },
+        { name: 'ประกาศสุนัขรออุปการะ', url: '/adoptable-dog' },
         { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
       ]
     }

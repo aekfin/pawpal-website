@@ -1,6 +1,6 @@
 <template>
   <div id="finder">
-    <div class="title-green-card">
+    <div class="title-red-purple-card">
       <div class="container">
         <h2> เพิ่มข้อมูลสุนัขที่พบ</h2>
       </div>
@@ -48,7 +48,7 @@
               <gmap-marker ref="theMarker" :position="position" :clickable="true" :draggable="true" @dragend="DragEnd">
               </gmap-marker>
             </gmap-map>
-            <button class="btn btn-dark btn-lg col-xs-5" @click="ShowGooglePlace">
+            <button class="btn btn-dark btn-lg col-xs-5" style="height: 47px;" @click="ShowGooglePlace">
               <span v-if="!showGooglePlace" class="glyphicon glyphicon-unchecked"></span>
               <span v-if="showGooglePlace" class="glyphicon glyphicon-check"></span>
               ค้นหาด้วยสถานที่

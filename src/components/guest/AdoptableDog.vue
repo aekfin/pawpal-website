@@ -1,39 +1,45 @@
 <template>
-  <div id="adoptDog">
-    <div class="title-blue-card">
+  <div id="adopt-dog">
+    <div class="title-red-card">
       <div class="container">
         <h2>ประกาศสุนัขที่รอรับการอุปการะ</h2>
       </div>
     </div>
     <div class="container-fluid filter-tab">
       <div class="white-card col-xs-12" style="padding: 20px 50px;">
-        <input id="searchImage" type="file" accept="image/*" style="display: none;">
-        <div class="col-sm-6 col-md-6 col-lg-7 no-padding">
-          <input type="text" class="form-control input-lg" placeholder="อัพโหลดรูปภาพ หรือ ใส่ลิงค์รูปภาพ" v-model="inputUrlImg" v-if="!localImg">
-          <div class="input-local-file" v-else>
-            <label class="local-file" @click="RemoveImage()">{{imgPreview.name}}<i class="material-icons close-icon">&#xE5CD;</i></label>
-          </div>
-        </div>
-        <div class="col-sm-3 col-md-3 col-lg-2">
-          <div class="btn btn-primary btn-lg" style="width: 100%;" @click="SelectImage()">อัพโหลดรูปภาพ</div>
-        </div>
-        <div class="col-sm-3 col-md-3 col-lg-3" style="padding-left: 0px;">
-          <div class="btn btn-success btn-lg" style="width: 100%;">ค้นหาด้วยรูปภาพสุนัข</div>
-        </div>
-        <div class="col-xs-12 text-center" style="margin-top: 10px;" v-if="showPreview">
-          <img id="img-preview" class="img-preview" :src="imgPreview.src" @click="SelectImage()"/>
-        </div>
+        <el-tabs v-model="tab">
+          <el-tab-pane label="ค้นหาสุนัขด้วยตัวกรอง" name="filter">
+            <dog-filter class="animated-t fadeInTo" :filters = "filters" @filtering="Filtering()"></dog-filter>
+          </el-tab-pane>
+          <el-tab-pane label="ค้นหาสุนัขด้วยรูปภาพ" name="imageSearch">
+            <div class="image-search animated fadeIn">
+              <input id="searchImage" type="file" accept="image/*" style="display: none;">
+              <div class="col-sm-9 col-md-9 col-lg-9 no-padding">
+                <input type="text" class="form-control input-lg" style="height: 47px; margin-top: 5px;" placeholder="อัพโหลดรูปภาพ หรือ ใส่ลิงค์รูปภาพจากเว็บไซต์" v-model="inputUrlImg" v-if="!localImg">
+                <div class="input-local-file" v-else>
+                  <label class="local-file" @click="RemoveImage()">{{imgPreview.name}}<i class="material-icons close-icon">&#xE5CD;</i></label>
+                </div>
+              </div>
+              <div class="col-sm-3 col-md-3 col-lg-3">
+                <div class="btn btn-primary btn-lg" style="width: 100%; height: 47px; margin-top: 5px;" @click="SelectImage()">อัพโหลดรูปภาพ</div>
+              </div>
+              <div class="col-xs-12 text-center animated fadeIn" style="margin-top: 15px;" v-if="showPreview">
+                <h3 class="text-left" style="position: absolute; margin: 0px;">ค้นหาด้วยรูปภาพ :</h3>
+                <img id="img-preview" class="img-preview" :src="imgPreview.src" @click="SelectImage()"/>
+              </div>
+            </div>
+          </el-tab-pane>
+        </el-tabs>        
       </div>
-    </div>
-    <div class="container-fluid filter-tab">
-      <dog-filter class="animated-t fadeInTo" :filters = "filters" @filtering="Filtering()"></dog-filter>
     </div>
     <div class="container">
       <div class="container-fluid" style="margin: 30px 0px; min-height: 377px;">
         <loading :theme="'light'" :size="'normal'" v-if="isLoading"></loading>
         <div v-else>
           <div class="text-center not-found white-card animated-t fadeIn" v-if = "dogs && dogs.length === 0">
-              ไม่พบสุนัข
+            <img src="../../assets/not-found.png"/>
+            <h3>ขออภัย ไม่พบข้อมูลของสุนัข</h3>
+            <h5>โปรดตรวจสอบตัวกรองที่ท่านใช้ หรือสุนัขที่ท่านต้องการยังไม่มีข้อมูล</h5>
           </div>
           <dog-list class="animated-t fadeInTo" :theme="'light'" :type="'found'" :dogs="dogs" v-else></dog-list>
         </div>
@@ -66,7 +72,6 @@ export default {
     ]
     this.isLoading = true
     this.$http.post('/api/v2/adopt/', {}).then(response => {
-      console.log(response.body)
       this.AddingDog(response.body.results)
       this.AddingColor()
       this.pagination.total = response.body.total_pages
@@ -88,6 +93,7 @@ export default {
         self.localImg = true
         self.showPreview = true
         self.inputUrlImg = ''
+        self.Filtering()
       }
     })
   },
@@ -99,6 +105,7 @@ export default {
       img.on('load', function (e) {
         self.imgPreview = {}
         self.imgPreview.src = self.urlImg
+        self.Filtering()
         self.showPreview = true
       }).on('error', function (e) {
         self.imgPreview = null
@@ -172,7 +179,17 @@ export default {
       }
       path += 'page=' + this.pagination.current
       this.isLoading = true
-      this.$http.post('/api/v2/adopt/' + path, {}).then(response => {
+      var request = {}
+      if (this.tab === 'imageSearch') {
+        path = '?page=' + this.pagination.current
+        if (this.localImg) {
+          request = { 'image_filter': this.imgPreview.src }
+        } else {
+          request = { 'image_url': this.inputUrlImg }
+        }
+      }
+      this.$http.post('/api/v2/adopt/' + path, request).then(response => {
+        console.log(response.body)
         this.AddingDog(response.body.results)
         this.pagination.total = response.body.total_pages
         this.isLoading = false
@@ -191,6 +208,7 @@ export default {
         total: 1,
         showPages: 5
       },
+      tab: 'filter',
       inputUrlImg: '',
       urlImg: '',
       localImg: false,
@@ -205,14 +223,14 @@ export default {
 </script>
 
 <style lang="scss">
-  #adoptDog {
+  #adopt-dog {
     padding-bottom: 40px;
+    .image-search {
+      height: 60px;
+      padding: 0px 15px;
+    }
     .filter-tab {
       padding: 0px 5%;
-    }
-    .not-found {
-      font-size: 48px;
-      margin: 100px;
     }
     img {
       border-radius: 3px;

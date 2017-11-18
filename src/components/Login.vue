@@ -98,6 +98,9 @@ export default {
     .white-card {
       margin-top: 3%;
       padding: 0px 0px 30px 0px;
+      input {
+        border-radius: 3px;
+      }
       .hospital-label {
         line-height: 30px;
         font-size: 24px;

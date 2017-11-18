@@ -5,22 +5,25 @@ $form-theme-color: #49392C;
   transition-duration: 0.5s;
   border-radius: 2px;
   border: 2px solid white;
-  box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-.btn:hover {
-  box-shadow: 0 0px 9px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-}
+
 .btn-sm {
   border: 3px solid white;
   border-radius: 3px;
   font-size: 14px;
   padding: 3px 5px;
 }
+
 .btn-lg {
   border: 3px solid white;
   border-radius: 3px;
   font-size: 20px;
   padding: 10px 15px;
+  box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.btn-lg:hover {
+  box-shadow: 0 0px 9px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 .btn-primary {
@@ -83,17 +86,23 @@ $form-theme-color: #49392C;
     box-shadow: none;
   }
   .btn:hover {
-    box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
   }
   .btn-sm {
     border-radius: 3px;
     font-size: 14px;
     padding: 3px 5px;  
   }
+  .btn-sm:hover {
+    box-shadow: none;
+  }
   .btn-lg {
     font-size: 18px;
     border: none;
     padding: 10px 15px;
+  }
+  .btn-lg:hover {
+    box-shadow: 0 0px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
   .banner {
     border-top-left-radius: 5px;
@@ -129,9 +138,9 @@ $form-theme-color: #49392C;
   background-color: #49392C;
 }
 
-.title-green-card {
+.title-red-purple-card {
   @extend .title-card;
-  background-color: #84bf09;
+  background-color: #9C5F71;
 }
 
 .title-blue-green-card {
@@ -161,17 +170,12 @@ $form-theme-color: #49392C;
 
 .title-blue-card {
   @extend .title-card;
-  background-color: #69A5AD;
+  background-color: #677483;
 }
 
 .title-red-card {
   @extend .title-card;
-  background-color: #EF3E36;
-}
-
-.title-yellow-card {
-  @extend .title-card;
-  background-color: #e4ba24;
+  background-color: #A64B46;
 }
 
 .btn-dark {
@@ -199,4 +203,23 @@ $form-theme-color: #49392C;
 .form-control {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
+}
+.el-tabs__header {
+  margin-bottom: 20px;
+}
+.el-tabs__content {
+  margin-bottom: 5px;
+}
+.el-tabs__nav-scroll {
+  border-bottom: 1px solid lighten(#A58675, 10%);
+}
+.el-tabs__active-bar {
+  background-color: $form-theme-color;
+}
+.el-tabs__item {
+  font-size: 16px;
+  color: #A58675;
+}
+.is-active {
+  color: $form-theme-color;
 }

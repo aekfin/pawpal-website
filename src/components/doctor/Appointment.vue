@@ -40,7 +40,8 @@
             </tbody>
           </table>
           <div class="text-center not-found" v-else>
-            ไม่มีการนัดหมายในวันนี้
+            <img src="../../assets/not-found.png"/>
+            <h3>ไม่พบการนัดหมายของวันนี้</h3>
           </div>
         </div>
       </div>

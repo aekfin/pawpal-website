@@ -1,9 +1,8 @@
 <template>
   <div id="dog-list">
     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" v-for="(dog, i) in dogs" :key="i">
-      <div :class="card" data-toggle="modal" data-target="#detail_modal" @click="ClickDog(dog)">
-        <img :src="dog.img[0]" class="img-dog" v-if="dog.img[0].image === undefined">
-        <img :src="dog.img[0].image" class="img-dog" v-else>
+      <div :class="card" data-toggle="modal" data-target="#detail_modal" @click="ClickDog(dog)" v-if="dog && dog.img[0]">
+        <img :src="dog.img[0].image" class="img-dog" @error="ImageError(dog.img[0])" :key="dog.img[0].image">
         <div :class="cardDetail">
           <h4 class="text-center">{{dog.breed}}</h4>
           <div class="desc">
@@ -70,6 +69,9 @@ export default {
     },
     ClickDog (dog) {
       this.selected_dog = dog
+    },
+    ImageError (image) {
+      image.image = require('@/assets/finder/dog-upload.png')
     }
   },
   data () {
