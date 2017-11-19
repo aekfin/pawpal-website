@@ -7,12 +7,15 @@
           <div class="container text-box">
             <div class="col-xs-12 col-sm-12 text-center">
               <div class="col-xs-12 col-sm-10 col-sm-offset-1">
-                <h1>The greatness of a nation can be judged by how its animals are treated.</h1>
-                <h3> ~ Mahatma Gandhi ~ </h3>
+                <h1>PawPal Friend of Best Friend</h1>
+                <h3>พอว์เพาว์ เป็นมากกว่าเพื่อน ที่เข้าใจสุนัขของคุณ</h3>
                 <div class="col-xs-2 col-sm-2 col-xs-offset-5 col-sm-offset-5 under-line"></div>
               </div>
               <div class="col-xs-12 col-sm-8 col-sm-offset-2 subtitle">
-                <p>PawPal Friend of Best Friend พอว์เพาว์ เป็นมากกว่าเพื่อน ที่เข้าใจสุนัขของคุณ</p>
+                <p>The greatness of a nation can be judged by how its animals are treated.<br>
+                  (ความยิ่งใหญ่ของประเทศสามารถตัดสินได้ว่าสัตว์ของมันได้รับการปฏิบัติอย่างไร)
+                  <div class="text-right">- Mahatma Gandhi (มหาตมะคานธี)</div>  
+                </p>
               </div>
               <div class="col-xs-12 col-sm-12 btn-section animated fadeIn">
                 <router-link v-for="(btn, i) in btnList" :key="btn" :to="btn.url" class="btn btn-tranparent btn-lg">{{btn.name}}</router-link>
@@ -76,11 +79,12 @@ export default {
       background-image: url("../assets/landing_background2.jpg");
       background-repeat: no-repeat;
       background-size: cover;
+      background-position: center center;
       color: white;
       position: relative;
     }
     .cover-black{
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.55);
       position: absolute;
       top: 0;
       left: 0;

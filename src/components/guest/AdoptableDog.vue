@@ -24,7 +24,7 @@
                 <div class="btn btn-primary btn-lg" style="width: 100%; height: 47px; margin-top: 5px;" @click="SelectImage()">อัพโหลดรูปภาพ</div>
               </div>
               <div class="col-xs-12 text-center animated fadeIn" style="margin-top: 15px;" v-if="showPreview">
-                <h3 class="text-left" style="position: absolute; margin: 0px;">ค้นหาด้วยรูปภาพ :</h3>
+                <h4 class="text-left" style="position: absolute; margin: 0px;">ค้นหาด้วยรูปภาพ :</h4>
                 <img id="img-preview" class="img-preview" :src="imgPreview.src" @click="SelectImage()"/>
               </div>
             </div>
@@ -41,7 +41,7 @@
             <h3>ขออภัย ไม่พบข้อมูลของสุนัข</h3>
             <h5>โปรดตรวจสอบตัวกรองที่ท่านใช้ หรือสุนัขที่ท่านต้องการยังไม่มีข้อมูล</h5>
           </div>
-          <dog-list class="animated-t fadeInTo" :theme="'light'" :type="'found'" :dogs="dogs" v-else></dog-list>
+          <dog-list class="animated-t fadeInTo" :type="'adopt'" :dogs="dogs" v-else></dog-list>
         </div>
       </div>
       <div class="container-fluid text-center">
@@ -227,6 +227,7 @@ export default {
     padding-bottom: 40px;
     .image-search {
       height: 60px;
+      margin-bottom: 5px;
       padding: 0px 15px;
     }
     .filter-tab {

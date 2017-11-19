@@ -1,5 +1,5 @@
 <template>
-  <div id="foundDog">
+  <div id="found-dog">
     <div class="title-red-card">
       <div class="container">
         <h2>ประกาศสุนัขที่พบ</h2>
@@ -23,7 +23,7 @@
             <h3>ขออภัย ไม่พบข้อมูลของสุนัข</h3>
             <h5>โปรดตรวจสอบตัวกรองที่ท่านใช้ หรือสุนัขที่ท่านต้องการยังไม่มีข้อมูล</h5>
           </div>
-          <dog-list class="animated-t fadeInTo" :theme="'light'" :type="'found'" :dogs="dogs" v-else></dog-list>
+          <dog-list class="animated-t fadeInTo" :type="'found'" :dogs="dogs" v-else></dog-list>
         </div>
       </div>
       <div class="container-fluid text-center">
@@ -148,7 +148,7 @@ export default {
 </script>
 
 <style lang="scss">
-  #foundDog {
+  #found-dog {
     padding-bottom: 40px;
     .filter-tab {
       padding: 0px 5%;
