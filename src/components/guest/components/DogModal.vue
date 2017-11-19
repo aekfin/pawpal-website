@@ -7,7 +7,8 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><i class="material-icons">&#xE14C;</i></button>
             <h3>รายละเอียดสุนัข 
-              <div class="btn btn-danger btn-sm" style="margin-left: 5px; margin-top: -5px;" data-toggle="modal" data-target="#password_modal">ลบสุนัข</div>
+              <div class="btn btn-danger btn-sm" style="margin-left: 5px; margin-top: -5px;" data-toggle="modal" data-target="#password_modal" v-if="type === 'found'">ลบสุนัข</div>
+              <div class="btn btn-info btn-sm" style="margin-left: 5px; margin-top: -5px;" data-toggle="modal" data-target="#password_modal" v-else>รับอุปการะสุนัข</div>
             </h3>
           </div>
           <div class="modal-body">

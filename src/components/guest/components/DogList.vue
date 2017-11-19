@@ -14,24 +14,12 @@
             </span>
           </div>
           <div class="desc" v-if="dog.finder">
-            <span v-if="type === 'found'">
-              <span class="col-xs-5 no-padding">ชื่อผู้พบ : </span>
-              <span class="col-xs-7 no-padding">{{dog.finder.name}}</span>
-            </span>
-            <span v-if="type === 'missing'">
-              <span class="col-xs-5 no-padding">ชื่อเจ้าของ : </span>
-              <span class="col-xs-7 no-padding">{{dog.owner.name}}</span>
-            </span>
+            <span class="col-xs-5 no-padding">ชื่อผู้พบ : </span>
+            <span class="col-xs-7 no-padding">{{dog.finder.name}}</span>
           </div>
           <div class="desc">
-            <div v-if="type === 'found'">
-              <span class="col-xs-5 no-padding">วันที่พบ : </span>
-              <span class="col-xs-7 no-padding">{{DateFormat(dog.date_found)}}</span>
-            </div>
-            <div v-if="type === 'missing'">
-              <span class="col-xs-5 no-padding">วันที่หาย : </span>
-              <span class="col-xs-7 no-padding">{{dog.owner.tel}}</span>
-            </div>  
+            <span class="col-xs-5 no-padding">วันที่พบ : </span>
+            <span class="col-xs-7 no-padding">{{DateFormat(dog.date_found)}}</span>  
           </div>
         </div>
       </div>
@@ -44,14 +32,21 @@
 import DogModal from './DogModal.vue'
 
 export default {
-  props: ['theme', 'type', 'dogs'],
+  props: ['type', 'dogs'],
   created () {
-    if (this.theme && this.theme.toLowerCase() === 'light') {
-      this.cardDetail = 'card-light-detail'
+    if (this.type) {
       this.card = 'card'
-    } else {
-      this.cardDetail = 'card-dark-detail'
-      this.card = 'card dark'
+      switch (this.type.toLowerCase()) {
+        case 'found':
+          this.cardDetail = 'card-lighter-detail'
+          break
+        case 'adopt':
+          this.cardDetail = 'card-light-detail'
+          break
+        case 'missing':
+          this.cardDetail = 'card-dark-detail'
+          break
+      }
     }
     var elements = document.getElementsByClassName('img-dog')
     for (var i = 0; i < elements.length; i++) {
@@ -94,7 +89,7 @@ export default {
     .card {
       margin: 10px 0px;
       border-radius: 3px;
-      border: 3px solid white;
+      border: 4px solid white;
       transition-duration: 0.3s;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
       cursor: pointer;
@@ -106,22 +101,13 @@ export default {
         filter: brightness(125%)
       }
     }
-    .dark:hover {
-      box-shadow: 0 0 28px black;
-    }
     .card-detail {
       margin-top: -1px;
       padding: 10px 10px 15px 10px;
-      height: 100px; 
-      border-left: 1px solid lightgrey;
-      border-right: 1px solid lightgrey;
-      border-bottom: 1px solid lightgrey;
+      height: 100px;
     }
     .card-dark-detail {    
-      @extend .card-detail; 
-      border-left: 1px solid #2D1A14;
-      border-right: 1px solid #2D1A14;
-      border-bottom: 1px solid #2D1A14;
+      @extend .card-detail;
       color: white;
       background-color: #3F2D27;
       h4 {
@@ -130,14 +116,15 @@ export default {
     }
     .card-light-detail {    
       @extend .card-detail; 
-      border-left: 1px solid #E1C4A5;
-      border-right: 1px solid #E1C4A5;
-      border-bottom: 1px solid #E1C4A5;
       color: #3F2D27;
       background-color: #e6b05b;
       h4 {
         color: #3F2D27;
       }
+    }
+    .card-lighter-detail {
+      @extend .card-light-detail; 
+      background-color: lighten(#e6b05b, 10%);
     }
     .img-dog {
       width: 100%;

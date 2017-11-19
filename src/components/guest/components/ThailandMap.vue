@@ -140,7 +140,7 @@
     .marker:hover {
       @extend .marker-active;
       border: $border-size solid #333;
-      background-color: #333;
+      background-color: white;
     }
 
     .marker-label {
