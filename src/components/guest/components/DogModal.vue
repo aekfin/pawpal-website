@@ -57,7 +57,7 @@
             <div style="height: 23px; color: red;" v-if="wrongPassword">รหัสผ่านไม่ถูกต้อง</div>
             <div style="height: 23px;" v-else></div>
             <div class="text-center" style="margin-top: 10px;">
-              <div class="btn btn-success btn-lg" style="width: 100%;" @click="RemoveDog()">ยืนยันรหัสผ่าน</div>
+              <div class="btn btn-success btn-lg" style="width: 100%;" @click="ConfirmPassword()">ยืนยันรหัสผ่าน</div>
             </div>
           </div>
           </div>
@@ -92,6 +92,25 @@ export default {
       date = new Date(date)
       var months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
       return date.getDate() + ' ' + months[date.getMonth()] + ' ' + date.getFullYear()
+    },
+    ConfirmPassword () {
+      switch (this.type) {
+        case 'found':
+          this.RemoveDog()
+          break
+        case 'adopt':
+          this.AdoptDog()
+          break
+      }
+    },
+    AdoptDog () {
+      this.$http.post('/api/v2/adopt/take/', { 'adopt_id': this.dogID, 'password': this.password }).then(response => {
+        console.log(response.body)
+        window.location.reload()
+      }, error => {
+        console.log(error)
+        this.wrongPassword = true
+      })
     },
     RemoveDog () {
       this.$http.post('/api/v2/found/delete/', { 'found_id': this.dogID, 'password': this.password }).then(response => {
