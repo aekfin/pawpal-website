@@ -24,12 +24,8 @@
           </div>
         </div>
       </div>
-      <div class="white-card" style="margin: 5%; display: none;">
-        <button class="btn btn-primary btn-lg">Test12345</button>
-        <button class="btn btn-success btn-lg">Test12345</button>
-        <button class="btn btn-info btn-lg">Test12345</button>
-        <button class="btn btn-warning btn-lg">Test12345</button>
-        <button class="btn btn-danger btn-lg">Test12345</button>
+      <div style="margin: 5% 0%;">
+        <dashboard></dashboard>
       </div>
     </div>
     <app-footer></app-footer>
@@ -37,35 +33,36 @@
 </template>
 
 <script>
-import navBar from '@/components/common/Navbar.vue'
-import appFooter from '@/components/common/Footer.vue'
+  import NavBar from '@/components/common/Navbar.vue'
+  import AppFooter from '@/components/common/Footer.vue'
+  import Dashboard from '@/components/guest/Dashboard.vue'
 
-export default {
-  name: 'landing',
-  created () {
-    if (this.$store.getters.IsLogin) {
-      if (this.$store.getters.IsSelectHospital) {
-        this.btnList.push({ name: 'สมุดการนัดหมาย', url: '/doctor/appointment' })
-        this.btnList.push({ name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' })
+  export default {
+    name: 'landing',
+    created () {
+      if (this.$store.getters.IsLogin) {
+        if (this.$store.getters.IsSelectHospital) {
+          this.btnList.push({ name: 'สมุดการนัดหมาย', url: '/doctor/appointment' })
+          this.btnList.push({ name: 'ค้นหาสมุดวัคซีน', url: '/doctor/vaccination' })
+        }
+      } else {
+        this.btnList = [
+          { name: 'เพิ่มสุนัขที่พบ', url: '/finder' },
+          { name: 'ประกาศสุนัขที่พบ', url: '/found-dog' },
+          { name: 'ประกาศสุนัขรออุปการะ', url: '/adoptable-dog' },
+          { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
+        ]
       }
-    } else {
-      this.btnList = [
-        { name: 'เพิ่มสุนัขที่พบ', url: '/finder' },
-        { name: 'ประกาศสุนัขที่พบ', url: '/found-dog' },
-        { name: 'ประกาศสุนัขรออุปการะ', url: '/adoptable-dog' },
-        { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
-      ]
-    }
-  },
-  components: {
-    navBar, appFooter
-  },
-  data () {
-    return {
-      btnList: []
+    },
+    components: {
+      NavBar, AppFooter, Dashboard
+    },
+    data () {
+      return {
+        btnList: []
+      }
     }
   }
-}
 </script>
 
 <style lang="scss">

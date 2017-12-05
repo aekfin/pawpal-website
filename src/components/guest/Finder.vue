@@ -28,35 +28,28 @@
           <h3>ข้อมูลสุนัข</h3>
           <app-form :form="dogForm"></app-form>
         </div> 
-        <div class="col-xs-12 white-card" style="height: 300px;">
+        <div class="col-xs-12 white-card">
           <h3>ข้อมูลติดต่อ</h3>
           <app-form :form="finderForm"></app-form> 
         </div>
       </div>
       <!-- Right Side -->
       <div class="col-sm-12 col-md-6 card-right-side">
-        <div class="col-xs-12 no-padding white-card">
+        <div class="col-xs-12 no-padding white-card" style="min-height: 585px;">
           <div class="col-xs-12">
             <h3>สถานที่ที่พบ</h3>
-          </div>
-          <div class="col-xs-12" style="padding-bottom: 10px;">
-            <div>ละติจูด  : <span class="latlng-label">{{this.latLng.lat}}</span></div>
-            <div>ลองติจูด : <span class="latlng-label">{{this.latLng.lng}}</span></div>
           </div>
           <div class="col-xs-12">
             <gmap-map ref="maps" :center="center" :zoom="zoom" style="width: 500px; height: 300px; margin-bottom: 20px;">
               <gmap-marker ref="theMarker" :position="position" :clickable="true" :draggable="true" @dragend="DragEnd">
               </gmap-marker>
             </gmap-map>
-            <button class="btn btn-dark btn-lg col-xs-5" style="height: 47px;" @click="ShowGooglePlace">
-              <span v-if="!showGooglePlace" class="glyphicon glyphicon-unchecked"></span>
-              <span v-if="showGooglePlace" class="glyphicon glyphicon-check"></span>
-              ค้นหาด้วยสถานที่
-            </button>
-            <div class="col-xs-7" style="padding-left: 5px;" :class="placeGoogle">
-              <input type="text" class="form-control input-lg input-place" placeholder="ป้อนตำแหน่ง" autocomplete="off" v-if="!showGooglePlace" disabled>
-              <gmap-place-input :default-place="place" :selectFirstOnEnter="true" :className="'form-control input-lg input-place'"
-                @place_changed="setPlace" v-else>
+          </div>
+          <div class="col-xs-12">
+            <div class="input-group width-100" style="padding-bottom: 10px">
+              <div class="input-group-addon input-lg" style="width: 120px">สถานที่</div>
+              <gmap-place-input :default-place="placeFromLatLng" :selectFirstOnEnter="true" :className="'form-control input-lg input-place'"
+                @place_changed="setPlace">
               </gmap-place-input>
             </div>
           </div>
@@ -125,10 +118,11 @@
   import Simplert from 'vue2-simplert'
   import Loading from '@/components/common/Loading.vue'
 
+  var key = 'AIzaSyCgh_Mj91pf2vXMF2GYVNG5-V-etzaBggg'
   Vue.use(VueCroppie)
   Vue.use(VueGoogleMaps, {
     load: {
-      key: 'AIzaSyCgh_Mj91pf2vXMF2GYVNG5-V-etzaBggg',
+      key: key,
       v: '3',
       libraries: 'places'
     }
@@ -154,6 +148,7 @@
         this.center = this.latLng
         this.position = this.latLng
         this.zoom = 14
+        this.GetGooglePlaceFromLatLng()
       },
       DragEnd (place) {
         this.latLng = {
@@ -170,13 +165,13 @@
         }
         this.MoveToLocation()
       },
-      ShowGooglePlace () {
-        if (this.showGooglePlace) {
-          this.placeGoogle = 'disabled'
-        } else {
-          this.placeGoogle = 'enabled'
-        }
-        this.showGooglePlace = !this.showGooglePlace
+      GetGooglePlaceFromLatLng () {
+        this.$http.get('/geocode/json?latlng=' + this.latLng.lat + ',' + this.latLng.lng + '&key=' + key).then(response => {
+          this.placeFromLatLng = response.body.results[0].formatted_address
+          console.log(response.body.results)
+        }, error => {
+          console.log(error)
+        })
       },
       BrowseFile () {
         $('#input-img').click()
@@ -366,10 +361,8 @@
     },
     data () {
       return {
-        showGooglePlace: false,
-        placeGoogle: 'disabled',
         confirmPassword: '',
-        place: '',
+        placeFromLatLng: '',
         latLng: {lat: '...', lng: '...'},
         center: {lat: 13.7563309, lng: 100.50176510000006},
         position: {lat: 13.7563309, lng: 100.50176510000006},
@@ -412,12 +405,10 @@
     }
     .input-place {
       font-weight: normal;
-      font-size: 18px;
-      width: 100%;
-      height: 44px;
+      font-size: 16px;
+      width: 162%;
       border-radius: 0px 3px 3px 0px;
       border: 1px solid #49392C;
-      margin-left: -5px;
     }
     .btn-success {
       width: 100%;
@@ -483,6 +474,11 @@
     .el-dialog__title {
       font-size: 24px;
     }
+    .input-group {
+      label {
+        margin-bottom: 0px;
+      }
+    }
     .input-group-addon {
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
@@ -490,6 +486,7 @@
     .form-control {
       border-top-right-radius: 3px;
       border-bottom-right-radius: 3px;
+      float: none;
     }
     .btn-found {
       border: 3px solid white;

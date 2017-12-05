@@ -4,7 +4,10 @@
       <div :class="card" data-toggle="modal" data-target="#detail_modal" @click="ClickDog(dog)" v-if="dog && dog.img[0]">
         <img :src="dog.img[0].image" class="img-dog" @error="ImageError(dog.img[0])" :key="dog.img[0].image">
         <div :class="cardDetail">
-          <h4 class="text-center">{{dog.breed}}</h4>
+          <h4 class="text-center">
+            <span v-if="type === 'missing'">{{dog.name}}</span>
+            <span v-else>{{dog.breed}}</span>
+          </h4>
           <div class="desc">
             <span class="col-xs-5 no-padding">
               สีขน :
@@ -17,9 +20,15 @@
             <span class="col-xs-5 no-padding">ชื่อผู้พบ : </span>
             <span class="col-xs-7 no-padding">{{dog.finder.name}}</span>
           </div>
+          <div class="desc" v-else>
+            <span class="col-xs-5 no-padding">ชื่อเจ้าของ : </span>
+            <span class="col-xs-7 no-padding">{{dog.owner.name}}</span>
+          </div>
           <div class="desc">
-            <span class="col-xs-5 no-padding">วันที่พบ : </span>
-            <span class="col-xs-7 no-padding">{{DateFormat(dog.date_found)}}</span>  
+            <span class="col-xs-5 no-padding" v-if="type === 'missing'">วันที่หาย : </span>
+            <span class="col-xs-5 no-padding" v-else>วันที่พบ : </span>
+            <span class="col-xs-7 no-padding" v-if="type === 'missing'">{{DateFormat(dog.datetime_lost)}}</span>
+            <span class="col-xs-7 no-padding" v-else>{{DateFormat(dog.date_found)}}</span>
           </div>
         </div>
       </div>
