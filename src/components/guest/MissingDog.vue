@@ -52,7 +52,7 @@ export default {
       { breed: 'Loading...', color_primary: 'unknow', color_secondary: 'unknow', dominance: 'Loading...', date: new Date().toDateString(), img: require('@/assets/finder/dog-upload.png'), finder: {name: 'Unknow', tel: '000-000-0000', place: ''} }
     ]
     this.isLoading = true
-    this.$http.get('/api/v2/found/').then(response => {
+    this.$http.get('/api/v2/lost/').then(response => {
       console.log(response.body)
       this.AddingDog(response.body.results)
       this.AddingColor()
@@ -119,7 +119,7 @@ export default {
       }
       path += 'page=' + this.pagination.current
       this.isLoading = true
-      this.$http.get('/api/v2/found/' + path).then(response => {
+      this.$http.get('/api/v2/lost/' + path).then(response => {
         this.AddingDog(response.body.results)
         this.pagination.total = response.body.total_pages
         this.isLoading = false

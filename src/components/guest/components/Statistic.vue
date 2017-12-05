@@ -2,7 +2,7 @@
   <div id="statistics">
     <div class="white-card col-xs-12">
       <div class="dog-data">
-        <h2>สถิติของสุนัขในระบบ</h2>
+        <h2>ข้อมูลของสุนัขในระบบ</h2>
         <table class="table table-bordered" v-for="(dogData, i) in dogsData" :key="i">
           <thead>
             <tr>
@@ -121,7 +121,7 @@
   #statistics {
     .dog-data {
       h2 {
-        margin-top: 10px;
+        margin-top: 0px;
         margin-bottom: 20px;
       }
     }
