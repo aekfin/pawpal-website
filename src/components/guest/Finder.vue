@@ -358,6 +358,7 @@
         navigator.geolocation.getCurrentPosition(this.showPosition)
         this.first = false
       }
+      this.GetGooglePlaceFromLatLng()
     },
     data () {
       return {
