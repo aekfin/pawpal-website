@@ -68,7 +68,6 @@ export default {
         { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
       ]
       this.rightList = [
-        { name: 'การวิเคราะห์เชิงสถิติ', url: '/dashboard' },
         { name: 'เข้าสู่ระบบ', url: '/login' }
       ]
     }

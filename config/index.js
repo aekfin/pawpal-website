@@ -43,7 +43,11 @@ module.exports = {
       '/media': {
         target: 'http://161.246.6.240:10101/',
         changeOrigin: true
-      }
+      },
+      '/geocode': {
+        target: 'https://maps.googleapis.com/maps/api/',
+        changeOrigin: true
+      },
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
