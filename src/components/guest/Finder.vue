@@ -364,7 +364,7 @@
       return {
         confirmPassword: '',
         placeFromLatLng: '',
-        latLng: {lat: '...', lng: '...'},
+        latLng: {lat: 13.7563309, lng: 100.50176510000006},
         center: {lat: 13.7563309, lng: 100.50176510000006},
         position: {lat: 13.7563309, lng: 100.50176510000006},
         zoom: 12,
