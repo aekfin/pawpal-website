@@ -42,11 +42,11 @@ import Loading from '@/components/common/Loading.vue'
 export default {
   created () {
     var breeds = this.$store.state.breeds.slice()
-    breeds.unshift('ไม่จำกัดสายพันธุ์')
+    breeds.unshift('ทุกสายพันธุ์')
     this.filters = [
-      { name: 'สายพันธุ์', model: 'ไม่จำกัดสายพันธุ์', options: breeds },
-      { name: 'สีขน', model: 'ไม่จำกัดสี', options: null },
-      { name: 'วันที่พบ', model: 'เรียงจากวันที่พบล่าสุด', options: ['เรียงจากวันที่พบก่อนหน้า', 'เรียงจากวันที่พบล่าสุด'] }
+      { name: 'สายพันธุ์', model: 'ทุกสายพันธุ์', options: breeds },
+      { name: 'สีขน', model: 'ทุกสี', options: null },
+      { name: 'วันที่พบ', model: 'แสดงสุนัขที่พบล่าสุดก่อน', options: ['แสดงสุนัขที่พบนานที่สุดก่อน', 'แสดงสุนัขที่พบล่าสุดก่อน'] }
     ]
     this.dogs = [
       { breed: 'Loading...', color_primary: 'unknow', color_secondary: 'unknow', dominance: 'Loading...', date: new Date().toDateString(), img: require('@/assets/finder/dog-upload.png'), finder: {name: 'Unknow', tel: '000-000-0000', place: ''} }
@@ -82,7 +82,7 @@ export default {
       }, this)
     },
     AddingColor () {
-      this.filters[1].options = ['ไม่จำกัดสี']
+      this.filters[1].options = ['ทุกสี']
       this.dogs.forEach(function (dog) {
         if (this.filters[1].options.indexOf(dog.color_primary) < 0) {
           this.filters[1].options.push(dog.color_primary)
@@ -97,12 +97,12 @@ export default {
       for (var i = 0; i < this.filters.length; i++) {
         switch (i) {
           case 0:
-            if (this.filters[i].model && this.filters[i].model !== 'ไม่จำกัดสายพันธุ์') {
+            if (this.filters[i].model && this.filters[i].model !== 'ทุกสายพันธุ์') {
               path += 'breed=' + this.filters[i].model + '&'
             }
             break
           case 1:
-            if (this.filters[i].model && this.filters[i].model !== 'ไม่จำกัดสี') {
+            if (this.filters[i].model && this.filters[i].model !== 'ทุกสี') {
               path += 'color=' + this.filters[i].model + '&'
             }
             break

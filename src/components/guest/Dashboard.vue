@@ -1,7 +1,7 @@
 <template>
   <div id="dashboard">
     <div class="container white-card" style="margin-top: 20px; margin-bottom: 30px;">
-      <h1 class="text-center">การวิเคราะห์เชิงสถิติ</h1>
+      <h1 style="border-bottom: 5px solid #4c4c4c; margin-left: 30px; margin-right: 30px; padding-bottom: 15px;">การวิเคราะห์เชิงสถิติ</h1>
       <thailand-map class="col-xs-7" :provinces="provinces" :region="region" @changingSelector="ChangeGraph"></thailand-map>
       <statistic class="col-xs-5" :selectedRegion="selectedRegion" :selectedProvince="selectedProvince"></statistic>
     </div>

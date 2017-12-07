@@ -18,7 +18,7 @@
         <h3>ประวัติการฉีดวัคซีนของสุนัข</h3>
         <loading :theme="'dark'" :size="'normal'" v-if="isLoading.record"></loading>
         <div id="vaccine-table" v-else>
-          <div v-if="vaccineRecord && vaccineRecord.length > 0" class="when-vaccination">บันทึกเมื่อวันที่ <b>{{DateFormat(vaccineRecord[0].date_record)}}</b></div>
+          <div v-if="vaccineRecord && vaccineRecord.length > 0" class="when-vaccination">บันทึกเมื่อวันที่ {{DateFormat(vaccineRecord[0].date_record)}} (สุนัขน้ำหนัก 3 กิโลกรัม)</div>
           <view-table :tableHeader = "tableHeader" :vaccineRecord = "vaccineRecord" style="margin-bottom: 50px;"></view-table>
           <pagination v-if="allVaccineRecord && allVaccineRecord.length > 0" @changePage="ChangePage()" :innerClass="'sm'" :pagination = "pagination"></pagination>
         </div>
@@ -53,6 +53,9 @@ export default {
     }, error => {
       console.log(error)
     })
+  },
+  mounted () {
+    window.scrollTo(0, 0)
   },
   methods: {
     DateFormat (date) {
@@ -99,7 +102,7 @@ export default {
         { th: 'วัคซีนป้องกันโรค', en: 'Vaccination Against' },
         { th: 'วันที่ฉีด', en: 'Date of Vaccination' },
         { th: 'นัดครั้งต่อไป', en: 'Next Vaccination' },
-        { th: 'สัตวแพทย์/เลขที่ใบอนุญาติ', en: 'Veteinary / License No.' },
+        { th: 'สัตวแพทย์/เลขที่ใบอนุญาต', en: 'Veteinary / License No.' },
         { th: 'ชื่อวัคซีน/หมายเลขการผลิต', en: 'Name / Lot No.' }
       ]
     }
@@ -136,7 +139,7 @@ export default {
       font-weight: normal;
       text-align: center;
       font-size: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
   }
 </style>

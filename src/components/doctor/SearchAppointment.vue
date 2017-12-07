@@ -236,6 +236,7 @@ export default {
         vertical-align: middle;
         cursor: pointer;
         border-bottom: 1px solid #49392C;
+        height: 43.2px;
         .form-control {
           padding: 0px;
           height: 30px;
