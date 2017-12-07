@@ -18,7 +18,7 @@
                 </p>
               </div>
               <div class="col-xs-12 col-sm-12 btn-section animated fadeIn">
-                <router-link v-for="(btn, i) in btnList" :key="btn" :to="btn.url" class="btn btn-tranparent btn-lg">{{btn.name}}</router-link>
+                <router-link v-for="(btn, i) in btnList" :key="btn.url" :to="btn.url" class="btn btn-tranparent btn-lg">{{btn.name}}</router-link>
               </div>
             </div>
           </div>
