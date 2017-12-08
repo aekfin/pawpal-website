@@ -13,7 +13,7 @@
       <div id="map">
         <div v-for="(province, i) in provinces" :key="province.x">
           <div class="marker-label" :id="'label-' + i" :style="'top:' + province.y + '%;left:' + province.x + '%;'">{{province.th}}</div>
-          <div class="marker" :id="'marker-' + i" :style="'top:' + province.y + '%;left:' + province.x + '%;'" @mouseover="ShowLabel(i)" @mouseout="HideLabel(i)" @click="SelectMarker()"></div>
+          <div class="marker" :id="'marker-' + i" :style="'top:' + province.y + '%;left:' + province.x + '%;'" @mouseover="ShowLabel(i)" @mouseout="HideLabel(i)" @click="SelectMarker(province)"></div>
         </div>
       </div>
   </div>
@@ -40,13 +40,29 @@
           $('#label-' + i).css('left', $('#marker-' + i).position().left - (($('#label-' + i).width() + 16) / 2) + 'px')
         }
       },
+      SelectMarker (province) {
+        this.selectedProvince = province.th
+        this.ShowMarker()
+      },
       HideLabel (index) {
-        $('#label-' + index).css('display', 'none')
+        if (this.provinces[index].th !== this.selectedProvince) {
+          $('#label-' + index).css('display', 'none')
+        }
       },
       ShowLabel (index) {
         if ($('#marker-' + index).css('opacity') === '1') {
           $('#label-' + index).css('display', 'block')
         }
+      },
+      ActiveMarker (index) {
+        $('#marker-' + index).css('opacity', 1.0)
+        $('#label-' + index).css('display', 'block')
+        $('#marker-' + index).addClass('marker-active')
+      },
+      ResetMarker (index) {
+        $('#marker-' + index).css('opacity', 0)
+        $('#label-' + index).css('display', 'none')
+        $('#marker-' + index).removeClass('marker-active')
       },
       ShowMarker () {
         if (this.selectedProvince === 'จังหวัดทั้งหมด') {
@@ -54,9 +70,9 @@
         } else {
           for (var i = 0; i < this.provinces.length; i++) {
             if (this.selectedProvince === this.provinces[i].th) {
-              $('#marker-' + i).css('opacity', 1.0)
+              this.ActiveMarker(i)
             } else {
-              $('#marker-' + i).css('opacity', 0)
+              this.ResetMarker(i)
             }
           }
           this.$emit('changingSelector', this.selectedRegion, this.selectedProvince)
@@ -64,7 +80,7 @@
       },
       ShowMarkers () {
         for (var i = 0; i < this.provinces.length; i++) {
-          $('#marker-' + i).css('opacity', 0)
+          this.ResetMarker(i)
         }
         var provincesByRegion = []
         switch (this.selectedRegion) {
@@ -132,14 +148,12 @@
     .marker-active {
       width: $marker-zoom-size;
       height: $marker-zoom-size;
-      border: $border-size solid red;
+      border: $border-size solid #333;
       background-color: white;
     }
 
     .marker:hover {
       @extend .marker-active;
-      border: $border-size solid #333;
-      background-color: white;
     }
 
     .marker-label {

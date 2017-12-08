@@ -57,7 +57,7 @@
           { th: 'นครสวรรค์', en: 'Nakhon sawan', x: 35.8, y: 32.6 },
           { th: 'นนทบุรี', en: 'Nonthaburi', x: 36.2, y: 43.2 },
           { th: 'นราธิวาส', en: 'Narathiwat', x: 54.1, y: 95.3 },
-          { th: 'น่าน', en: 'Nan', x: 43.2, y: 10.6 },
+          { th: 'น่าน', en: 'Nan', x: 39.2, y: 10.6 },
           { th: 'บึงกาฬ', en: 'Bueng Kan', x: 74.3, y: 14.7 },
           { th: 'บุรีรัมย์', en: 'Buri ram', x: 67.4, y: 38 },
           { th: 'ปทุมธานี', en: 'Pathum thani', x: 40, y: 42 },
