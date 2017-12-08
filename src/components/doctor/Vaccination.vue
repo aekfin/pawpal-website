@@ -6,16 +6,19 @@
         <div class="dog-sm-view" @click="dialogVisible = true" v-if="dog">{{dog.name}}<img :src="dog.image[0].image" class="img-dog"/></div>
       </div>
     </div>
-    <el-dialog :visible.sync="dialogVisible" size="small" style="padding-bottom: 30px;">
+    <el-dialog :visible.sync="dialogVisible" size="large" style="padding-bottom: 30px;">
       <span slot="title" style="font-size: 24px; font-weight: bold">
         รายละเอียดสุนัข
       </span>
       <dog-information :dog="dog" :account="account"></dog-information>
-      <div class="text-center" style="margin-top: 30px;"><a v-if="dog" :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-info btn-lg" style="border: none;">ดูประวัติการฉีดวัคซีนทั้งหมด</a></div>
+      <div class="text-center" style="margin-top: 30px;"><router-link v-if="dog" :to="'/doctor/record/' + dog.id" class="btn btn-info btn-lg" style="border: none;">ดูประวัติการฉีดวัคซีนทั้งหมด</router-link></div>
     </el-dialog>
     <div class="container animated fadeIn">
-      <div class="container-fluid white-card">
-        <h3 class="text-center"><b>ตารางบันทึกการฉีดวัคซีน และป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
+      <div class="white-card">
+        <h3 class="text-center"><b>ตารางประวัติการฉีดวัคซีน และป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
+        <h4 class="text-center"><b>น้ำหนักของสุนัข </b>
+          <input class="form-control input-weight" type="number" min="0" step="0.1" v-model="dog.current_weight" /> <b>กิโลกรัม</b>
+        </h4>
         <loading :theme="'dark'" :size="'normal'" v-if="isLoading" style="padding-bottom: 100px;"></loading>
         <table class="table table-hover" v-else>
           <thead>
@@ -56,7 +59,7 @@
       <nav aria-label="...">
         <loading :theme="'light'" :size="'normal'" v-if="isSaving"></loading>
         <ul class="pager" v-else>
-          <li><a v-if="dog" :href="'/doctor/record/' + dog.id" target="_blank" class="btn btn-primary btn-lg">ดูประวัติการฉีดวัคซีนทั้งหมด</a></li>
+          <li><router-link v-if="dog" :to="'/doctor/record/' + dog.id" class="btn btn-primary btn-lg">ดูประวัติการฉีดวัคซีนทั้งหมด</router-link></li>
           <li @click="CheckVaccineToRecord()"><span class="btn btn-success btn-lg">บันทึกประวัติการฉีดวัคซีน</span></li>
         </ul>
       </nav>
@@ -75,8 +78,8 @@
               <h4 class="en-header">({{vaccineRecord[currentVL].vaccinationFor.en}})</h4>
             </div>
             <div class="text-center mode">
-              <input type="radio" name="mode" value="0" v-model="mode"><div>บันทึกแบบปกติ</div>
-              <input type="radio" name="mode" value="1" v-model="mode"><div>บันทึกครั้งสุดท้าย</div>
+              <input type="radio" name="mode" value="0" v-model="mode"><div>ประวัติแบบปกติ</div>
+              <input type="radio" name="mode" value="1" v-model="mode"><div>ประวัติแบบไม่นัดหมายต่อ</div>
               <input type="radio" name="mode" value="2" v-model="mode"><div>เลื่อนการนัดหมาย</div>
             </div>
           </div>
@@ -87,14 +90,25 @@
               </div>
               <div style="width: 45%; text-align: left; display: inline-block;">
                 <datepicker
-                  v-if = "i <= 2" 
-                  v-model = "vaccineRecordForm[i-1]" 
+                  v-if = "i == 1"
+                  v-model = "vaccineRecordForm[0]"
+                  :disabled = "{from: new Date()}"
+                  @input="DateChanged(i, vaccineRecordForm[i-1])"
                   :bootstrapStyling = "false"
                   :input-class = "'date-input width-100'" 
                   :wrapper-class = "'width-100'"
                   :format = "'dd MMM yyyy'">
                 </datepicker>
-                <input v-if="i===3" class="form-control" v-model="vaccineRecordForm[i-1]" type="text">
+                <datepicker
+                  v-if = "i == 2"
+                  v-model = "vaccineRecordForm[1]"
+                  :disabled = "{to: new Date()}"
+                  :bootstrapStyling = "false"
+                  :input-class = "'date-input width-100'" 
+                  :wrapper-class = "'width-100'"
+                  :format = "'dd MMM yyyy'">
+                </datepicker>
+                <input v-if="i===3" class="form-control" v-model="vaccineRecordForm[i-1]" type="text" disabled>
                 <input v-show="false" class="form-control" v-model="doses.str">
               </div>
               <div v-if="i===4" style="border: 1px solid #896b52; border-radius: 5px; margin-top: 10px; margin-left: 5%; margin-right: 5%; padding: 10px 10px 5px 10px; overflow: auto; min-height: 100px; max-height: 205px;">
@@ -109,7 +123,7 @@
           <div class="modal-footer">
             <div style="margin: 0px 5%;">
               <div class="pull-left">
-                <button type="button" class="btn btn-danger btn-lg" @click="ClearForm">ล้างข้อมูล</button>
+                <button type="button" class="btn btn-danger btn-lg" @click="ClearForm">ลบประวัติการฉีดวัคซีน</button>
               </div>
               <div class="pull-right">
                 <button type="button" class="btn btn-default btn-lg" data-dismiss="modal" @click="ResetForm">ยกเลิก</button>
@@ -147,12 +161,13 @@ export default {
         // console.log(vb)
         this.account = vb.account
         this.dog = vb.dog
+        if (this.dog.image.length === 0) {
+          this.dog.image.push({image: require('@/assets/finder/dog-upload.png')})
+        }
         for (var i = 0; i < this.vaccineRecord.length; i++) {
           for (var j = 0; j < vb.vaccine_for.length; j++) {
             if (vb.vaccine_for[j].id === this.vaccineRecord[i].vaccinationFor.id) {
               this.vaccineRecord[i].date_record = this.DateFormat(new Date())
-              this.vaccineRecord[i].next_vaccine = this.MakeRoutine(new Date(), this.vaccineRecord[i].vaccinationFor.routine)
-              this.vaccineRecord[i].veterinary = this.$store.getters.GetUser.license
               this.vaccineRecord[i].filled = false
             }
           }
@@ -183,9 +198,15 @@ export default {
       date.setDate(date.getDate() + parseInt(routine.slice(0, routine.indexOf(' '))))
       return this.DateFormat(date)
     },
+    DateChanged (index, date) {
+      if (index === 1) {
+        this.vaccineRecordForm[1] = this.MakeRoutine(new Date(date), this.routine)
+      }
+    },
     OpenForm (index) {
       this.currentVL = index
       this.mode = this.vaccineRecord[this.currentVL].mode
+      this.routine = this.vaccineRecord[this.currentVL].vaccinationFor.routine
       if (this.vaccineRecord[this.currentVL].date_record) {
         this.vaccineRecordForm[0] = this.vaccineRecord[this.currentVL].date_record
       } else {
@@ -194,7 +215,7 @@ export default {
       if (this.vaccineRecord[this.currentVL].next_vaccine) {
         this.vaccineRecordForm[1] = this.vaccineRecord[this.currentVL].next_vaccine
       } else {
-        this.vaccineRecordForm[1] = this.MakeRoutine(new Date(this.vaccineRecordForm[0]), this.vaccineRecord[this.currentVL].vaccinationFor.routine)
+        this.vaccineRecordForm[1] = this.MakeRoutine(new Date(this.vaccineRecordForm[0]), this.routine)
       }
       if (this.vaccineRecord[this.currentVL].veterinary) {
         this.vaccineRecordForm[2] = this.vaccineRecord[this.currentVL].veterinary
@@ -325,8 +346,13 @@ export default {
         title: 'บันทึกสำเร็จ',
         message: '<div style="text-align: left; padding: 0px 20px; font-size: 16px;"><div style="font-size: 14px;"><div>วันที่บันทึก: <b>' + new Date().toDateString() + '</b></div><div style="margin-top: 5px;">สุนัขที่ได้รับวัคซีน: <b>' + this.dog.name + '</b></div><div style="margin-top: 5px;">เจ้าของสุนัข: <b>' + this.account.first_name + '  ' + this.account.last_name + '</b></div></div>' + '<div style="padding-top: 10px;">รายการวัคซีนที่ฉีด</div>' + this.recordList + '</div>',
         type: 'success',
+        useConfirmBtn: true,
+        customConfirmBtnClass: 'btn btn-info',
+        customConfirmBtnText: 'ดูประวัติการฉีดวัคซีนทั้งหมด',
+        customCloseBtnClass: 'btn btn-default',
         customCloseBtnText: 'กลับสู่หน้าหลัก',
-        onClose: this.onClose
+        onConfirm: this.OnConfirm,
+        onClose: this.OnClose
       }
       this.$refs.successModal.openSimplert(obj)
     },
@@ -390,12 +416,16 @@ export default {
         })
       }
     },
-    onClose () {
+    OnClose () {
       this.$router.replace('/doctor/vaccination/')
+    },
+    OnConfirm () {
+      this.$router.replace('/doctor/record/' + this.dog.id)
     }
   },
   data () {
     return {
+      routine: null,
       td: [ 'td-1', 'td-2', 'td-3', 'td-4', 'td-5' ],
       popover1: false,
       isLoading: false,
@@ -429,6 +459,9 @@ export default {
 
   #vaccination {
     padding-bottom: 40px;
+    .el-dialog--large {
+      width: 70%;
+    }
     .form-control {
       font-size: 16px;
     }
@@ -448,7 +481,21 @@ export default {
       h3 {
         margin-top: 0px;
         padding-top: 10px;
-        padding-bottom: 20px;
+      }
+      .input-weight {
+        width: 60px;
+        height: 28px;
+        text-align: right;
+        padding: 0px;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: 2px solid #4c4c4c;
+        box-shadow: none;
+        border-radius: 0px; 
+      }
+      .input-weight:focus, .input-weight:active{
+        box-shadow: none;
       }
       .vaccination {
         padding-bottom: 40px;

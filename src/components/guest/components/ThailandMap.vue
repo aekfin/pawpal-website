@@ -13,14 +13,13 @@
       <div id="map">
         <div v-for="(province, i) in provinces" :key="province.x">
           <div class="marker-label" :id="'label-' + i" :style="'top:' + province.y + '%;left:' + province.x + '%;'">{{province.th}}</div>
-          <div class="marker" :id="'marker-' + i" :style="'top:' + province.y + '%;left:' + province.x + '%;'" @mouseover="ShowLabel(i)" @mouseout="HideLabel(i)"></div>
+          <div class="marker" :id="'marker-' + i" :style="'top:' + province.y + '%;left:' + province.x + '%;'" @mouseover="ShowLabel(i)" @mouseout="HideLabel(i)" @click="SelectMarker()"></div>
         </div>
       </div>
   </div>
 </template>
 
 <script>
-  import $ from 'jquery'
   export default {
     mounted () {
       this.AddMarkers()

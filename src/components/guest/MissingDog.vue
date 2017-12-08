@@ -9,7 +9,7 @@
       <div class="white-card col-xs-12" style="padding: 20px 50px;">
         <el-tabs v-model="tab">
           <el-tab-pane label="ค้นหาสุนัขด้วยตัวกรอง" name="filter">
-            <dog-filter class="animated-t fadeInTo" :filters = "filters" @filtering="Filtering()"></dog-filter>
+            <dog-filter class="animated-t fadeInTo" :filters = "filters" @filtering="Filtering('filter')"></dog-filter>
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="container-fluid text-center">
-        <pagination class="animated-t fadeInTo" :innerClass="'border'" :pagination="pagination" :key="pagination.total" @changePage="Filtering()"></pagination>
+        <pagination class="animated-t fadeInTo" :innerClass="'border'" :pagination="pagination" :key="pagination.total" @changePage="Filtering('page')"></pagination>
       </div>
     </div>
   </div>
@@ -40,28 +40,8 @@ import Pagination from '@/components/common/Pagination.vue'
 import Loading from '@/components/common/Loading.vue'
 
 export default {
-  created () {
-    var breeds = this.$store.state.breeds.slice()
-    breeds.unshift('ไม่จำกัดสายพันธุ์')
-    this.filters = [
-      { name: 'สายพันธุ์', model: 'ไม่จำกัดสายพันธุ์', options: breeds },
-      { name: 'สีขน', model: 'ไม่จำกัดสี', options: null },
-      { name: 'วันที่พบ', model: 'เรียงจากวันที่พบล่าสุด', options: ['เรียงจากวันที่พบก่อนหน้า', 'เรียงจากวันที่พบล่าสุด'] }
-    ]
-    this.dogs = [
-      { breed: 'Loading...', color_primary: 'unknow', color_secondary: 'unknow', dominance: 'Loading...', date: new Date().toDateString(), img: require('@/assets/finder/dog-upload.png'), finder: {name: 'Unknow', tel: '000-000-0000', place: ''} }
-    ]
-    this.isLoading = true
-    this.$http.get('/api/v2/lost/').then(response => {
-      console.log(response.body)
-      this.AddingDog(response.body.results)
-      this.AddingColor()
-      this.pagination.total = response.body.total_pages
-      this.isLoading = false
-    }, error => {
-      console.log(error)
-      this.isLoading = false
-    })
+  mounted () {
+    this.AddingFilter()
   },
   components: {
     DogList, DogFilter, Pagination, Loading
@@ -81,28 +61,27 @@ export default {
         dog.img = images
       }, this)
     },
-    AddingColor () {
-      this.filters[1].options = ['ไม่จำกัดสี']
-      this.dogs.forEach(function (dog) {
-        if (this.filters[1].options.indexOf(dog.color_primary) < 0) {
-          this.filters[1].options.push(dog.color_primary)
-        }
-        if (this.filters[1].options.indexOf(dog.color_secondary) < 0) {
-          this.filters[1].options.push(dog.color_secondary)
-        }
-      }, this)
+    AddingFilter () {
+      this.$http.get('/api/v2/lost/filter/').then(response => {
+        this.filters[0].options = response.body.breed_filter
+        this.filters[1].options = response.body.color_filter
+        this.filters[0].options.unshift('ทุกสายพันธุ์')
+        this.filters[1].options.unshift('ทุกสี')
+      }, error => {
+        console.log(error)
+      })
     },
-    Filtering () {
+    Filtering (mode) {
       var path = '?'
       for (var i = 0; i < this.filters.length; i++) {
         switch (i) {
           case 0:
-            if (this.filters[i].model && this.filters[i].model !== 'ไม่จำกัดสายพันธุ์') {
+            if (this.filters[i].model && this.filters[i].model !== 'ทุกสายพันธุ์') {
               path += 'breed=' + this.filters[i].model + '&'
             }
             break
           case 1:
-            if (this.filters[i].model && this.filters[i].model !== 'ไม่จำกัดสี') {
+            if (this.filters[i].model && this.filters[i].model !== 'ทุกสี') {
               path += 'color=' + this.filters[i].model + '&'
             }
             break
@@ -116,6 +95,9 @@ export default {
             }
             break
         }
+      }
+      if (mode === 'filter') {
+        this.pagination.current = 1
       }
       path += 'page=' + this.pagination.current
       this.isLoading = true
@@ -140,8 +122,14 @@ export default {
         showPages: 5
       },
       tab: 'filter',
-      filters: [],
-      dogs: []
+      filters: [
+        { name: 'สายพันธุ์', model: 'ทุกสายพันธุ์', options: ['ทุกสายพันธุ์'] },
+        { name: 'สีขน', model: 'ทุกสี', options: ['ทุกสี'] },
+        { name: 'วันที่พบ', model: 'แสดงสุนัขที่พบล่าสุดก่อน', options: ['แสดงสุนัขที่พบนานที่สุดก่อน', 'แสดงสุนัขที่พบล่าสุดก่อน'] }
+      ],
+      dogs: [
+        { breed: 'Loading...', color_primary: 'unknow', color_secondary: 'unknow', dominance: 'Loading...', date: new Date().toDateString(), img: require('@/assets/finder/dog-upload.png'), finder: {name: 'Unknow', tel: '000-000-0000', place: ''} }
+      ]
     }
   }
 }

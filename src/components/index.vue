@@ -18,14 +18,18 @@
                 </p>
               </div>
               <div class="col-xs-12 col-sm-12 btn-section animated fadeIn">
-                <router-link v-for="(btn, i) in btnList" :key="btn" :to="btn.url" class="btn btn-tranparent btn-lg">{{btn.name}}</router-link>
+                <router-link v-for="(btn, i) in btnList" :key="btn.url" :to="btn.url" class="btn btn-tranparent btn-lg">{{btn.name}}</router-link>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div style="margin: 5% 0%;">
-        <dashboard></dashboard>
+        <div class="container white-card" style="min-height: 600px;">
+          <h1 class="header">การวิเคราะห์เชิงสถิติ</h1>
+          <loading style="margin-top: 100px;" :theme="'dark'" :size="'normal'" v-if="isLoading"></loading>
+          <dashboard v-else></dashboard>
+        </div>
       </div>
     </div>
     <app-footer></app-footer>
@@ -35,8 +39,9 @@
 <script>
   import NavBar from '@/components/common/Navbar.vue'
   import AppFooter from '@/components/common/Footer.vue'
-  import Dashboard from '@/components/guest/Dashboard.vue'
-
+  import Loading from '@/components/common/Loading.vue'
+  const Dashboard = () => import('@/components/guest/Dashboard.vue')
+  
   export default {
     name: 'landing',
     created () {
@@ -53,13 +58,18 @@
           { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
         ]
       }
+      var self = this
+      setTimeout(() => {
+        self.isLoading = false
+      }, 1000)
     },
     components: {
-      NavBar, AppFooter, Dashboard
+      NavBar, AppFooter, Dashboard, Loading
     },
     data () {
       return {
-        btnList: []
+        btnList: [],
+        isLoading: true
       }
     }
   }
@@ -115,6 +125,15 @@
     }
     h1 {
       color: white;
+    }
+    .container {
+      .header {
+        border-bottom: 5px solid #4c4c4c;
+        margin-left: 30px;
+        margin-right: 30px;
+        padding-bottom: 15px;
+        color: #4c4c4c !important;
+      }
     }
     @media screen and (max-width: 992px) {
       .cover {

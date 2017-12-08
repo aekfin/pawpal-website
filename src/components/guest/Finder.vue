@@ -48,7 +48,7 @@
           <div class="col-xs-12">
             <div class="input-group width-100" style="padding-bottom: 10px">
               <div class="input-group-addon input-lg" style="width: 120px">สถานที่</div>
-              <gmap-place-input :default-place="placeFromLatLng" :selectFirstOnEnter="true" :className="'form-control input-lg input-place'"
+              <gmap-place-input :default-place="location" :selectFirstOnEnter="true" :className="'form-control input-lg input-place'"
                 @place_changed="setPlace">
               </gmap-place-input>
             </div>
@@ -111,7 +111,6 @@
   import appForm from '@/components/guest/components/Form.vue'
   import Vue from 'vue'
   import * as VueGoogleMaps from 'vue2-google-maps'
-  import $ from 'jquery'
   import EXIF from 'exif-js/exif.js'
   import Datepicker from 'vuejs-datepicker'
   import VueCroppie from 'vue-croppie'
@@ -148,7 +147,7 @@
         this.center = this.latLng
         this.position = this.latLng
         this.zoom = 14
-        this.GetGooglePlaceFromLatLng()
+        this.GetGoogleLocation()
       },
       DragEnd (place) {
         this.latLng = {
@@ -165,9 +164,9 @@
         }
         this.MoveToLocation()
       },
-      GetGooglePlaceFromLatLng () {
+      GetGoogleLocation () {
         this.$http.get('/geocode/json?latlng=' + this.latLng.lat + ',' + this.latLng.lng + '&key=' + key).then(response => {
-          this.placeFromLatLng = response.body.results[0].formatted_address
+          this.location = response.body.results[0].formatted_address
           console.log(response.body.results)
         }, error => {
           console.log(error)
@@ -292,6 +291,9 @@
         if (this.images.length === 0) {
           return 'รูปภาพสุนัข'
         }
+        if (!this.location) {
+          return 'สถานที่ที่พบ'
+        }
         for (var i = 0; i < this.dogForm.length; i++) {
           if (this.dogForm[i].model === '' && this.dogForm[i].require) {
             return this.dogForm[i].name
@@ -336,7 +338,7 @@
             'date_found': (this.dateForm[0].model).toISOString().substring(0, 10),
             'time_found': this.dateForm[1].model,
             'longtitude': this.latLng.lng,
-            'location': this.finderForm[2].model,
+            'location': this.location,
             'breed': this.dogForm[0].model,
             'latitude': this.latLng.lat,
             'password': this.confirmPassword
@@ -358,12 +360,12 @@
         navigator.geolocation.getCurrentPosition(this.showPosition)
         this.first = false
       }
-      this.GetGooglePlaceFromLatLng()
+      this.GetGoogleLocation()
     },
     data () {
       return {
         confirmPassword: '',
-        placeFromLatLng: '',
+        location: null,
         latLng: {lat: 13.7563309, lng: 100.50176510000006},
         center: {lat: 13.7563309, lng: 100.50176510000006},
         position: {lat: 13.7563309, lng: 100.50176510000006},
@@ -388,7 +390,7 @@
         finderForm: [
           { name: 'ชื่อผู้พบ', placeholder: 'นาย สมชาย', type: 'text', model: '', require: true },
           { name: 'เบอร์ติดต่อ', placeholder: '08x-xxx-xxxx', type: 'tel', model: '', require: true },
-          { name: 'หมายเหตุ', placeholder: 'เจอบริเวณสวนหลังวัด', type: 'text', model: '', require: false }
+          { name: 'หมายเหตุ', placeholder: 'ติดต่อได้หลังจากเวลา 18.00น.', type: 'text', model: '', require: false }
         ]
       }
     }
@@ -407,7 +409,7 @@
     .input-place {
       font-weight: normal;
       font-size: 16px;
-      width: 162%;
+      width: 168%;
       border-radius: 0px 3px 3px 0px;
       border: 1px solid #49392C;
     }
