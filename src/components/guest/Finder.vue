@@ -111,7 +111,6 @@
   import appForm from '@/components/guest/components/Form.vue'
   import Vue from 'vue'
   import * as VueGoogleMaps from 'vue2-google-maps'
-  import $ from 'jquery'
   import EXIF from 'exif-js/exif.js'
   import Datepicker from 'vuejs-datepicker'
   import VueCroppie from 'vue-croppie'

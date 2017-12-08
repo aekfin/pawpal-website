@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <vue-progress-bar></vue-progress-bar>
   </div>
 </template>
 
@@ -18,7 +19,6 @@
   import Cookie from 'js-cookie'
   import MeterialIcons from 'material-design-icons'
   import 'material-design-icons/iconfont/material-icons.css'
-  import $ from 'jquery'
   
   Vue.use(Bootstrap)
   Vue.use(Animate)
@@ -29,8 +29,22 @@
 
   export default {
     name: 'app',
-    mounted () {
-      $('#paw-loading').css('display', 'none')
+    created () {
+      this.$Progress.start()
+      this.$router.beforeEach((to, from, next) => {
+        if (to.meta.progress !== undefined) {
+          let meta = to.meta.progress
+          this.$Progress.parseMeta(meta)
+        }
+        this.$Progress.start()
+        next()
+      })
+      this.$router.afterEach((to, from) => {
+        this.$Progress.finish()
+      })
+      setTimeout(() => {
+        $('#paw-loading').css('display', 'none')
+      }, 1000)
     }
   }
 </script>
