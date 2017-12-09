@@ -58,10 +58,10 @@
   }
 
   #app {
-    @import "../static/theme.scss";
+    @import "../static/component.scss";
     font-family: "Mitr", sans-serif;
     font-size: 16px;
-    background-color: #B29558;
+    background-color: #cbb78e;
     color: #4c4c4c;
     min-height: 100%;
     overflow: hidden;
@@ -168,9 +168,6 @@
   }
   // bootstrap grid sm
   @media only screen and (max-width: 992px) {
-    #app {
-      background-color: #C9B7A4;
-    }
     .card-right-side{
       padding-left: 0px;
     }

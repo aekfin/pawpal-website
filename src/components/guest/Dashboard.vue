@@ -1,5 +1,6 @@
 <template>
   <div id="dashboard">
+    <graph :dogs="dogsData"></graph>
     <thailand-map class="col-xs-7" :provinces="provinces" :region="region" @changingSelector="ChangeGraph"></thailand-map>
     <statistic class="col-xs-5" :selectedRegion="selectedRegion" :selectedProvince="selectedProvince"></statistic>
   </div>
@@ -8,12 +9,13 @@
 <script>
   import ThailandMap from '@/components/guest/components/ThailandMap.vue'
   import Statistic from '@/components/guest/components/Statistic.vue'
+  import Graph from '@/components/guest/components/Graph.vue'
 
   export default {
     mounted () {
     },
     components: {
-      Statistic, ThailandMap
+      Statistic, ThailandMap, Graph
     },
     methods: {
       ChangeGraph (selectedRegion, selectedProvince) {
@@ -25,6 +27,32 @@
       return {
         selectedRegion: null,
         selectedProvince: null,
+        dogsData: [
+          {
+            topic: 'ข้อมูลทั่วไปของสุนัข',
+            contents: [
+              { name: 'สุนัขทั้งหมด', amount: 85 },
+              { name: 'ได้รับวัคซีน', amount: 65 },
+              { name: 'ไม่ได้รับวัคซีน', amount: 20 }
+            ]
+          },
+          {
+            topic: 'ข้อมูลสุนัขที่เจ้าของทำหาย',
+            contents: [
+              { name: 'สุนัขที่เจ้าของทำหาย', amount: 20 },
+              { name: 'เจ้าของได้รับคืน', amount: 12 },
+              { name: 'เจ้าของไม่ได้รับคืน', amount: 8 }
+            ]
+          },
+          {
+            topic: 'ข้อมูลสุนัขที่ถูกพบ',
+            contents: [
+              { name: 'สุนัขที่ถูกพบ', amount: 30 },
+              { name: 'เจ้าของได้รับคืน', amount: 18 },
+              { name: 'เจ้าของไม่ได้รับคืน', amount: 12 }
+            ]
+          }
+        ],
         region: {
           northern: [ 4, 12, 13, 16, 22, 25, 33, 36, 37, 39, 40, 44, 53, 54, 65, 74, 75 ],
           northeastern: [ 3, 5, 10, 19, 20, 26, 27, 42, 43, 45, 47, 52, 55, 56, 68, 69, 70, 72, 73, 76 ],
@@ -57,7 +85,7 @@
           { th: 'นครสวรรค์', en: 'Nakhon sawan', x: 35.8, y: 32.6 },
           { th: 'นนทบุรี', en: 'Nonthaburi', x: 36.2, y: 43.2 },
           { th: 'นราธิวาส', en: 'Narathiwat', x: 54.1, y: 95.3 },
-          { th: 'น่าน', en: 'Nan', x: 43.2, y: 10.6 },
+          { th: 'น่าน', en: 'Nan', x: 39.2, y: 10.6 },
           { th: 'บึงกาฬ', en: 'Bueng Kan', x: 74.3, y: 14.7 },
           { th: 'บุรีรัมย์', en: 'Buri ram', x: 67.4, y: 38 },
           { th: 'ปทุมธานี', en: 'Pathum thani', x: 40, y: 42 },

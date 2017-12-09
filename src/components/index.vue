@@ -58,10 +58,7 @@
           { name: 'ประกาศสุนัขสูญหาย', url: '/missing-dog' }
         ]
       }
-      var self = this
-      setTimeout(() => {
-        self.isLoading = false
-      }, 1000)
+      this.isLoading = false
     },
     components: {
       NavBar, AppFooter, Dashboard, Loading

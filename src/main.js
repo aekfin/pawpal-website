@@ -9,11 +9,11 @@ import VueProgressBar from 'vue-progressbar'
 const options = {
   color: '#E8D54A',
   failedColor: '#DD4F4F',
-  thickness: '3px',
+  thickness: '4px',
   transition: {
-    speed: '0.2s',
-    opacity: '0.8s',
-    termination: 300
+    speed: '0.4s',
+    opacity: '0.2s',
+    termination: 500
   },
   autoRevert: true,
   location: 'top',
