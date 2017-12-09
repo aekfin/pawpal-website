@@ -58,10 +58,10 @@
   }
 
   #app {
-    @import "../static/theme.scss";
+    @import "../static/component.scss";
     font-family: "Mitr", sans-serif;
     font-size: 16px;
-    background-color: #B29558;
+    background-color: #c5af80;
     color: #4c4c4c;
     min-height: 100%;
     overflow: hidden;
