@@ -1,21 +1,21 @@
 <template>
   <div id="thailand-map" class="white-card">
-      <select id="region-selector" v-model="selectedRegion" @change="ShowMarkers()">
-        <option value="all">ภูมิภาคทั้งหมด</option>
-        <option value="northern">ภาคเหนือ</option>
-        <option value="northeastern">ภาคตะวันออกเฉียงเหนือ</option>
-        <option value="central">ภาคกลาง</option>
-        <option value="southern">ภาคใต้</option>
-      </select>
-      <select id="province-selector" v-model="selectedProvince" @change="ShowMarker()">
-        <option v-for="(sp, i) in showProvinces" :key="sp.th" :value="sp.th">{{sp.th}}</option>
-      </select>
-      <div id="map">
-        <div v-for="(province, i) in provinces" :key="province.x">
-          <div class="marker-label" :id="'label-' + i" :style="'top:' + province.y + '%;left:' + province.x + '%;'">{{province.th}}</div>
-          <div class="marker" :id="'marker-' + i" :style="'top:' + province.y + '%;left:' + province.x + '%;'" @mouseover="ShowLabel(i)" @mouseout="HideLabel(i)" @click="SelectMarker(province)"></div>
-        </div>
+    <select id="region-selector" v-model="selectedRegion" @change="ShowMarkers(true)">
+      <option value="ภูมิภาคทั้งหมด">ภูมิภาคทั้งหมด</option>
+      <option value="ภาคเหนือ">ภาคเหนือ</option>
+      <option value="ภาคตะวันออกเฉียงเหนือ">ภาคตะวันออกเฉียงเหนือ</option>
+      <option value="ภาคกลาง">ภาคกลาง</option>
+      <option value="ภาคใต้">ภาคใต้</option>
+    </select>
+    <select id="province-selector" v-model="selectedProvince" @change="ShowMarker()">
+      <option v-for="(sp, i) in showProvinces" :key="sp.th" :value="sp.th">{{sp.th}}</option>
+    </select>
+    <div id="map">
+      <div v-for="(province, i) in provinces" :key="province.x">
+        <div class="marker-label" :id="'label-' + i" :style="'top:' + province.y + '%;left:' + province.x + '%;'">{{province.th}}</div>
+        <div class="marker" :id="'marker-' + i" :style="'top:' + province.y + '%;left:' + province.x + '%;'" @mouseover="ShowLabel(i)" @mouseout="HideLabel(i)" @click="SelectMarker(province)"></div>
       </div>
+    </div>
   </div>
 </template>
 
@@ -23,12 +23,12 @@
   export default {
     mounted () {
       this.AddMarkers()
-      this.ShowMarkers()
+      this.ShowMarkers(true)
     },
     props: ['provinces', 'region'],
     data () {
       return {
-        selectedRegion: 'all',
+        selectedRegion: 'ภูมิภาคทั้งหมด',
         selectedProvince: null,
         showProvinces: []
       }
@@ -66,7 +66,7 @@
       },
       ShowMarker () {
         if (this.selectedProvince === 'จังหวัดทั้งหมด') {
-          this.ShowMarkers()
+          this.ShowMarkers(false)
         } else {
           for (var i = 0; i < this.provinces.length; i++) {
             if (this.selectedProvince === this.provinces[i].th) {
@@ -75,30 +75,30 @@
               this.ResetMarker(i)
             }
           }
-          this.$emit('changingSelector', this.selectedRegion, this.selectedProvince)
+          this.$emit('changingSelector', this.selectedRegion, this.selectedProvince, 'จังหวัด')
         }
       },
-      ShowMarkers () {
+      ShowMarkers (update) {
         for (var i = 0; i < this.provinces.length; i++) {
           this.ResetMarker(i)
         }
         var provincesByRegion = []
         switch (this.selectedRegion) {
-          case 'all':
+          case 'ภูมิภาคทั้งหมด':
             for (i = 0; i < this.provinces.length; i++) {
               provincesByRegion.push(i)
             }
             break
-          case 'northern':
+          case 'ภาคเหนือ':
             provincesByRegion = this.region.northern
             break
-          case 'northeastern':
+          case 'ภาคตะวันออกเฉียงเหนือ':
             provincesByRegion = this.region.northeastern
             break
-          case 'central':
+          case 'ภาคกลาง':
             provincesByRegion = this.region.central
             break
-          case 'southern':
+          case 'ภาคใต้':
             provincesByRegion = this.region.southern
             break
         }
@@ -108,7 +108,9 @@
           $('#marker-' + provincesByRegion[i]).css('opacity', 1.0)
           this.showProvinces.push(this.provinces[provincesByRegion[i]])
         }
-        this.$emit('changingSelector', this.selectedRegion, this.selectedProvince)
+        if (update) {
+          this.$emit('changingSelector', this.selectedRegion, this.selectedProvince, 'ภูมิภาค')
+        }
       }
     }
   }

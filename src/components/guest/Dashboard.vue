@@ -1,8 +1,8 @@
 <template>
   <div id="dashboard">
-    <graph :dogs="dogsData"></graph>
+    <graph :dogsData="dogsData" :key="dogsData[0].update"></graph>
     <thailand-map class="col-xs-7" :provinces="provinces" :region="region" @changingSelector="ChangeGraph"></thailand-map>
-    <statistic class="col-xs-5" :selectedRegion="selectedRegion" :selectedProvince="selectedProvince"></statistic>
+    <statistic class="col-xs-5" :selectedRegion="selectedRegion" :selectedProvince="selectedProvince" :dogsData="dogsData"></statistic>
   </div>
 </template>
 
@@ -10,23 +10,58 @@
   import ThailandMap from '@/components/guest/components/ThailandMap.vue'
   import Statistic from '@/components/guest/components/Statistic.vue'
   import Graph from '@/components/guest/components/Graph.vue'
+  import Loading from '@/components/common/Loading.vue'
 
   export default {
-    mounted () {
+    created () {
+      this.FetchData({date_before: '1970-01-01', date_after: new Date().toISOString().substring(0, 10), city: '', region: ''})
     },
     components: {
-      Statistic, ThailandMap, Graph
+      Statistic, ThailandMap, Graph, Loading
     },
     methods: {
-      ChangeGraph (selectedRegion, selectedProvince) {
+      FetchData (request) {
+        this.$http.post('/api/v2/dashboard/', request).then(response => {
+          var dog = response.body
+          this.dogsData[0].contents[0].amount = dog.all_dog
+          this.dogsData[0].contents[1].amount = dog.vaccine_dog
+          this.dogsData[0].contents[2].amount = dog.antiparasite_dog
+          this.dogsData[1].contents[0].amount = dog.found_dog
+          this.dogsData[2].contents[0].amount = dog.lost_dog
+          this.dogsData[2].contents[1].amount = dog.match_dog
+          this.dogsData[2].contents[2].amount = Math.abs(dog.lost_dog - dog.match_dog)
+          this.dogsData[0].update += 1
+        }, err => {
+          console.log(err)
+        })
+      },
+      ChangeGraph (selectedRegion, selectedProvince, mode) {
         this.selectedRegion = selectedRegion
         this.selectedProvince = selectedProvince
+        var city = ''
+        var region = ''
+        if (this.selectedProvince !== 'จังหวัดทั้งหมด') {
+          city = this.selectedProvince
+        } else {
+          if (this.selectedRegion !== 'ภูมิภาคทั้งหมด') {
+            region = this.selectedRegion
+          } else {
+            region = ''
+          }
+        }
+        var request = {
+          date_before: '1970-01-01',
+          date_after: new Date().toISOString().substring(0, 10),
+          city: city,
+          region: region
+        }
+        this.FetchData(request)
       }
     },
     data () {
       return {
-        selectedRegion: null,
-        selectedProvince: null,
+        selectedRegion: '',
+        selectedProvince: '',
         dogsData: [
           {
             topic: 'ข้อมูลทั่วไปของสุนัข',
@@ -34,7 +69,8 @@
               { name: 'สุนัขทั้งหมด', amount: 85 },
               { name: 'ได้รับวัคซีน', amount: 65 },
               { name: 'ไม่ได้รับวัคซีน', amount: 20 }
-            ]
+            ],
+            update: 0
           },
           {
             topic: 'ข้อมูลสุนัขที่เจ้าของทำหาย',
