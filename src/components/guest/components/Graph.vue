@@ -8,8 +8,9 @@
       :show-close="false"
       size="large">
       <div slot="title" class="dialog-header" style="margin-bottom: 20px">
-        <div class="col-xs-6 text-right" style="font-size: 25px; font-weight: bold;">ข้อมูลเชิงลึก</div>
-        <div class="col-xs-1 col-xs-offset-2 text-right" style="font-size: 20px; margin-top: 4px;">เลือกปี</div>
+        <div class="col-xs-2"><div class="btn btn-primary" v-if="!mode" style="margin-top: 5px; background-color: #4c4c4c;" @click="Backward()">ย้อนกลับ</div></div> 
+        <div class="col-xs-4 text-right" style="font-size: 25px; font-weight: bold;">ข้อมูลเชิงลึก</div>
+        <div class="col-xs-1 col-xs-offset-2 text-right no-padding" style="font-size: 20px; margin-top: 4px; padding-right: 10px;">เลือกปี</div>
         <div class="col-xs-2 no-padding">
           <select class="form-control" v-model="yearSelector.selected" @change="UpdateYearSelector()">
             <option v-for="(option, i) in yearSelector.options" :key="option" :value="option">{{option}}</option>
@@ -17,10 +18,15 @@
         </div>
       </div>
       <div class="col-xs-12">
-        <canvas id="lineChart" width="100" height="100"></canvas>
+        <div :class="mode ? 'animated fadeIn' : 'non-display'">
+          <canvas id="yearChart" width="100" height="100"></canvas>
+        </div>
+        <div :class="!mode ? 'animated fadeIn' : 'non-display'">
+          <canvas id="monthChart" width="100" height="100"></canvas>
+        </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <div class="btn btn-lg btn-default" style="margin-top: 20px" @click="dialogVisible = false">ปิดหน้าต่าง</div>
+        <div class="btn btn-default" style="margin-top: 20px" @click="dialogVisible = false">ปิดหน้าต่าง</div>
       </div>
     </el-dialog> 
   </div>
@@ -35,7 +41,7 @@
       this.UpdateYearSelector()
     },
     mounted () {
-      this.CreatePieGraph()
+      this.CreateOverallGraph()
     },
     methods: {
       UpdateYearSelector () {
@@ -48,16 +54,21 @@
           this.yearSelector.options.push(year + i)
         }
       },
-      CreateLineGraph () {
+      Backward () {
+        this.mode = true
+        this.CreateSpecificGraph('yearChart', this.months, [1, 5, 7, 11, 12, 13, 17, 18, 19, 25, 27, 30])
+      },
+      CreateSpecificGraph (id, labels, data) {
+        var self = this
         $(document).ready(function () {
-          var ctx = document.getElementById('lineChart')
+          var ctx = document.getElementById(id)
           var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-              labels: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+              labels: labels,
               datasets: [{
                 label: 'สุนัขที่ได้รับวัคซีน',
-                data: [1, 5, 7, 11, 12, 13, 17, 18, 19, 25, 27, 30],
+                data: data,
                 fill: false,
                 borderColor: [
                   'rgba(163,137,80, 1)'
@@ -95,12 +106,20 @@
           })
           ctx.style.height = '400px'
           ctx.onclick = function (event) {
-            console.log(event)
+            console.log('(' + event.offsetX + ', ' + event.offsetY + ')')
+            for (var i = 0; i < self.months.length; i++) {
+              var min = (i * 100)
+              if (event.offsetX > 0 && event.offsetX < min + 65 && event.offsetY > 380 && event.offsetY < 400 && self.mode) {
+                self.mode = false
+                self.CreateSpecificGraph('monthChart', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], [1, 5, 7, 11, 12, 13, 17, 18, 19, 25, 27, 30, 1, 5, 7, 11, 12, 13, 17, 18, 19, 25, 27, 30, 1, 5, 7, 11, 12, 13, 17, 18, 19, 25, 27, 30])
+                break
+              }
+            }
           }
           console.log(myChart)
         })
       },
-      CreatePieGraph () {
+      CreateOverallGraph () {
         var chart = []
         var self = this
         this.dogsData.forEach(function (dog, index) {
@@ -145,7 +164,7 @@
             var activePoints = chart[index].getElementsAtEvent(evt)
             if (activePoints[0]) {
               self.dialogVisible = true
-              self.CreateLineGraph()
+              self.CreateSpecificGraph('yearChart', self.months, [1, 5, 7, 11, 12, 13, 17, 18, 19, 25, 27, 30])
             }
           }
         })
@@ -155,8 +174,8 @@
       return {
         dialogVisible: false,
         yearSelector: { selected: new Date().getFullYear(), options: [new Date().getFullYear()] },
-        dogsDataYear: [
-        ]
+        months: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+        mode: true
       }
     }
   }
@@ -166,6 +185,9 @@
   #graph {
     .el-dialog {
       top: 2% !important;
+    }
+    .non-display {
+      display: none;
     }
   }
 </style>
