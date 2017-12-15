@@ -17,7 +17,7 @@
       <div class="white-card">
         <h3 class="text-center"><b>ตารางประวัติการฉีดวัคซีน และป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
         <h4 class="text-center"><b>น้ำหนักของสุนัข </b>
-          <input class="form-control input-weight" type="number" min="0" step="0.1" v-model="dog.current_weight" /> <b>กิโลกรัม</b>
+          <input class="form-control input-weight" type="number" min="0" step="0.1" v-if="dog" v-model="dog.current_weight" /> <b>กิโลกรัม</b>
         </h4>
         <loading :theme="'dark'" :size="'normal'" v-if="isLoading" style="padding-bottom: 100px;"></loading>
         <table class="table table-hover" v-else>
