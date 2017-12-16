@@ -45,6 +45,7 @@
         if (this.selectedProvince !== 'จังหวัดทั้งหมด') {
           city = this.selectedProvince
         } else {
+          city = ''
           if (this.selectedRegion !== 'ภูมิภาคทั้งหมด') {
             region = this.selectedRegion
           } else {

@@ -58,12 +58,12 @@
         }
         this.mode = true
         this.Fading()
-        this.FetchData('yearChart', { types: this.selectedType, year: this.yearSelector.selected.toString(), month: '', city: this.MapSelector().province, region: this.MapSelector().region })
+        this.FetchData('yearChart', { types: this.types[this.selectedType], year: this.yearSelector.selected.toString(), month: '', city: this.MapSelector().province, region: this.MapSelector().region })
       },
       Backward () {
         this.mode = true
         this.Fading()
-        this.FetchData('yearChart', { types: this.selectedType, year: this.yearSelector.selected.toString(), month: '', city: this.MapSelector().province, region: this.MapSelector().region })
+        this.FetchData('yearChart', { types: this.types[this.selectedType], year: this.yearSelector.selected.toString(), month: '', city: this.MapSelector().province, region: this.MapSelector().region })
       },
       DestroyCharts () {
         if (this.yearChart) {
@@ -143,6 +143,9 @@
         this.DestroyCharts()
         $(document).ready(function () {
           var ctx = document.getElementById(id)
+          var color = []
+          color.push(self.color[self.selectedType].border[0])
+          color.push(self.color[self.selectedType].border[1])
           var config = {
             type: 'line',
             data: {
@@ -152,15 +155,15 @@
                   label: data[0].label,
                   data: data[0].dataset,
                   fill: false,
-                  borderColor: ['rgba(163,137,80, 1)'],
-                  backgroundColor: ['rgba(163,137,80, 1)'],
+                  borderColor: color[1],
+                  backgroundColor: color[1],
                   borderWidth: 3
                 }, {
                   label: data[1].label,
                   data: data[1].dataset,
                   fill: false,
-                  borderColor: ['rgba(125,96,74, 1)'],
-                  backgroundColor: ['rgba(125, 96, 74, 1)'],
+                  borderColor: color[0],
+                  backgroundColor: color[0],
                   borderWidth: 3
                 }
               ]
@@ -213,7 +216,7 @@
                 self.selectedMonth = self.months[index]
                 self.mode = false
                 self.Fading()
-                self.FetchData('monthChart', { types: self.selectedType, year: self.yearSelector.selected.toString(), month: self.selectedMonth, city: self.MapSelector().province, region: self.MapSelector().region })
+                self.FetchData('monthChart', { types: self.types[self.selectedType], year: self.yearSelector.selected.toString(), month: self.selectedMonth, city: self.MapSelector().province, region: self.MapSelector().region })
                 break
               }
             }
@@ -231,14 +234,8 @@
               datasets: [{
                 label: 'จำนวนหมา',
                 data: [dog.contents[1].amount, dog.contents[2].amount],
-                backgroundColor: [
-                  'rgba(163,137,80, 0.8)',
-                  'rgba(125,96,74, 0.8)'
-                ],
-                borderColor: [
-                  'rgba(163,137,80, 1)',
-                  'rgba(125,96,74, 1)'
-                ],
+                backgroundColor: self.color[index].background,
+                borderColor: self.color[index].border,
                 borderWidth: 1
               }]
             },
@@ -266,10 +263,10 @@
             if (activePoints[0]) {
               self.dialogVisible = true
               self.mode = true
-              self.selectedType = self.types[index]
+              self.selectedType = index
               self.UpdateYearSelector()
               self.Fading()
-              self.FetchData('yearChart', { types: self.selectedType, year: self.yearSelector.selected.toString(), month: '', city: self.MapSelector().province, region: self.MapSelector().region })
+              self.FetchData('yearChart', { types: self.types[self.selectedType], year: self.yearSelector.selected.toString(), month: '', city: self.MapSelector().province, region: self.MapSelector().region })
             }
           }
         })
@@ -279,6 +276,11 @@
       return {
         dialogVisible: false,
         yearSelector: { selected: new Date().getFullYear(), options: [new Date().getFullYear()] },
+        color: [
+          {background: ['rgba(98,195,112, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(98,195,112, 1)', 'rgba(130,109,65, 1)']},
+          {background: ['rgba(232,213,74, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(232,213,74, 1)', 'rgba(130,109,65, 1)']},
+          {background: ['rgba(69,188,209, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(69,188,209, 1)', 'rgba(130,109,65, 1)']}
+        ],
         dates: [],
         months: [],
         mode: true,
@@ -286,6 +288,7 @@
         monthChart: null,
         types: ['vaccine', 'lost', 'found', 'antiparasite', 'adopt'],
         selectedType: '',
+        selectedTypeIndex: -1,
         selectedMonth: '',
         specificData: {}
       }

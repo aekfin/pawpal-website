@@ -17,7 +17,7 @@
             </tr>
           </tbody>
         </table>
-        <div class="btn btn-lg btn-primary" style="width: 100%; margin: 0px;">ดาวน์โหลดข้อมูล</div>
+        <div class="btn btn-lg btn-primary" style="width: 100%; margin: 0px;" @click="DownloadTable()">ดาวน์โหลดข้อมูล</div>
       </div>
     </div>
   </div>
@@ -27,6 +27,13 @@
   export default {
     props: ['selectedRegion', 'selectedProvince', 'dogsData'],
     methods: {
+      DownloadTable () {
+        this.$http.get('/api/v2/dashboard/export/').then(response => {
+          this.someData = response.body
+        }, err => {
+          console.log(err)
+        })
+      }
     },
     data () {
       return {
