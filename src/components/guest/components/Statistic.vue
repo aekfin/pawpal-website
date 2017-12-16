@@ -17,6 +17,7 @@
             </tr>
           </tbody>
         </table>
+        <div class="btn btn-lg btn-primary" style="width: 100%; margin: 0px;">ดาวน์โหลดข้อมูล</div>
       </div>
     </div>
   </div>
