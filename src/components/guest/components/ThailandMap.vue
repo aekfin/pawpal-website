@@ -75,8 +75,8 @@
               this.ResetMarker(i)
             }
           }
-          this.$emit('changingSelector', this.selectedRegion, this.selectedProvince, 'จังหวัด')
         }
+        this.$emit('changingSelector', this.selectedRegion, this.selectedProvince, 'จังหวัด')
       },
       ShowMarkers (update) {
         for (var i = 0; i < this.provinces.length; i++) {
