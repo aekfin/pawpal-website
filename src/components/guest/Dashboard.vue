@@ -1,8 +1,8 @@
 <template>
   <div id="dashboard">
-    <graph :dogsData="dogsData" :key="dogsData[0].update"></graph>
+    <graph :dogsData="dogsData" :key="dogsData[0].update" :selectedProvince="selectedProvince" :selectedRegion="selectedRegion"></graph>
     <thailand-map class="col-xs-7" :provinces="provinces" :region="region" @changingSelector="ChangeGraph"></thailand-map>
-    <statistic class="col-xs-5" :selectedRegion="selectedRegion" :selectedProvince="selectedProvince" :dogsData="dogsData"></statistic>
+    <statistic class="col-xs-5" :selectedProvince="selectedProvince" :selectedRegion="selectedRegion" :dogsData="dogsData"></statistic>
   </div>
 </template>
 
@@ -14,7 +14,7 @@
 
   export default {
     created () {
-      this.FetchData({date_before: '1970-01-01', date_after: new Date().toISOString().substring(0, 10), city: '', region: ''})
+      this.FetchData({city: '', region: ''})
     },
     components: {
       Statistic, ThailandMap, Graph, Loading
@@ -27,9 +27,11 @@
           this.dogsData[0].contents[1].amount = dog.vaccine_dog
           this.dogsData[0].contents[2].amount = dog.antiparasite_dog
           this.dogsData[1].contents[0].amount = dog.found_dog
+          this.dogsData[1].contents[1].amount = dog.found_back_dog
+          this.dogsData[1].contents[2].amount = dog.found_dog - dog.found_back_dog
           this.dogsData[2].contents[0].amount = dog.lost_dog
-          this.dogsData[2].contents[1].amount = dog.match_dog
-          this.dogsData[2].contents[2].amount = Math.abs(dog.lost_dog - dog.match_dog)
+          this.dogsData[2].contents[1].amount = dog.lost_back_dog
+          this.dogsData[2].contents[2].amount = dog.lost_dog - dog.lost_back_dog
           this.dogsData[0].update += 1
         }, err => {
           console.log(err)
@@ -50,8 +52,6 @@
           }
         }
         var request = {
-          date_before: '1970-01-01',
-          date_after: new Date().toISOString().substring(0, 10),
           city: city,
           region: region
         }
