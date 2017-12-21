@@ -343,13 +343,13 @@
         yearSelector: { selected: new Date().getFullYear(), options: [new Date().getFullYear()] },
         color: [
           [
-            {background: ['rgba(98,195,112, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(98,195,112, 1)', 'rgba(130,109,65, 1)']},
-            {background: ['rgba(165, 208, 76, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(165, 208, 76, 1)', 'rgba(130,109,65, 1)']}
+            {background: ['rgba(98,195,112, 0.8)', 'rgba(73, 57, 44, 0.8)'], border: ['rgba(98,195,112, 1)', 'rgba(73, 57, 44, 1)']},
+            {background: ['rgba(165, 208, 76, 0.8)', 'rgba(73, 57, 44, 0.8)'], border: ['rgba(165, 208, 76, 1)', 'rgba(73, 57, 44, 1)']}
           ],
           [
-            {background: ['rgba(221, 79, 79, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(221, 79, 79, 1)', 'rgba(130,109,65, 1)']},
-            {background: ['rgba(232,213,74, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(232,213,74, 1)', 'rgba(130,109,65, 1)']},
-            {background: ['rgba(136, 212, 225, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(136, 212, 225, 1)', 'rgba(130,109,65, 1)']}
+            {background: ['rgba(178, 149, 88, 0.8)', 'rgba(73, 57, 44, 0.8)'], border: ['rgba(178, 149, 88, 1)', 'rgba(73, 57, 44, 1)']},
+            {background: ['rgba(105, 165, 173, 0.8)', 'rgba(73, 57, 44, 0.8)'], border: ['rgba(105, 165, 173, 1)', 'rgba(73, 57, 44, 1)']},
+            {background: ['rgba(101, 202, 255, 0.8)', 'rgba(73, 57, 44, 0.8)'], border: ['rgba(101, 202, 255, 1)', 'rgba(73, 57, 44, 1)']}
           ]
         ],
         dates: [],
