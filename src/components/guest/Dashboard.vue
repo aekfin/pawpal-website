@@ -1,8 +1,8 @@
 <template>
   <div id="dashboard">
-    <graph :dogsData="dogsData" :key="dogsData[0].update" :selectedProvince="selectedProvince" :selectedRegion="selectedRegion"></graph>
+    <graph :dogsData="dogsData" :key="dogsData[0].update" :selectedProvince="selectedProvince" :selectedRegion="selectedRegion" @changingTabs="ChangingTabs"></graph>
     <thailand-map class="col-xs-7" :provinces="provinces" :region="region" @changingSelector="ChangeGraph"></thailand-map>
-    <statistic class="col-xs-5" :selectedProvince="selectedProvince" :selectedRegion="selectedRegion" :dogsData="dogsData"></statistic>
+    <statistic class="col-xs-5" :selectedProvince="selectedProvince" :selectedRegion="selectedRegion" :dogsData="dogsData" :tab="tab"></statistic>
   </div>
 </template>
 
@@ -20,6 +20,9 @@
       Statistic, ThailandMap, Graph, Loading
     },
     methods: {
+      ChangingTabs (tab) {
+        this.tab = tab
+      },
       FetchData (request) {
         this.$http.post('/api/v2/dashboard/', request).then(response => {
           var dog = response.body
@@ -28,12 +31,12 @@
           this.dogsData[0].contents[2].amount = dog.all_dog - dog.vaccine_dog
           this.dogsData[0].contents[3].amount = dog.antiparasite_dog
           this.dogsData[0].contents[4].amount = dog.all_dog - dog.antiparasite_dog
-          this.dogsData[1].contents[0].amount = dog.found_dog
-          this.dogsData[1].contents[1].amount = dog.found_back_dog
-          this.dogsData[1].contents[2].amount = dog.found_dog - dog.found_back_dog
-          this.dogsData[2].contents[0].amount = dog.lost_dog
-          this.dogsData[2].contents[1].amount = dog.lost_back_dog
-          this.dogsData[2].contents[2].amount = dog.lost_dog - dog.lost_back_dog
+          this.dogsData[1].contents[0].amount = dog.lost_dog
+          this.dogsData[1].contents[1].amount = dog.lost_back_dog
+          this.dogsData[1].contents[2].amount = dog.lost_dog - dog.lost_back_dog
+          this.dogsData[2].contents[0].amount = dog.found_dog
+          this.dogsData[2].contents[1].amount = dog.found_back_dog
+          this.dogsData[2].contents[2].amount = dog.found_dog - dog.found_back_dog
           this.dogsData[3].contents[0].amount = dog.adopt_dog
           this.dogsData[3].contents[1].amount = dog.take_dog
           this.dogsData[3].contents[2].amount = dog.adopt_dog - dog.take_dog
@@ -68,9 +71,10 @@
       return {
         selectedRegion: '',
         selectedProvince: '',
+        tab: 'first',
         dogsData: [
           {
-            topic: 'ข้อมูลทั่วไปของสุนัข',
+            topic: 'ข้อมูลการได้รับวัคซีน',
             contents: [
               { name: 'สุนัขทั้งหมด', amount: 0 },
               { name: 'ได้รับวัคซีนป้องกันโรค', amount: 0 },

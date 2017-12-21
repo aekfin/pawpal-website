@@ -20,8 +20,7 @@ export default {
 <style lang="scss">
   #guest {
     .white-card {
-      border-bottom: 1px solid #4c4c4c;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     }
   }
 </style>
