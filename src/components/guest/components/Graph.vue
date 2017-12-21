@@ -17,7 +17,7 @@
         <div class="col-xs-1 col-xs-offset-1 text-right no-padding" style="font-size: 20px; margin-top: 4px; padding-right: 10px;">เลือกปี</div>
         <div class="col-xs-2 no-padding">
           <select class="form-control" v-model="yearSelector.selected" @change="UpdateYearSelector()">
-            <option v-for="(option, i) in yearSelector.options" :key="option" :value="option">{{option}}</option>
+            <option v-for="option in yearSelector.options" :key="option" :value="option">{{option}}</option>
           </select>
         </div>
       </div>
@@ -206,12 +206,17 @@
           ctx.onclick = function (event) {
             var activePoints = chart.getElementsAtEvent(event)
             for (var i = 0; i < self.months.length; i++) {
-              var min = (i * 100)
-              if ((activePoints[0] || (event.offsetX > 0 && event.offsetX < min + 65 && event.offsetY > 380 && event.offsetY < 400)) && self.mode) {
+              var min = (i * 8.3)
+              var offset = {
+                x: (event.offsetX / ctx.offsetWidth) * 100,
+                y: (event.offsetY / ctx.offsetHeight) * 100
+              }
+              if (self.mode && (activePoints[0] || (offset.x > min && offset.x < min + 8 && offset.y > 93 && offset.y < 98))) {
                 if (activePoints[0]) {
                   var index = activePoints[0]['_index']
                 } else {
                   index = i
+                  console.log(index)
                 }
                 self.selectedMonth = self.months[index]
                 self.mode = false
@@ -279,6 +284,7 @@
         color: [
           {background: ['rgba(98,195,112, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(98,195,112, 1)', 'rgba(130,109,65, 1)']},
           {background: ['rgba(232,213,74, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(232,213,74, 1)', 'rgba(130,109,65, 1)']},
+          {background: ['rgba(69,188,209, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(69,188,209, 1)', 'rgba(130,109,65, 1)']},
           {background: ['rgba(69,188,209, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(69,188,209, 1)', 'rgba(130,109,65, 1)']}
         ],
         dates: [],

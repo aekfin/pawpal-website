@@ -25,13 +25,18 @@
           var dog = response.body
           this.dogsData[0].contents[0].amount = dog.all_dog
           this.dogsData[0].contents[1].amount = dog.vaccine_dog
-          this.dogsData[0].contents[2].amount = dog.antiparasite_dog
+          this.dogsData[0].contents[2].amount = dog.all_dog - dog.vaccine_dog
+          this.dogsData[0].contents[3].amount = dog.antiparasite_dog
+          this.dogsData[0].contents[4].amount = dog.all_dog - dog.antiparasite_dog
           this.dogsData[1].contents[0].amount = dog.found_dog
           this.dogsData[1].contents[1].amount = dog.found_back_dog
           this.dogsData[1].contents[2].amount = dog.found_dog - dog.found_back_dog
           this.dogsData[2].contents[0].amount = dog.lost_dog
           this.dogsData[2].contents[1].amount = dog.lost_back_dog
           this.dogsData[2].contents[2].amount = dog.lost_dog - dog.lost_back_dog
+          this.dogsData[3].contents[0].amount = dog.adopt_dog
+          this.dogsData[3].contents[1].amount = dog.take_dog
+          this.dogsData[3].contents[2].amount = dog.adopt_dog - dog.take_dog
           this.dogsData[0].update += 1
         }, err => {
           console.log(err)
@@ -67,26 +72,36 @@
           {
             topic: 'ข้อมูลทั่วไปของสุนัข',
             contents: [
-              { name: 'สุนัขทั้งหมด', amount: 85 },
-              { name: 'ได้รับวัคซีน', amount: 65 },
-              { name: 'ไม่ได้รับวัคซีน', amount: 20 }
+              { name: 'สุนัขทั้งหมด', amount: 0 },
+              { name: 'ได้รับวัคซีนป้องกันโรค', amount: 0 },
+              { name: 'ไม่ได้รับวัคซีนป้องกันโรค', amount: 0 },
+              { name: 'ได้รับยาต้านพยาธิ', amount: 0 },
+              { name: 'ไม่ได้รับยาต้านพยาธิ', amount: 0 }
             ],
             update: 0
           },
           {
             topic: 'ข้อมูลสุนัขที่เจ้าของทำหาย',
             contents: [
-              { name: 'สุนัขที่เจ้าของทำหาย', amount: 20 },
-              { name: 'เจ้าของได้รับคืน', amount: 12 },
-              { name: 'เจ้าของไม่ได้รับคืน', amount: 8 }
+              { name: 'สุนัขที่เจ้าของทำหายทั้งหมด', amount: 0 },
+              { name: 'เจ้าของได้รับคืน', amount: 0 },
+              { name: 'เจ้าของไม่ได้รับคืน', amount: 0 }
             ]
           },
           {
             topic: 'ข้อมูลสุนัขที่ถูกพบ',
             contents: [
-              { name: 'สุนัขที่ถูกพบ', amount: 30 },
-              { name: 'เจ้าของได้รับคืน', amount: 18 },
-              { name: 'เจ้าของไม่ได้รับคืน', amount: 12 }
+              { name: 'สุนัขที่ถูกพบทั้งหมด', amount: 0 },
+              { name: 'มีเจ้าของมารับคืนแล้ว', amount: 0 },
+              { name: 'ยังไม่มีเจ้าของมารับคืน', amount: 0 }
+            ]
+          },
+          {
+            topic: 'ข้อมูลสุนัขที่รอการอุปการะ',
+            contents: [
+              { name: 'สุนัขที่รอการอุปการะทั้งหมด', amount: 0 },
+              { name: 'ได้รับการอุปการะแล้ว', amount: 0 },
+              { name: 'ยังไม่ได้รับการอุปการะ', amount: 0 }
             ]
           }
         ],
