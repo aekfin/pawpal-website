@@ -23,7 +23,7 @@
     </nav>
     <div class="collapse" id="collapse-nav" v-if="this.type === 'dark'">
       <ul :class="collapse">
-        <li v-for="ml in mobileList" :key="ml.name" @click="ShowInfomation(ml.action)"><router-link :to="ml.url">{{ml.name}}</router-link></li>
+        <li v-for="ml in mobileList" :key="ml.name" @click="ShowInfomation(ml.action)" data-toggle="collapse" data-target="#collapse-nav"><router-link :to="ml.url">{{ml.name}}</router-link></li>
       </ul>
     </div>
     <simplert :useRadius="true" :useIcon="true" ref="infoModal"></simplert>      
@@ -249,9 +249,9 @@ export default {
       li {
         border-bottom: 1px solid white;
         padding-left: 40px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        font-size: 20px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        font-size: 28px;
         a {
           color: white;
         }
