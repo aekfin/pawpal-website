@@ -8,7 +8,7 @@
       <option value="ภาคใต้">ภาคใต้</option>
     </select>
     <select id="province-selector" v-model="selectedProvince" @change="ShowMarker()">
-      <option v-for="(sp, i) in showProvinces" :key="sp.th" :value="sp.th">{{sp.th}}</option>
+      <option v-for="sp in showProvinces" :key="sp.th" :value="sp.th">{{sp.th}}</option>
     </select>
     <div id="map">
       <div v-for="(province, i) in provinces" :key="province.x">

@@ -1,23 +1,37 @@
 <template>
   <div id="graph">
-    <div class="col-xs-12 col-sm-12 col-md-4" v-for="(dogData, i) in dogsData" :key="i">
-      <canvas :id="dogData.topic" width="100" height="100"></canvas>
-    </div>
+    <el-tabs v-model="tabs" @tab-click="CreateOverallGraph()" style="margin: 15px 30px; min-height: 420px;">
+      <el-tab-pane label="สุขภาพของสุนัข" name="first">
+        <div class="col-xs-12 col-sm-12 col-md-4 no-padding animated fadeInRight" v-for="(dogHealth, i) in dogsHealth" :key="i">
+          <canvas :id="dogHealth.topic" width="100" height="100"></canvas>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="ความปลอดภัยของสุนัข" name="second">
+        <div class="col-xs-12 col-sm-12 col-md-4 no-padding animated fadeInLeft" v-for="(dogFinding, i) in dogsFinding" :key="i">
+          <canvas :id="dogFinding.topic" width="100" height="100"></canvas>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
     <el-dialog
       :visible.sync="dialogVisible"
       :show-close="false"
       size="large">
       <div slot="title" class="dialog-header" style="margin-bottom: 20px">
-        <div class="col-xs-2"><div class="btn btn-primary" v-if="!mode" style="margin-top: 5px; background-color: #4c4c4c;" @click="Backward()">ย้อนกลับ</div></div> 
-        <div class="col-xs-6 text-right" style="font-size: 25px; font-weight: bold;" v-if="dates && months">
-          กราฟแสดงข้อมูลเชิงลึก
+        <div class="col-xs-1"><div class="btn btn-primary" v-if="!mode" style="margin-top: 5px; background-color: #4c4c4c;" @click="Backward()">ย้อนกลับ</div></div> 
+        <div class="col-xs-7 text-right animated fadeIn" style="font-size: 25px; font-weight: bold;" v-if="dates && months && dogsHealth && dogsFinding">
+          <span v-if="tabs === 'first' && dogsHealth[selectedType]">
+            กราฟแสดง{{dogsHealth[selectedType].topic}}
+          </span>
+          <span v-if="tabs === 'second' && dogsFinding[selectedType]">
+            กราฟแสดง{{dogsFinding[selectedType].topic}}
+          </span>
           <span v-if="mode">({{months[0]}} - {{months[months.length - 1]}})</span>
           <span v-else>({{selectedMonth}})</span>
         </div>
         <div class="col-xs-1 col-xs-offset-1 text-right no-padding" style="font-size: 20px; margin-top: 4px; padding-right: 10px;">เลือกปี</div>
         <div class="col-xs-2 no-padding">
           <select class="form-control" v-model="yearSelector.selected" @change="UpdateYearSelector()">
-            <option v-for="(option, i) in yearSelector.options" :key="option" :value="option">{{option}}</option>
+            <option v-for="option in yearSelector.options" :key="option" :value="option">{{option}}</option>
           </select>
         </div>
       </div>
@@ -42,7 +56,23 @@
   export default {
     props: ['dogsData', 'selectedProvince', 'selectedRegion'],
     mounted () {
-      this.CreateOverallGraph()
+      var dogAntiparasite = {
+        topic: 'ข้อมูลการได้รับยาต้านพยาธิ',
+        contents: [
+          this.dogsData[0].contents[0],
+          this.dogsData[0].contents[3],
+          this.dogsData[0].contents[4]
+        ]
+      }
+      this.dogsHealth.push(this.dogsData[0])
+      this.dogsHealth.push(dogAntiparasite)
+      this.dogsFinding.push(this.dogsData[1])
+      this.dogsFinding.push(this.dogsData[2])
+      this.dogsFinding.push(this.dogsData[3])
+      var self = this
+      $(document).ready(function () {
+        self.CreateOverallGraph()
+      })
     },
     methods: {
       UpdateYearSelector () {
@@ -58,12 +88,26 @@
         }
         this.mode = true
         this.Fading()
-        this.FetchData('yearChart', { types: this.types[this.selectedType], year: this.yearSelector.selected.toString(), month: '', city: this.MapSelector().province, region: this.MapSelector().region })
+        this.FetchData('yearChart', { types: this.GetType(), year: this.yearSelector.selected.toString(), month: '', city: this.MapSelector().province, region: this.MapSelector().region })
       },
       Backward () {
         this.mode = true
         this.Fading()
-        this.FetchData('yearChart', { types: this.types[this.selectedType], year: this.yearSelector.selected.toString(), month: '', city: this.MapSelector().province, region: this.MapSelector().region })
+        this.FetchData('yearChart', { types: this.GetType(), year: this.yearSelector.selected.toString(), month: '', city: this.MapSelector().province, region: this.MapSelector().region })
+      },
+      GetType () {
+        if (this.tabs === 'first') {
+          return this.types[0][this.selectedType]
+        } else {
+          return this.types[1][this.selectedType]
+        }
+      },
+      GetIndex () {
+        if (this.tabs === 'first') {
+          return 0
+        } else {
+          return 1
+        }
       },
       DestroyCharts () {
         if (this.yearChart) {
@@ -97,6 +141,7 @@
       FetchData (id, request) {
         this.$http.post('/api/v2/dashboard/graph/', request).then(response => {
           var dogs = response.body
+          console.log(dogs)
           var labels = []
           this.dates = []
           this.months = []
@@ -112,24 +157,33 @@
               labels.push(dog.date)
               this.dates.push(dog.date)
             }
+            for (var i = 0; i < data.length; i++) {
+              if (this.tabs === 'first') {
+                data[i].label = this.dogsHealth[this.selectedType].contents[i].name
+              } else {
+                data[i].label = this.dogsFinding[this.selectedType].contents[i].name
+              }
+            }
             switch (request.types) {
               case 'vaccine':
-                data[0].label = 'สุนัขทั้งหมด'
                 data[0].dataset.push(dog.result.all_dog)
-                data[1].label = 'สุนัขที่ได้รับวัคซีน'
                 data[1].dataset.push(dog.result.vaccine_dog)
                 break
+              case 'antiparasite':
+                data[0].dataset.push(dog.result.all_dog)
+                data[1].dataset.push(dog.result.antiparasite_dog)
+                break
               case 'lost':
-                data[0].label = 'สุนัขที่เจ้าของทำหายทั้งหมด'
                 data[0].dataset.push(dog.result.lost_dog)
-                data[1].label = 'สุนัขที่เจ้าของได้รับคืน'
                 data[1].dataset.push(dog.result.lost_back_dog)
                 break
               case 'found':
-                data[0].label = 'สุนัขที่เจ้าของทำหายทั้งหมด'
                 data[0].dataset.push(dog.result.found_dog)
-                data[1].label = 'สุนัขที่เจ้าของได้รับคืน'
                 data[1].dataset.push(dog.result.found_back_dog)
+                break
+              case 'adopt':
+                data[0].dataset.push(dog.result.adopt_dog)
+                data[1].dataset.push(dog.result.take_dog)
                 break
             }
           })
@@ -144,8 +198,8 @@
         $(document).ready(function () {
           var ctx = document.getElementById(id)
           var color = []
-          color.push(self.color[self.selectedType].border[0])
-          color.push(self.color[self.selectedType].border[1])
+          color.push(self.color[self.GetIndex()][self.selectedType].border[0])
+          color.push(self.color[self.GetIndex()][self.selectedType].border[1])
           var config = {
             type: 'line',
             data: {
@@ -206,17 +260,22 @@
           ctx.onclick = function (event) {
             var activePoints = chart.getElementsAtEvent(event)
             for (var i = 0; i < self.months.length; i++) {
-              var min = (i * 100)
-              if ((activePoints[0] || (event.offsetX > 0 && event.offsetX < min + 65 && event.offsetY > 380 && event.offsetY < 400)) && self.mode) {
+              var min = (i * 8.3)
+              var offset = {
+                x: (event.offsetX / ctx.offsetWidth) * 100,
+                y: (event.offsetY / ctx.offsetHeight) * 100
+              }
+              if (self.mode && (activePoints[0] || (offset.x > min && offset.x < min + 8 && offset.y > 93 && offset.y < 98))) {
                 if (activePoints[0]) {
                   var index = activePoints[0]['_index']
                 } else {
                   index = i
+                  console.log(index)
                 }
                 self.selectedMonth = self.months[index]
                 self.mode = false
                 self.Fading()
-                self.FetchData('monthChart', { types: self.types[self.selectedType], year: self.yearSelector.selected.toString(), month: self.selectedMonth, city: self.MapSelector().province, region: self.MapSelector().region })
+                self.FetchData('monthChart', { types: self.GetType(), year: self.yearSelector.selected.toString(), month: self.selectedMonth, city: self.MapSelector().province, region: self.MapSelector().region })
                 break
               }
             }
@@ -226,7 +285,12 @@
       CreateOverallGraph () {
         var chart = []
         var self = this
-        this.dogsData.forEach(function (dog, index) {
+        if (this.tabs === 'first') {
+          var dogs = this.dogsHealth
+        } else {
+          dogs = this.dogsFinding
+        }
+        dogs.forEach(function (dog, index) {
           var config = {
             type: 'pie',
             data: {
@@ -234,8 +298,8 @@
               datasets: [{
                 label: 'จำนวนหมา',
                 data: [dog.contents[1].amount, dog.contents[2].amount],
-                backgroundColor: self.color[index].background,
-                borderColor: self.color[index].border,
+                backgroundColor: self.color[self.GetIndex()][index].background,
+                borderColor: self.color[self.GetIndex()][index].border,
                 borderWidth: 1
               }]
             },
@@ -266,10 +330,11 @@
               self.selectedType = index
               self.UpdateYearSelector()
               self.Fading()
-              self.FetchData('yearChart', { types: self.types[self.selectedType], year: self.yearSelector.selected.toString(), month: '', city: self.MapSelector().province, region: self.MapSelector().region })
+              self.FetchData('yearChart', { types: self.GetType(), year: self.yearSelector.selected.toString(), month: '', city: self.MapSelector().province, region: self.MapSelector().region })
             }
           }
         })
+        this.$emit('changingTabs', this.tabs)
       }
     },
     data () {
@@ -277,20 +342,29 @@
         dialogVisible: false,
         yearSelector: { selected: new Date().getFullYear(), options: [new Date().getFullYear()] },
         color: [
-          {background: ['rgba(98,195,112, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(98,195,112, 1)', 'rgba(130,109,65, 1)']},
-          {background: ['rgba(232,213,74, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(232,213,74, 1)', 'rgba(130,109,65, 1)']},
-          {background: ['rgba(69,188,209, 0.8)', 'rgba(130,109,65, 0.8)'], border: ['rgba(69,188,209, 1)', 'rgba(130,109,65, 1)']}
+          [
+            {background: ['rgba(98,195,112, 0.8)', 'rgba(73, 57, 44, 0.8)'], border: ['rgba(98,195,112, 1)', 'rgba(73, 57, 44, 1)']},
+            {background: ['rgba(165, 208, 76, 0.8)', 'rgba(73, 57, 44, 0.8)'], border: ['rgba(165, 208, 76, 1)', 'rgba(73, 57, 44, 1)']}
+          ],
+          [
+            {background: ['rgba(178, 149, 88, 0.8)', 'rgba(73, 57, 44, 0.8)'], border: ['rgba(178, 149, 88, 1)', 'rgba(73, 57, 44, 1)']},
+            {background: ['rgba(105, 165, 173, 0.8)', 'rgba(73, 57, 44, 0.8)'], border: ['rgba(105, 165, 173, 1)', 'rgba(73, 57, 44, 1)']},
+            {background: ['rgba(101, 202, 255, 0.8)', 'rgba(73, 57, 44, 0.8)'], border: ['rgba(101, 202, 255, 1)', 'rgba(73, 57, 44, 1)']}
+          ]
         ],
         dates: [],
         months: [],
         mode: true,
         yearChart: null,
         monthChart: null,
-        types: ['vaccine', 'lost', 'found', 'antiparasite', 'adopt'],
+        tabs: 'first',
+        types: [['vaccine', 'antiparasite'], ['lost', 'found', 'adopt']],
         selectedType: '',
         selectedTypeIndex: -1,
         selectedMonth: '',
-        specificData: {}
+        specificData: {},
+        dogsHealth: [],
+        dogsFinding: []
       }
     }
   }

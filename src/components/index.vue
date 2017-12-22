@@ -25,8 +25,11 @@
         </div>
       </div>
       <div style="margin: 5% 0%;">
-        <div class="container white-card" style="min-height: 600px;">
-          <h1 class="header">การวิเคราะห์เชิงสถิติ</h1>
+        <div class="container white-card" style="min-height: 800px;">
+          <h1 class="header">
+            การวิเคราะห์เชิงสถิติ
+            <a class="btn btn-lg btn-success pull-right" style="margin: 0px;" @click="DownloadTable()" href="http://161.246.6.240:10102/api/v2/dashboard/export/">ดาวน์โหลดข้อมูลทั้งหมด</a>
+          </h1>
           <loading style="margin-top: 100px;" :theme="'dark'" :size="'normal'" v-if="isLoading"></loading>
           <dashboard v-else></dashboard>
         </div>

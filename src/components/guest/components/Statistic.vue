@@ -3,7 +3,7 @@
     <div class="white-card col-xs-12">
       <div class="dog-data">
         <h2>ข้อมูลของสุนัขในระบบ</h2>
-        <table class="table table-bordered" v-for="(dogData, i) in dogsData" :key="i">
+        <table class="table table-bordered animated fadeIn" v-for="(dogData, i) in dogsData" :key="i" v-if="(tab === 'first' && i === 0) || (tab === 'second' && i > 0)">
           <thead>
             <tr>
               <th>{{dogData.topic}}</th>
@@ -17,7 +17,6 @@
             </tr>
           </tbody>
         </table>
-        <a class="btn btn-lg btn-primary" style="width: 100%; margin: 0px;" @click="DownloadTable()" href="http://161.246.6.240:10102/api/v2/dashboard/export/">ดาวน์โหลดข้อมูล</a>
       </div>
     </div>
   </div>
@@ -25,13 +24,12 @@
 
 <script>
   export default {
-    props: ['selectedRegion', 'selectedProvince', 'dogsData'],
+    props: ['selectedRegion', 'selectedProvince', 'dogsData', 'tab'],
     methods: {
     },
     data () {
       return {
         dialogVisible: false,
-        tabs: 0,
         selected: null
       }
     }
@@ -49,8 +47,8 @@
     th {
       font-size: 18px;
       font-weight: normal;
-      background-color: #c9b68e;
-      border: 2px solid darken(#c9b68e, 40%);
+      background-color: #cebd99;
+      border: 2px solid darken(#cebd99, 40%);
     }
     td {
       font-size: 16px;
