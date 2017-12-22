@@ -167,7 +167,7 @@
     }
   }
   // bootstrap grid sm
-  @media only screen and (min-width: 768px) {
+  @media only screen and (max-width: 992px) {
     #app {
       .card-right-side{
         padding-left: 0px;

@@ -9,9 +9,9 @@
               <div class="col-xs-12 col-sm-10 col-sm-offset-1">
                 <h1>PawPal Friend of Best Friend</h1>
                 <h3>พอว์เพาว์ เป็นมากกว่าเพื่อน ที่เข้าใจสุนัขของคุณ</h3>
-                <div class="col-xs-2 col-sm-2 col-xs-offset-5 col-sm-offset-5 under-line"></div>
+                <div class="col-xs-2 col-md-2 col-xs-offset-5 col-sm-offset-5 under-line"></div>
               </div>
-              <div class="col-xs-12 col-sm-8 col-sm-offset-2 subtitle">
+              <div class="col-xs-12 col-md-8 col-md-offset-2 subtitle">
                 <p>The greatness of a nation can be judged by how its animals are treated.<br>
                   (ความยิ่งใหญ่ของประเทศสามารถตัดสินได้ว่าสัตว์ของมันได้รับการปฏิบัติอย่างไร)
                   <div class="text-right">- Mahatma Gandhi (มหาตมะคานธี)</div>  
@@ -138,7 +138,10 @@
     }
     @media screen and (max-width: 992px) {
       .cover {
-        height: 600px;
+        height: 480px;
+      }
+      .text-box {
+        margin-top: 25px;
       }
     }
   }
