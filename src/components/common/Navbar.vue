@@ -16,12 +16,12 @@
         <ul class="nav navbar-nav navbar-right hidden-xs hidden-sm">
           <li v-for="rl in rightList" :key="rl.name" @click="ShowInfomation(rl.action)"><router-link :class="$route.path===rl.url? rightLinkActive : rightLink" :to="rl.url">{{rl.name}}</router-link></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right hidden-md hidden-lg">
+        <ul class="nav navbar-nav navbar-right hidden-md hidden-lg" v-if="this.type === 'dark'">
           <div class="slide-icon" data-toggle="collapse" data-target="#collapse-nav"><i class="material-icons">&#xE8D2;</i></div>
         </ul>
       </div>
     </nav>
-    <div class="collapse" id="collapse-nav">
+    <div class="collapse" id="collapse-nav" v-if="this.type === 'dark'">
       <ul :class="collapse">
         <li v-for="ml in mobileList" :key="ml.name" @click="ShowInfomation(ml.action)"><router-link :to="ml.url">{{ml.name}}</router-link></li>
       </ul>
@@ -249,6 +249,9 @@ export default {
       li {
         border-bottom: 1px solid white;
         padding-left: 40px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-size: 20px;
         a {
           color: white;
         }
@@ -280,12 +283,27 @@ export default {
       margin: 0px auto;
       text-align: left;
     }
-    @media only screen and (max-width: 770px) {
+  }
+  @media only screen and (max-width: 992px) {
+    #app-navbar {
       .navbar-header {
         float: left;
       }
       .navbar-right {
         float: right;
+      }
+      .brand-title {
+        img {
+          width: 180px;
+        }
+      }
+      ul {
+        div {
+          .material-icons {
+            margin-top: 10px;
+            font-size: 50px;
+          }
+        }
       }
     }
   }

@@ -17,7 +17,7 @@
       <div class="white-card">
         <h3 class="text-center"><b>ตารางประวัติการฉีดวัคซีนและป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
         <h4 class="text-center"><b>น้ำหนักของสุนัข </b>
-          <input class="form-control input-weight" type="number" min="0" step="0.1" v-if="dog" v-model="dog.current_weight" /> <b>กิโลกรัม</b>
+          <input class="form-control input-weight" type="number" min="0" step="0.1" v-if="dog" v-model="dog.weight" /> <b>กิโลกรัม</b>
         </h4>
         <loading :theme="'dark'" :size="'normal'" v-if="isLoading" style="padding-bottom: 100px;"></loading>
         <table class="table table-hover" v-else>
@@ -344,11 +344,11 @@ export default {
     ShowResult () {
       let obj = {
         title: 'บันทึกสำเร็จ',
-        message: '<div style="text-align: left; padding: 0px 20px; font-size: 16px;"><div style="font-size: 14px;"><div>วันที่บันทึก: <b>' + new Date().toDateString() + '</b></div><div style="margin-top: 5px;">สุนัขที่ได้รับวัคซีน: <b>' + this.dog.name + '</b></div><div style="margin-top: 5px;">เจ้าของสุนัข: <b>' + this.account.first_name + '  ' + this.account.last_name + '</b></div></div>' + '<div style="padding-top: 10px;">รายการวัคซีนที่ฉีด</div>' + this.recordList + '</div>',
+        message: '<div style="text-align: left; padding: 0px 20px; font-size: 16px;"><div style="font-size: 14px;"><div>วันที่บันทึก: <b>' + new Date().toDateString() + '</b></div><div style="margin-top: 5px;">สุนัขที่ได้รับวัคซีน: <b>' + this.dog.name + ' (' + this.dog.weight + ' กก.)</b></div><div style="margin-top: 5px;">เจ้าของสุนัข: <b>' + this.account.first_name + '  ' + this.account.last_name + '</b></div></div>' + '<div style="padding-top: 10px;">รายการวัคซีนที่ฉีด</div>' + this.recordList + '</div>',
         type: 'success',
         useConfirmBtn: true,
         customConfirmBtnClass: 'btn btn-info',
-        customConfirmBtnText: 'ดูประวัติการฉีดวัคซีนทั้งหมด',
+        customConfirmBtnText: 'ดูประวัติการฉีดวัคซีนของสุนัข',
         customCloseBtnClass: 'btn btn-default',
         customCloseBtnText: 'กลับสู่หน้าหลัก',
         onConfirm: this.OnConfirm,
@@ -398,6 +398,7 @@ export default {
         var vr = {
           'vaccine_for': vaccineRecord[i].vaccinationFor.id,
           'dog': this.dog.id,
+          'weight': this.dog.weight,
           'note': '',
           'vaccine_stock_list': vaccineStockList,
           'date_record': dateRecord,
