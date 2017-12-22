@@ -35,7 +35,7 @@
       </div>
       <!-- Right Side -->
       <div class="col-sm-12 col-md-6 card-right-side">
-        <div class="col-xs-12 no-padding white-card" style="min-height: 585px;">
+        <div class="col-xs-12 white-card" style="min-height: 585px;">
           <div class="col-xs-12">
             <h3>สถานที่ที่พบ</h3>
           </div>

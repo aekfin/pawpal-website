@@ -1,8 +1,8 @@
 <template>
   <div id="dashboard">
     <graph :dogsData="dogsData" :key="dogsData[0].update" :selectedProvince="selectedProvince" :selectedRegion="selectedRegion" @changingTabs="ChangingTabs"></graph>
-    <thailand-map class="col-xs-7" :provinces="provinces" :region="region" @changingSelector="ChangeGraph"></thailand-map>
-    <statistic class="col-xs-5" :selectedProvince="selectedProvince" :selectedRegion="selectedRegion" :dogsData="dogsData" :tab="tab"></statistic>
+    <thailand-map class="col-xs-12 col-md-7" :provinces="provinces" :region="region" @changingSelector="ChangeGraph"></thailand-map>
+    <statistic class="col-xs-12 col-md-5" :selectedProvince="selectedProvince" :selectedRegion="selectedRegion" :dogsData="dogsData" :tab="tab"></statistic>
   </div>
 </template>
 

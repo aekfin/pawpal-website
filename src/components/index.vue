@@ -18,7 +18,8 @@
                 </p>
               </div>
               <div class="col-xs-12 col-sm-12 btn-section animated fadeIn">
-                <router-link v-for="(btn, i) in btnList" :key="btn.url" :to="btn.url" class="btn btn-tranparent btn-lg">{{btn.name}}</router-link>
+                <router-link v-for="(btn, i) in btnList" :key="btn.url" :to="btn.url" class="btn btn-tranparent btn-lg hidden-xs hidden-sm">{{btn.name}}</router-link>
+                <router-link v-for="(btn, i) in btnList" :key="btn.url" :to="btn.url" class="btn btn-tranparent hidden-md hidden-lg">{{btn.name}}</router-link>
               </div>
             </div>
           </div>
@@ -28,7 +29,7 @@
         <div class="container white-card" style="min-height: 800px;">
           <h1 class="header">
             การวิเคราะห์เชิงสถิติ
-            <a class="btn btn-lg btn-success pull-right" style="margin: 0px;" @click="DownloadTable()" href="http://161.246.6.240:10102/api/v2/dashboard/export/">ดาวน์โหลดข้อมูลทั้งหมด</a>
+            <a class="btn btn-lg btn-success pull-right" style="margin: 0px;" @click="DownloadTable()" href="http://161.246.6.240:10102/api/v2/dashboard/export/">ดาวน์โหลดข้อมูล</a>
           </h1>
           <loading style="margin-top: 100px;" :theme="'dark'" :size="'normal'" v-if="isLoading"></loading>
           <dashboard v-else></dashboard>

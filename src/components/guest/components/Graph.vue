@@ -2,12 +2,12 @@
   <div id="graph">
     <el-tabs v-model="tabs" @tab-click="CreateOverallGraph()" style="margin: 15px 30px; min-height: 420px;">
       <el-tab-pane label="สุขภาพของสุนัข" name="first">
-        <div class="col-xs-12 col-sm-12 col-md-4 no-padding animated fadeInRight" v-for="(dogHealth, i) in dogsHealth" :key="i">
+        <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-0 no-padding animated fadeInRight" v-for="(dogHealth, i) in dogsHealth" :key="i">
           <canvas :id="dogHealth.topic" width="100" height="100"></canvas>
         </div>
       </el-tab-pane>
       <el-tab-pane label="ความปลอดภัยของสุนัข" name="second">
-        <div class="col-xs-12 col-sm-12 col-md-4 no-padding animated fadeInLeft" v-for="(dogFinding, i) in dogsFinding" :key="i">
+        <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-0 no-padding animated fadeInLeft" v-for="(dogFinding, i) in dogsFinding" :key="i">
           <canvas :id="dogFinding.topic" width="100" height="100"></canvas>
         </div>
       </el-tab-pane>
