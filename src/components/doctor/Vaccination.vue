@@ -15,7 +15,7 @@
     </el-dialog>
     <div class="container animated fadeIn">
       <div class="white-card">
-        <h3 class="text-center"><b>ตารางประวัติการฉีดวัคซีน และป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
+        <h3 class="text-center"><b>ตารางประวัติการฉีดวัคซีนและป้องกันโรคพยาธิหนอนหัวใจปีละครั้ง</b></h3>
         <h4 class="text-center"><b>น้ำหนักของสุนัข </b>
           <input class="form-control input-weight" type="number" min="0" step="0.1" v-if="dog" v-model="dog.current_weight" /> <b>กิโลกรัม</b>
         </h4>

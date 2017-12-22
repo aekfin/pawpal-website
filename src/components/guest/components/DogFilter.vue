@@ -1,6 +1,6 @@
 <template>
   <div id="dog-filter">
-    <div class="white-card card-sm col-xs-12">
+    <div class="card-sm col-xs-12">
       <div class="filter col-sm-12 col-md-6 col-lg-4" v-for="(filter, i) in filters" :key="i">
         <div class="col-xs-4 filter-label no-padding">{{filter.name}}</div>
         <div class="col-xs-8 no-padding">
@@ -35,13 +35,12 @@ export default {
     }
     .card-sm {
       padding: 0px;
-      border-radius: 4px;
       text-align: center;
     }
     .filter {
-      height: 60px;
       margin: 0px;
       margin-top: 5px;
+      border: 0px solid white;
     }
     .filter-label {
       background-color: #49392C;

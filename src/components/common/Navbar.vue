@@ -244,7 +244,7 @@ export default {
       padding-left: 0px;
       margin-bottom: 0px;
       list-style-type: none;
-      background-color: #594536;
+      background-color: #49392C;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.3);
       li {
         border-bottom: 1px solid white;
