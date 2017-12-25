@@ -57,7 +57,7 @@
     props: ['dogsData', 'selectedProvince', 'selectedRegion'],
     mounted () {
       var dogAntiparasite = {
-        topic: 'ข้อมูลการได้รับยาต้านพยาธิ',
+        topic: 'ข้อมูลการได้รับยาต้านเห็บและหมัด',
         contents: [
           this.dogsData[0].contents[0],
           this.dogsData[0].contents[3],
