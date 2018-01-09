@@ -61,7 +61,7 @@ export default {
     },
     Login () {
       if (this.CheckRequired()) {
-        this.$http.post('/api/login/', this.user)
+        this.$http.post('/api/veter-login/', this.user)
           .then(function (response) {
             console.log(response)
             this.$store.commit('Login', response.body)

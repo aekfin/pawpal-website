@@ -16,19 +16,19 @@
       :visible.sync="dialogVisible"
       :show-close="false"
       size="large">
-      <div slot="title" class="dialog-header" style="margin-bottom: 20px">
-        <div class="col-xs-1"><div class="btn btn-primary" v-if="!mode" style="margin-top: 5px; background-color: #4c4c4c;" @click="Backward()">ย้อนกลับ</div></div> 
-        <div class="col-xs-7 text-right animated fadeIn" style="font-size: 25px; font-weight: bold;" v-if="dates && months && dogsHealth && dogsFinding">
-          <span v-if="tabs === 'first' && dogsHealth[selectedType]">
+      <div slot="title" class="dialog-header col-xs-12" style="margin-bottom: 25px">
+        <div class="col-xs-2"><div class="btn btn-primary" v-if="!mode" style="margin-top: 5px; background-color: #4c4c4c;" @click="Backward()">ย้อนกลับ</div></div> 
+        <div class="col-xs-7 text-center animated fadeIn" style="font-size: 25px;" v-if="dates && months && dogsHealth && dogsFinding">
+          <div v-if="tabs === 'first' && dogsHealth[selectedType]">
             กราฟแสดง{{dogsHealth[selectedType].topic}}
-          </span>
-          <span v-if="tabs === 'second' && dogsFinding[selectedType]">
+          </div>
+          <div v-if="tabs === 'second' && dogsFinding[selectedType]">
             กราฟแสดง{{dogsFinding[selectedType].topic}}
-          </span>
-          <span v-if="mode">({{months[0]}} - {{months[months.length - 1]}})</span>
-          <span v-else>({{selectedMonth}})</span>
+          </div>
+          <div v-if="mode">({{months[0]}} - {{months[months.length - 1]}})</div>
+          <div v-else>({{selectedMonth}})</div>
         </div>
-        <div class="col-xs-1 col-xs-offset-1 text-right no-padding" style="font-size: 20px; margin-top: 4px; padding-right: 10px;">เลือกปี</div>
+        <div class="col-xs-1 text-right no-padding" style="font-size: 20px; margin-top: 4px; padding-right: 10px;">เลือกปี</div>
         <div class="col-xs-2 no-padding">
           <select class="form-control" v-model="yearSelector.selected" @change="UpdateYearSelector()">
             <option v-for="option in yearSelector.options" :key="option" :value="option">{{option}}</option>
