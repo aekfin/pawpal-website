@@ -24,7 +24,6 @@ export default {
     .img-rounded {
       width: 220px;
       height: 220px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
     }
     .el-carousel__item h3 {
       color: #475669;

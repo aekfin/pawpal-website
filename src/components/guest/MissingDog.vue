@@ -58,6 +58,7 @@ export default {
           dogObj.image = dog.img[i - 1]
           images.push(dogObj)
         }
+        dog.finder = dog.owner
         dog.img = images
       }, this)
     },

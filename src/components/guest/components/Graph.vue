@@ -35,16 +35,19 @@
           </select>
         </div>
       </div>
-      <div id="SpecificGraph" class="col-xs-12" style="min-height: 400px; opacity: 0;">
-        <div :class="mode ? 'animated fadeIn' : 'non-display'">
-          <canvas id="yearChart" width="100" height="100"></canvas>
-        </div>
-        <div :class="!mode ? 'animated fadeIn' : 'non-display'">
-          <canvas id="monthChart" width="100" height="100"></canvas>
+      <div id="SpecificGraph" class="col-xs-12" style="min-height: 400px;">
+        <loading :theme="'dark'" :size="'normal'" v-if="loading" style="margin-top: 50px;"></loading>
+        <div class="animated fadeIn" v-else>
+          <div v-if="mode">
+            <canvas id="yearChart"></canvas>
+          </div>
+          <div v-else>
+            <canvas id="monthChart"></canvas>
+          </div>
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <div class="btn btn-default" style="margin-top: 20px" @click="dialogVisible = false">ปิดหน้าต่าง</div>
+        <div class="btn btn-default" style="margin-top: 20px" @click="CloseGraph()">ปิดหน้าต่าง</div>
       </div>
     </el-dialog> 
   </div>
@@ -53,7 +56,11 @@
 <script>
   import Chart from 'chart.js'
   import $ from 'jquery'
+  import Loading from '@/components/common/Loading.vue'
   export default {
+    components: {
+      Loading
+    },
     props: ['dogsData', 'selectedProvince', 'selectedRegion'],
     mounted () {
       var dogAntiparasite = {
@@ -64,8 +71,8 @@
           this.dogsData[0].contents[4]
         ]
       }
-      this.dogsHealth.push(this.dogsData[0])
       this.dogsHealth.push(dogAntiparasite)
+      this.dogsHealth.push(this.dogsData[0])
       this.dogsFinding.push(this.dogsData[1])
       this.dogsFinding.push(this.dogsData[2])
       this.dogsFinding.push(this.dogsData[3])
@@ -92,6 +99,7 @@
       },
       Backward () {
         this.mode = true
+        this.loading = true
         this.Fading()
         this.FetchData('yearChart', { types: this.GetType(), year: this.yearSelector.selected.toString(), month: '', city: this.MapSelector().province, region: this.MapSelector().region })
       },
@@ -117,6 +125,10 @@
           this.monthChart.destroy()
         }
       },
+      CloseGraph () {
+        this.DestroyCharts()
+        this.dialogVisible = false
+      },
       Fading () {
         $('#SpecificGraph').css('opacity', 0)
         $('#SpecificGraph').css('animation', '')
@@ -141,7 +153,6 @@
       FetchData (id, request) {
         this.$http.post('/api/v2/dashboard/graph/', request).then(response => {
           var dogs = response.body
-          console.log(dogs)
           var labels = []
           this.dates = []
           this.months = []
@@ -188,6 +199,7 @@
             }
           })
           this.CreateSpecificGraph(id, labels, data)
+          this.loading = false
         }, err => {
           console.log(err)
         })
@@ -223,7 +235,9 @@
               ]
             },
             options: {
-              animation: false,
+              animation: {
+                duration: 5000
+              },
               legend: {
                 labels: {
                   defaultFontSize: '14px',
@@ -233,7 +247,13 @@
               },
               scales: {
                 yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'จำนวน (ตัว)',
+                    fontFamily: 'Mitr, sans-serif'
+                  },
                   ticks: {
+                    beginAtZero: true,
                     fontSize: 14,
                     fontFamily: 'Mitr, sans-serif'
                   }
@@ -245,7 +265,8 @@
                   }
                 }]
               },
-              maintainAspectRatio: false
+              maintainAspectRatio: false,
+              scaleStartValue: 0
             }
           }
           var chart = null
@@ -270,10 +291,10 @@
                   var index = activePoints[0]['_index']
                 } else {
                   index = i
-                  console.log(index)
                 }
                 self.selectedMonth = self.months[index]
                 self.mode = false
+                self.loading = true
                 self.Fading()
                 self.FetchData('monthChart', { types: self.GetType(), year: self.yearSelector.selected.toString(), month: self.selectedMonth, city: self.MapSelector().province, region: self.MapSelector().region })
                 break
@@ -327,6 +348,7 @@
             if (activePoints[0]) {
               self.dialogVisible = true
               self.mode = true
+              self.loading = true
               self.selectedType = index
               self.UpdateYearSelector()
               self.Fading()
@@ -355,6 +377,7 @@
         dates: [],
         months: [],
         mode: true,
+        loading: false,
         yearChart: null,
         monthChart: null,
         tabs: 'first',
