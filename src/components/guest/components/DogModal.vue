@@ -8,7 +8,7 @@
             <button type="button" class="close" data-dismiss="modal"><i class="material-icons">&#xE14C;</i></button>
             <h3>รายละเอียดสุนัข 
               <div class="btn btn-danger btn-sm" style="margin-left: 5px; margin-top: -5px;" data-toggle="modal" data-target="#password_modal" v-if="type === 'found'">ลบสุนัข</div>
-              <div class="btn btn-info btn-sm" style="margin-left: 5px; margin-top: -5px;" data-toggle="modal" data-target="#password_modal" v-else>รับอุปการะสุนัข</div>
+              <div class="btn btn-info btn-sm" style="margin-left: 5px; margin-top: -5px;" data-toggle="modal" data-target="#password_modal" v-if="type === 'adopt'">รับอุปการะสุนัข</div>
             </h3>
           </div>
           <div class="modal-body">
@@ -20,15 +20,27 @@
                 <div><div class="dog_bold">สายพันธุ์: </div><div class="dog_regular">{{dog.breed}}</div></div>
                 <div><div class="dog_bold">สีหลัก: </div><div class="dog_regular">{{dog.color_primary}}</div></div>
                 <div><div class="dog_bold">สีรอง: </div><div class="dog_regular"><span v-if="dog.color_secondary">{{dog.color_secondary}}</span><span v-else>ไม่มี</span></div></div>
-                <div><div class="dog_bold_more">ลักษณะเด่น: </div><div class="dog_regular_more">{{dog.dominance}}</div></div>                
-                <div style="margin-top: 10px;"><div class="dog_bold">ชื่อผู้พบ: </div><div class="dog_regular">{{dog.finder.name}}</div></div>
-                <div><div class="dog_bold">เบอร์ติดต่อ: </div><div class="dog_regular">{{dog.finder.tel}}</div></div>
-                <div><div class="dog_bold">วันที่พบ: </div><div class="dog_regular">{{DateFormat(dog.date_found)}}</div></div>
-                <div><div class="dog_bold">หมายเหตุ: </div><div class="dog_regular">{{dog.finder.place}}</div></div>
+                <div><div class="dog_bold">ลักษณะเด่น: </div><div class="dog_regular">{{dog.dominance}}</div></div>                
+                <div class="dog_bold">สถานที่: </div><div class="dog_regular">
+                  <span v-if="type === 'missing'">{{dog.location_lost}}</span>
+                  <span v-else>{{dog.location}}</span>
+                </div>
+                <div style="margin-top: 15px;"><div class="dog_bold">ชื่อ: </div><div class="dog_regular">{{dog.finder.name}}</div></div>
+                <div>
+                  <div class="dog_bold">เบอร์ติดต่อ: </div>
+                  <div class="dog_regular" v-if="type === 'missing'">{{dog.finder.tel_1}}<span v-if="dog.finder.tel_2"> ({{dog.finder.tel_2}})</span></div>
+                  <div class="dog_regular" v-else>{{dog.finder.tel}}</div>
+                </div>
+                <div>
+                  <div class="dog_bold">วันที่: </div>
+                  <div class="dog_regular"><span v-if="type === 'missing'">{{DateFormat(dog.datetime_lost)}}</span><span v-else>{{DateFormat(dog.date_found)}}</span></div>
+                </div>
+                <div v-if="type === 'missing'"><div class="dog_bold">อีเมลล์: </div><div class="dog_regular">{{dog.finder.email}}</div></div>
+                <div v-else><div class="dog_bold">หมายเหตุ: </div><div class="dog_regular">{{dog.finder.note}}</div></div>
               </div>
             </div>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer" v-if="type !== 'missing'">
             <h4 style="color: white;">สุนัขที่มีลักษณะคล้ายคลึงกัน</h4>
             <loading :theme="'light'" :size="'normal'" v-if="isLoading"></loading>
             <div class="similar-dog" v-for="sd in similarDogs" :key="sd.name" v-else>
@@ -80,8 +92,13 @@ export default {
   updated () {
     if (this.dogID !== this.dog.id) {
       this.dogID = this.dog.id
-      this.$http.get('/api/v2/found/' + this.dog.id + '/').then(response => {
+      var type = this.type
+      if (type === 'missing') {
+        type = 'lost'
+      }
+      this.$http.get('/api/v2/' + type + '/' + this.dog.id + '/').then(response => {
         this.similarDogs = response.body.similar_dog
+        this.dog.location = response.body.location
       }, error => {
         console.log(error)
       })
@@ -199,7 +216,7 @@ export default {
     }
     .dog_bold {
       width: 25%;
-      height: 20px;
+      height: 24px;
       display: inline-block;
       font-size: 18px;
       font-weight: bold;
@@ -214,7 +231,7 @@ export default {
     }
     .dog_regular {
       width: 65%;
-      height: 20px;
+      height: 24px;
       display: inline-block;
       font-size: 18px;
       font-weight: 400;

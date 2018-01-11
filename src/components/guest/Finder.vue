@@ -409,7 +409,7 @@
     .input-place {
       font-weight: normal;
       font-size: 16px;
-      width: 168%;
+      width: 152%;
       border-radius: 0px 3px 3px 0px;
       border: 1px solid #49392C;
     }
