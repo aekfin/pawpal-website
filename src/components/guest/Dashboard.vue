@@ -29,17 +29,18 @@
           this.dogsData[0].contents[0].amount = dog.all_dog
           this.dogsData[0].contents[1].amount = dog.vaccine_dog
           this.dogsData[0].contents[2].amount = dog.all_dog - dog.vaccine_dog
-          this.dogsData[0].contents[3].amount = dog.antiparasite_dog
-          this.dogsData[0].contents[4].amount = dog.all_dog - dog.antiparasite_dog
-          this.dogsData[1].contents[0].amount = dog.lost_dog
-          this.dogsData[1].contents[1].amount = dog.lost_back_dog
-          this.dogsData[1].contents[2].amount = dog.lost_dog - dog.lost_back_dog
-          this.dogsData[2].contents[0].amount = dog.found_dog
-          this.dogsData[2].contents[1].amount = dog.found_back_dog
-          this.dogsData[2].contents[2].amount = dog.found_dog - dog.found_back_dog
-          this.dogsData[3].contents[0].amount = dog.adopt_dog
-          this.dogsData[3].contents[1].amount = dog.take_dog
-          this.dogsData[3].contents[2].amount = dog.adopt_dog - dog.take_dog
+          this.dogsData[1].contents[0].amount = dog.all_dog
+          this.dogsData[1].contents[1].amount = dog.antiparasite_dog
+          this.dogsData[1].contents[2].amount = dog.all_dog - dog.antiparasite_dog
+          this.dogsData[2].contents[0].amount = dog.lost_dog
+          this.dogsData[2].contents[1].amount = dog.lost_back_dog
+          this.dogsData[2].contents[2].amount = dog.lost_dog - dog.lost_back_dog
+          this.dogsData[3].contents[0].amount = dog.found_dog
+          this.dogsData[3].contents[1].amount = dog.found_back_dog
+          this.dogsData[3].contents[2].amount = dog.found_dog - dog.found_back_dog
+          this.dogsData[4].contents[0].amount = dog.adopt_dog
+          this.dogsData[4].contents[1].amount = dog.take_dog
+          this.dogsData[4].contents[2].amount = dog.adopt_dog - dog.take_dog
           this.dogsData[0].update += 1
         }, err => {
           console.log(err)
@@ -74,15 +75,21 @@
         tab: 'first',
         dogsData: [
           {
-            topic: 'ข้อมูลการได้รับวัคซีน',
+            topic: 'ข้อมูลการได้รับวัคซีนป้องกันโรค',
             contents: [
               { name: 'สุนัขทั้งหมด', amount: 0 },
               { name: 'ได้รับวัคซีนอย่างน้อย 1 ชนิด', amount: 0 },
-              { name: 'ไม่ได้รับวัคซีนเลย', amount: 0 },
-              { name: 'ได้รับการควบคุม', amount: 0 },
-              { name: 'ไม่ได้รับการควบคุม', amount: 0 }
+              { name: 'ไม่ได้รับเลย', amount: 0 }
             ],
             update: 0
+          },
+          {
+            topic: 'ข้อมูลการได้รับการควบคุมเห็บหมัด',
+            contents: [
+              { name: 'สุนัขทั้งหมด', amount: 0 },
+              { name: 'ได้รับการควบคุมอย่างน้อย 1 ชนิด', amount: 0 },
+              { name: 'ไม่ได้รับเลย', amount: 0 }
+            ]
           },
           {
             topic: 'ข้อมูลสุนัขที่เจ้าของทำหาย',

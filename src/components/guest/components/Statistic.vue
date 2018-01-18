@@ -3,7 +3,7 @@
     <div class="white-card col-xs-12">
       <div class="dog-data">
         <h2>ข้อมูลของสุนัขในระบบ</h2>
-        <table class="table table-bordered animated fadeIn" v-for="(dogData, i) in dogsData" :key="i" v-if="(tab === 'first' && i === 0) || (tab === 'second' && i > 0)">
+        <table class="table table-bordered animated fadeIn" v-for="(dogData, i) in dogsData" :key="i" v-if="(tab === 'first' && i <= 1) || (tab === 'second' && i > 1)">
           <thead>
             <tr>
               <th>{{dogData.topic}}</th>

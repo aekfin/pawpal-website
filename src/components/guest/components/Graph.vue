@@ -63,19 +63,11 @@
     },
     props: ['dogsData', 'selectedProvince', 'selectedRegion'],
     mounted () {
-      var dogAntiparasite = {
-        topic: 'ข้อมูลการได้รับการควบคุมเห็บหมัด',
-        contents: [
-          this.dogsData[0].contents[0],
-          this.dogsData[0].contents[3],
-          this.dogsData[0].contents[4]
-        ]
-      }
-      this.dogsHealth.push(dogAntiparasite)
       this.dogsHealth.push(this.dogsData[0])
-      this.dogsFinding.push(this.dogsData[1])
+      this.dogsHealth.push(this.dogsData[1])
       this.dogsFinding.push(this.dogsData[2])
       this.dogsFinding.push(this.dogsData[3])
+      this.dogsFinding.push(this.dogsData[4])
       var self = this
       $(document).ready(function () {
         self.CreateOverallGraph()
@@ -178,11 +170,14 @@
             switch (request.types) {
               case 'vaccine':
                 data[0].dataset.push(dog.result.all_dog)
-                data[1].dataset.push(dog.result.vaccine_dog)
+                data[1].dataset.push(10)
+                data.push({label: 'test2', dataset: [33]})
+                data.push({label: 'test3', dataset: [17]})
+                data.push({label: 'test4', dataset: [20]})
                 break
               case 'antiparasite':
                 data[0].dataset.push(dog.result.all_dog)
-                data[1].dataset.push(dog.result.antiparasite_dog)
+                data[1].dataset.push(12)
                 break
               case 'lost':
                 data[0].dataset.push(dog.result.lost_dog)
@@ -210,29 +205,27 @@
         $(document).ready(function () {
           var ctx = document.getElementById(id)
           var color = []
-          color.push(self.color[self.GetIndex()][self.selectedType].border[0])
+          var datasets = []
           color.push(self.color[self.GetIndex()][self.selectedType].border[1])
+          color.push(self.color[self.GetIndex()][self.selectedType].border[0])
+          for (var i = 0; i < data.length; i++) {
+            if (i >= color.length) {
+              color.push('rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 1)')
+            }
+            datasets.push({
+              label: data[i].label,
+              data: data[i].dataset,
+              fill: false,
+              borderColor: color[i],
+              backgroundColor: color[i],
+              borderWidth: 3
+            })
+          }
           var config = {
             type: 'line',
             data: {
               labels: labels,
-              datasets: [
-                {
-                  label: data[0].label,
-                  data: data[0].dataset,
-                  fill: false,
-                  borderColor: color[1],
-                  backgroundColor: color[1],
-                  borderWidth: 3
-                }, {
-                  label: data[1].label,
-                  data: data[1].dataset,
-                  fill: false,
-                  borderColor: color[0],
-                  backgroundColor: color[0],
-                  borderWidth: 3
-                }
-              ]
+              datasets: datasets
             },
             options: {
               animation: {
