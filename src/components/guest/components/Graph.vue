@@ -1,13 +1,22 @@
 <template>
   <div id="graph">
-    <el-tabs v-model="tabs" @tab-click="CreateOverallGraph()" style="margin: 15px 30px; min-height: 420px;">
+    <el-tabs v-model="tabs" @tab-click="CreateOverallGraph()" style="margin: 15px 30px; min-height: 500px;">
       <el-tab-pane label="สุขภาพของสุนัข" name="first">
         <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-0 no-padding animated fadeInRight" v-for="(dogHealth, i) in dogsHealth" :key="i">
-          <canvas :id="dogHealth.topic" width="100" height="100"></canvas>
+          <div style="font-size: 20px; text-align: center;">{{dogHealth.topic}}</div>
+          <div style="padding: 0px 10%;" class="col-xs-12">
+            <select class="form-control" v-if="tabs === 'first'" v-model="dogHealth.selected" @change="ChangeType(i, dogHealth)">
+              <option v-for="(option, j) in dogHealth.options" :key="option.name" :value="j">{{option.name}}</option>
+            </select>
+          </div>
+          <div :id="'chart' + i">
+            <canvas :id="dogHealth.topic" width="100" height="100"></canvas>
+          </div>
         </div>
       </el-tab-pane>
       <el-tab-pane label="ความปลอดภัยของสุนัข" name="second">
         <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-0 no-padding animated fadeInLeft" v-for="(dogFinding, i) in dogsFinding" :key="i">
+          <div style="font-size: 20px; text-align: center;">{{dogFinding.topic}}</div>
           <canvas :id="dogFinding.topic" width="100" height="100"></canvas>
         </div>
       </el-tab-pane>
@@ -18,9 +27,10 @@
       size="large">
       <div slot="title" class="dialog-header col-xs-12" style="margin-bottom: 25px">
         <div class="col-xs-2"><div class="btn btn-primary" v-if="!mode" style="margin-top: 5px; background-color: #4c4c4c;" @click="Backward()">ย้อนกลับ</div></div> 
-        <div class="col-xs-7 text-center animated fadeIn" style="font-size: 25px;" v-if="dates && months && dogsHealth && dogsFinding">
+        <div class="col-xs-7 no-padding text-center animated fadeIn" style="font-size: 25px;" v-if="dates && months && dogsHealth && dogsFinding">
           <div v-if="tabs === 'first' && dogsHealth[selectedType]">
             กราฟแสดง{{dogsHealth[selectedType].topic}}
+            <div style="font-size: 20px;">({{dogsHealth[selectedType].options[dogsHealth[selectedType].selected].name}})</div>
           </div>
           <div v-if="tabs === 'second' && dogsFinding[selectedType]">
             กราฟแสดง{{dogsFinding[selectedType].topic}}
@@ -28,11 +38,13 @@
           <div v-if="mode">({{months[0]}} - {{months[months.length - 1]}})</div>
           <div v-else>({{selectedMonth}})</div>
         </div>
-        <div class="col-xs-1 text-right no-padding" style="font-size: 20px; margin-top: 4px; padding-right: 10px;">เลือกปี</div>
-        <div class="col-xs-2 no-padding">
-          <select class="form-control" v-model="yearSelector.selected" @change="UpdateYearSelector()">
-            <option v-for="option in yearSelector.options" :key="option" :value="option">{{option}}</option>
-          </select>
+        <div class="col-xs-3 no-padding">
+          <div class="col-xs-4 text-right no-padding" style="font-size: 20px; margin-top: 4px; padding-right: 10px;">เลือกปี</div>
+          <div class="col-xs-8 no-padding">
+            <select class="form-control" v-model="yearSelector.selected" @change="UpdateYearSelector()">
+              <option v-for="option in yearSelector.options" :key="option" :value="option">{{option}}</option>
+            </select>
+          </div>
         </div>
       </div>
       <div id="SpecificGraph" class="col-xs-12" style="min-height: 400px;">
@@ -68,12 +80,23 @@
       this.dogsFinding.push(this.dogsData[2])
       this.dogsFinding.push(this.dogsData[3])
       this.dogsFinding.push(this.dogsData[4])
+      if (this.yearSelector.selected === new Date().getFullYear() && new Date().getMonth() === 0) {
+        this.yearSelector.selected = new Date().getFullYear() - 1
+      }
       var self = this
       $(document).ready(function () {
         self.CreateOverallGraph()
       })
     },
     methods: {
+      ChangeType (index, dogHealth) {
+        dogHealth.contents[1].amount = dogHealth.options[dogHealth.selected].count.have
+        dogHealth.contents[2].amount = dogHealth.options[dogHealth.selected].count.none
+        this.overallGraphs[index].destroy()
+        $('#chart' + index).empty()
+        $('#chart' + index).append('<canvas id="' + dogHealth.topic + '" width="100" height="100"></canvas>')
+        this.CreateOverallGraph()
+      },
       UpdateYearSelector () {
         this.yearSelector.options = []
         var year = this.yearSelector.selected - 3
@@ -82,7 +105,9 @@
         }
         for (var i = 0; i < 7; i++) {
           if (year + i <= new Date().getFullYear()) {
-            this.yearSelector.options.push(year + i)
+            if (year + i < new Date().getFullYear() || new Date().getMonth() !== 0) {
+              this.yearSelector.options.push(year + i)
+            }
           }
         }
         this.mode = true
@@ -143,15 +168,31 @@
         return selector
       },
       FetchData (id, request) {
-        this.$http.post('/api/v2/dashboard/graph/', request).then(response => {
+        if (this.tabs === 'second') {
+          var url = '/api/v2/dashboard/graph/'
+        } else {
+          url = '/api/statistics/' + request.types + '-graph/'
+          request.year = '2017'
+        }
+        this.$http.post(url, request).then(response => {
           var dogs = response.body
           var labels = []
           this.dates = []
           this.months = []
-          var data = [
-            {label: '', dataset: []},
-            {label: '', dataset: []}
-          ]
+          var data = []
+          if (this.tabs === 'first') {
+            var size = 3
+          } else {
+            size = 2
+          }
+          var names = ['ตามกำหนดเวลา', 'ช้ากว่ากำหนด 1-3 เดือน', 'ช้ากว่ากำหนดเวลาเกินกว่า 3 เดือน']
+          for (var i = 0; i < size; i++) {
+            if (this.tabs === 'first') {
+              data.push({label: names[i], dataset: []})
+            } else {
+              data.push({label: this.dogsFinding[this.selectedType].contents[i].name, dataset: []})
+            }
+          }
           dogs.forEach(dog => {
             if (id === 'yearChart') {
               labels.push(dog.month)
@@ -160,24 +201,16 @@
               labels.push(dog.date)
               this.dates.push(dog.date)
             }
-            for (var i = 0; i < data.length; i++) {
-              if (this.tabs === 'first') {
-                data[i].label = this.dogsHealth[this.selectedType].contents[i].name
-              } else {
-                data[i].label = this.dogsFinding[this.selectedType].contents[i].name
-              }
-            }
             switch (request.types) {
               case 'vaccine':
-                data[0].dataset.push(dog.result.all_dog)
-                data[1].dataset.push(10)
-                data.push({label: 'test2', dataset: [33]})
-                data.push({label: 'test3', dataset: [17]})
-                data.push({label: 'test4', dataset: [20]})
+                data[0].dataset.push(dog.result.vaccine_dog[this.dogsHealth[0].selected].count.on_time)
+                data[1].dataset.push(dog.result.vaccine_dog[this.dogsHealth[0].selected].count.late)
+                data[2].dataset.push(dog.result.vaccine_dog[this.dogsHealth[0].selected].count.gone)
                 break
               case 'antiparasite':
-                data[0].dataset.push(dog.result.all_dog)
-                data[1].dataset.push(12)
+                data[0].dataset.push(dog.result.antiparasite_dog[this.dogsHealth[1].selected].count.on_time)
+                data[1].dataset.push(dog.result.antiparasite_dog[this.dogsHealth[1].selected].count.late)
+                data[2].dataset.push(dog.result.antiparasite_dog[this.dogsHealth[1].selected].count.gone)
                 break
               case 'lost':
                 data[0].dataset.push(dog.result.lost_dog)
@@ -206,12 +239,15 @@
           var ctx = document.getElementById(id)
           var color = []
           var datasets = []
-          color.push(self.color[self.GetIndex()][self.selectedType].border[1])
-          color.push(self.color[self.GetIndex()][self.selectedType].border[0])
+          if (self.tabs === 'first') {
+            color.push(self.color[self.GetIndex()][self.selectedType].border[0])
+            color.push('rgba(255, 117, 56, 1)')
+            color.push('rgba(221, 79, 79, 1)')
+          } else {
+            color.push(self.color[self.GetIndex()][self.selectedType].border[1])
+            color.push(self.color[self.GetIndex()][self.selectedType].border[0])
+          }
           for (var i = 0; i < data.length; i++) {
-            if (i >= color.length) {
-              color.push('rgba(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ', 1)')
-            }
             datasets.push({
               label: data[i].label,
               data: data[i].dataset,
@@ -279,7 +315,7 @@
                 x: (event.offsetX / ctx.offsetWidth) * 100,
                 y: (event.offsetY / ctx.offsetHeight) * 100
               }
-              if (self.mode && (activePoints[0] || (offset.x > min && offset.x < min + 8 && offset.y > 93 && offset.y < 98))) {
+              if (self.mode && self.tabs === 'second' && (activePoints[0] || (offset.x > min && offset.x < min + 8 && offset.y > 93 && offset.y < 98))) {
                 if (activePoints[0]) {
                   var index = activePoints[0]['_index']
                 } else {
@@ -297,7 +333,7 @@
         })
       },
       CreateOverallGraph () {
-        var chart = []
+        this.overallGraphs = []
         var self = this
         if (this.tabs === 'first') {
           var dogs = this.dogsHealth
@@ -318,6 +354,7 @@
               }]
             },
             options: {
+              animation: false,
               legend: {
                 labels: {
                   defaultFontSize: '14px',
@@ -327,17 +364,9 @@
               }
             }
           }
-          config.options.title = {
-            display: true,
-            text: dog.topic,
-            fontSize: 20,
-            fontFamily: 'Mitr, sans-serif',
-            fontColor: '#4c4c4c',
-            fontStyle: 'normal'
-          }
-          chart.push(new Chart(document.getElementById(dog.topic), config))
+          self.overallGraphs.push(new Chart(document.getElementById(dog.topic), config))
           document.getElementById(dog.topic).onclick = function (event) {
-            var activePoints = chart[index].getElementsAtEvent(event)
+            var activePoints = self.overallGraphs[index].getElementsAtEvent(event)
             if (activePoints[0]) {
               self.dialogVisible = true
               self.mode = true
@@ -380,7 +409,8 @@
         selectedMonth: '',
         specificData: {},
         dogsHealth: [],
-        dogsFinding: []
+        dogsFinding: [],
+        overallGraphs: []
       }
     }
   }
