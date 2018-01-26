@@ -4,10 +4,11 @@
       <el-tab-pane label="สุขภาพของสุนัข" name="first">
         <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-0 no-padding animated fadeInRight" v-for="(dogHealth, i) in dogsHealth" :key="i">
           <div style="font-size: 20px; text-align: center;">{{dogHealth.topic}}</div>
-          <div style="padding: 0px 10%;" class="col-xs-12">
-            <select class="form-control" v-if="tabs === 'first'" v-model="dogHealth.selected" @change="ChangeType(i, dogHealth)">
+          <div style="padding: 0px 10%;" class="col-xs-12" v-if="tabs === 'first'">
+            <select class="form-control" v-model="dogHealth.selected" @change="ChangeType(i, dogHealth)" v-if="i === 0">
               <option v-for="(option, j) in dogHealth.options" :key="option.name" :value="j">{{option.name}}</option>
             </select>
+            <div style="height: 34px;" v-else></div>
           </div>
           <div :id="'chart' + i">
             <canvas :id="dogHealth.topic" width="100" height="100"></canvas>
@@ -30,7 +31,7 @@
         <div class="col-xs-7 no-padding text-center animated fadeIn" style="font-size: 25px;" v-if="dates && months && dogsHealth && dogsFinding">
           <div v-if="tabs === 'first' && dogsHealth[selectedType]">
             กราฟแสดง{{dogsHealth[selectedType].topic}}
-            <div style="font-size: 20px;">({{dogsHealth[selectedType].options[dogsHealth[selectedType].selected].name}})</div>
+            <div style="font-size: 20px;" v-if="selectedType === 0">({{dogsHealth[selectedType].options[dogsHealth[selectedType].selected].name}})</div>
           </div>
           <div v-if="tabs === 'second' && dogsFinding[selectedType]">
             กราฟแสดง{{dogsFinding[selectedType].topic}}
@@ -208,9 +209,9 @@
                 data[2].dataset.push(dog.result.vaccine_dog[this.dogsHealth[0].selected].count.gone)
                 break
               case 'antiparasite':
-                data[0].dataset.push(dog.result.antiparasite_dog[this.dogsHealth[1].selected].count.on_time)
-                data[1].dataset.push(dog.result.antiparasite_dog[this.dogsHealth[1].selected].count.late)
-                data[2].dataset.push(dog.result.antiparasite_dog[this.dogsHealth[1].selected].count.gone)
+                data[0].dataset.push(dog.result.antiparasite_dog.count.on_time)
+                data[1].dataset.push(dog.result.antiparasite_dog.count.late)
+                data[2].dataset.push(dog.result.antiparasite_dog.count.gone)
                 break
               case 'lost':
                 data[0].dataset.push(dog.result.lost_dog)

@@ -30,10 +30,9 @@
           this.dogsData[0].contents[0].amount = dog.all_dog
           this.dogsData[0].contents[1].amount = this.dogsData[0].options[0].count.have
           this.dogsData[0].contents[2].amount = this.dogsData[0].options[0].count.none
-          this.dogsData[1].options = dog.antiparasite_dog
           this.dogsData[1].contents[0].amount = dog.all_dog
-          this.dogsData[1].contents[1].amount = this.dogsData[1].options[0].count.have
-          this.dogsData[1].contents[2].amount = this.dogsData[1].options[0].count.none
+          this.dogsData[1].contents[1].amount = dog.antiparasite_dog.count.have
+          this.dogsData[1].contents[2].amount = dog.antiparasite_dog.count.none
           this.dogsData[2].contents[0].amount = dog.lost_dog
           this.dogsData[2].contents[1].amount = dog.lost_back_dog
           this.dogsData[2].contents[2].amount = dog.lost_dog - dog.lost_back_dog
@@ -84,9 +83,9 @@
               { name: 'ไม่ได้รับวัคซีน', amount: 0 }
             ],
             options: [
-              { name: 'vaccine-1', inTime: 5, delay: 5 },
-              { name: 'vaccine-2', inTime: 10, delay: 8 },
-              { name: 'vaccine-3', inTime: 6, delay: 7 }
+              { name: 'vaccine-1', on_time: 5, delay: 5 },
+              { name: 'vaccine-2', late: 10, delay: 8 },
+              { name: 'vaccine-3', gone: 6, delay: 7 }
             ],
             selected: 0,
             update: 0
@@ -97,13 +96,7 @@
               { name: 'สุนัขทั้งหมด', amount: 0 },
               { name: 'ได้รับการควบคุม', amount: 0 },
               { name: 'ไม่ได้รับการควบคุม', amount: 0 }
-            ],
-            options: [
-              { name: 'antiparasite-1', inTime: 7, delay: 5 },
-              { name: 'antiparasite-2', inTime: 10, delay: 8 },
-              { name: 'antiparasite-3', inTime: 6, delay: 7 }
-            ],
-            selected: 0
+            ]
           },
           {
             topic: 'ข้อมูลสุนัขที่เจ้าของทำหาย',
