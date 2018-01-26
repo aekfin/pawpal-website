@@ -6,8 +6,8 @@
         <table class="table table-bordered animated fadeIn" v-for="(dogData, i) in dogsData" :key="i" v-if="(tab === 'first' && i <= 1) || (tab === 'second' && i > 1)">
           <thead>
             <tr>
-              <th>{{dogData.topic}}</th>
-              <th>จำนวน (ตัว)</th>
+              <th>{{dogData.topic}}<div v-if="dogData.options" style="font-size: 13px;" >({{dogData.options[dogData.selected].name}})</div></th>
+              <th>จำนวน (ตัว)<div v-if="dogData.options" style="height: 18.4px"></div></th>
             </tr>
           </thead>
           <tbody>
