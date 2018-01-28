@@ -321,6 +321,9 @@
           this.$refs.errorModal.openSimplert(obj)
         }
       },
+      GetDateISO (date) {
+        return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
+      },
       Adding () {
         if (this.confirmPassword.length > 3) {
           var images = []
@@ -335,7 +338,7 @@
             'name': this.finderForm[0].model,
             'tel': this.finderForm[1].model,
             'note': this.finderForm[2].model,
-            'date_found': (this.dateForm[0].model).toISOString().substring(0, 10),
+            'date_found': this.GetDateISO(this.dateForm[0].model),
             'time_found': this.dateForm[1].model,
             'longtitude': this.latLng.lng,
             'location': this.location,

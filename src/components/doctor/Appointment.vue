@@ -112,10 +112,13 @@ export default {
         this.$router.push('/doctor/vaccination/' + key)
       }
     },
+    GetDateISO (date) {
+      return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
+    },
     FetchAppointments () {
       this.appointments = []
       this.isLoading = true
-      this.$http.post('/api/appointment/', { 'date': new Date(this.date).toISOString().substring(0, 10), 'hospital': this.$store.getters.GetHospital.id }).then(response => {
+      this.$http.post('/api/appointment/', { 'date': this.GetDateISO(new Date(this.date)), 'hospital': this.$store.getters.GetHospital.id }).then(response => {
         var appointments = response.body
         appointments.forEach(function (appointment) {
           appointment.tooltip = ''

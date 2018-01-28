@@ -115,6 +115,9 @@ export default {
         this.isLoading = false
       })
     },
+    GetDateISO (date) {
+      return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
+    },
     SelectingDog () {
       if (this.selected.type === 1) {
         this.$router.push('/doctor/vaccination/' + this.appointments[this.selected.index].key)
@@ -127,7 +130,7 @@ export default {
           dog = this.dogs[this.selected.index].dog.id
         }
         var date = new Date()
-        this.$http.post('/api/add-appointment/', { 'date': new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substring(0, 10), 'hospital': this.$store.getters.GetHospital.id, 'dog': dog, 'vaccine_for_list': [] }).then(response => {
+        this.$http.post('/api/add-appointment/', { 'date': this.GetDateISO(date), 'hospital': this.$store.getters.GetHospital.id, 'dog': dog, 'vaccine_for_list': [] }).then(response => {
           console.log(response)
           this.$router.push('/doctor/vaccination/' + response.body.key)
           this.isLoading = false
