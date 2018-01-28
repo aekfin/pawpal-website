@@ -126,7 +126,7 @@ export default {
       filters: [
         { name: 'สายพันธุ์', model: 'ทุกสายพันธุ์', options: ['ทุกสายพันธุ์'] },
         { name: 'สีขน', model: 'ทุกสี', options: ['ทุกสี'] },
-        { name: 'วันที่พบ', model: 'แสดงสุนัขที่พบล่าสุดก่อน', options: ['แสดงสุนัขที่พบนานที่สุดก่อน', 'แสดงสุนัขที่พบล่าสุดก่อน'] }
+        { name: 'วันที่หาย', model: 'แสดงสุนัขที่พบล่าสุดก่อน', options: ['แสดงสุนัขที่พบนานที่สุดก่อน', 'แสดงสุนัขที่พบล่าสุดก่อน'] }
       ],
       dogs: [
         { breed: 'Loading...', color_primary: 'unknow', color_secondary: 'unknow', dominance: 'Loading...', date: new Date().toDateString(), img: require('@/assets/finder/dog-upload.png'), finder: {name: 'Unknow', tel: '000-000-0000', place: ''} }
