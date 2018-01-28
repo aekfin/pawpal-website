@@ -133,13 +133,13 @@
       appForm, Datepicker, Simplert, Loading
     },
     created () {
-      this.dogForm[0].model = this.dogForm[0].options[0]
       this.dogForm[1].model = this.dogForm[1].options[0]
       this.dogForm[2].model = this.dogForm[2].options[0]
       this.$http.get('/api/breed/')
         .then(function (response) {
           var breeds = response.body
           this.dogForm[0].options = breeds.popular
+          this.dogForm[0].model = this.dogForm[0].options[0]
         })
         .catch(function (error) {
           console.log(error)
