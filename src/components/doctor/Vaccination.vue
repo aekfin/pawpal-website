@@ -379,6 +379,9 @@ export default {
         this.isSaving = false
       }
     },
+    GetDateISO (date) {
+      return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
+    },
     SaveVaccineRecord (vaccineRecord) {
       for (var i = 0; i < vaccineRecord.length; i++) {
         var vaccineStockList = []
@@ -389,11 +392,12 @@ export default {
         }
         var dateRecord = ''
         var nextVaccine = ''
+
         if (vaccineRecord[i].date_record) {
-          dateRecord = new Date(vaccineRecord[i].date_record).toISOString().substring(0, 10)
+          dateRecord = this.GetDateISO(new Date(vaccineRecord[i].date_record))
         }
         if (vaccineRecord[i].next_vaccine) {
-          nextVaccine = new Date(vaccineRecord[i].next_vaccine).toISOString().substring(0, 10)
+          nextVaccine = this.GetDateISO(new Date(vaccineRecord[i].next_vaccine))
         }
         var vr = {
           'vaccine_for': vaccineRecord[i].vaccinationFor.id,
