@@ -255,6 +255,7 @@
             color.push(self.color[self.GetIndex()][self.selectedType].border[1])
             color.push(self.color[self.GetIndex()][self.selectedType].border[0])
           }
+          var max = 0
           for (var i = 0; i < data.length; i++) {
             datasets.push({
               label: data[i].label,
@@ -264,6 +265,9 @@
               backgroundColor: color[i],
               borderWidth: 3
             })
+            if (max < Math.max(data[i].dataset)) {
+              max = Math.max(data[i].dataset)
+            }
           }
           var config = {
             type: 'line',
@@ -290,6 +294,7 @@
                     fontFamily: 'Mitr, sans-serif'
                   },
                   ticks: {
+                    stepSize: (max < 11) ? 1 : '',
                     beginAtZero: true,
                     fontSize: 14,
                     fontFamily: 'Mitr, sans-serif'

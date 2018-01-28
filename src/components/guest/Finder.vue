@@ -386,8 +386,8 @@
         ],
         dogForm: [
           { name: 'สายพันธุ์', placeholder: '', type: 'selector', model: '', require: true, options: this.$store.state.breeds },
-          { name: 'สีขนหลัก', placeholder: 'น้ำตาล', type: 'text', model: '', require: true },
-          { name: 'สีขนรอง', placeholder: 'ขาว', type: 'text', model: '', require: false },
+          { name: 'สีขนหลัก', placeholder: '', type: 'selector', model: 'น้ำตาล', require: true, options: this.$store.state.colors },
+          { name: 'สีขนรอง', placeholder: '', type: 'selector', model: 'น้ำตาล', require: false, options: this.$store.state.colors },
           { name: 'ลักษณะเด่น', placeholder: 'มีจุดสีขาวใหญ่บริเวณขาหลังด้านซ้าย', type: 'text', model: '', require: false }
         ],
         finderForm: [
