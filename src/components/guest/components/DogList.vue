@@ -16,13 +16,10 @@
               {{dog.color_primary}}<span v-if="dog.color_secondary">, {{dog.color_secondary}}</span>
             </span>
           </div>
-          <div class="desc" v-if="dog.finder">
-            <span class="col-xs-5 no-padding">ชื่อผู้พบ : </span>
+          <div class="desc">
+            <span class="col-xs-5 no-padding" v-if="type === 'missing'">ชื่อเจ้าของ : </span>
+            <span class="col-xs-5 no-padding" v-else>ชื่อผู้พบ : </span>
             <span class="col-xs-7 no-padding">{{dog.finder.name}}</span>
-          </div>
-          <div class="desc" v-else>
-            <span class="col-xs-5 no-padding">ชื่อเจ้าของ : </span>
-            <span class="col-xs-7 no-padding">{{dog.owner.name}}</span>
           </div>
           <div class="desc">
             <span class="col-xs-5 no-padding" v-if="type === 'missing'">วันที่หาย : </span>
