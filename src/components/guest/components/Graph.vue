@@ -186,9 +186,16 @@
           } else {
             size = 2
           }
-          var names = ['ตามกำหนดเวลา', 'ช้ากว่ากำหนด 1-3 เดือน', 'ช้ากว่ากำหนดเวลาเกินกว่า 3 เดือน']
+          var names = ['ตามกำหนดเวลา', 'ช้ากว่ากำหนด', 'ไม่มาฉีดตามนัดหมาย']
           for (var i = 0; i < size; i++) {
             if (this.tabs === 'first') {
+              if (i === 1) {
+                if (this.selectedType === 0) {
+                  names[i] += ' 3 เดือน'
+                } else {
+                  names[i] += ' 7 วัน'
+                }
+              }
               data.push({label: names[i], dataset: []})
             } else {
               data.push({label: this.dogsFinding[this.selectedType].contents[i].name, dataset: []})

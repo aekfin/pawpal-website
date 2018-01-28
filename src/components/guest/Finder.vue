@@ -399,7 +399,7 @@
 
 <style lang="scss">
   #finder {
-    padding-bottom: 50px;
+    padding-bottom: 120px;
     .white-card {
       margin-top: 15px;
     }
