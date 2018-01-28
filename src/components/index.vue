@@ -13,7 +13,7 @@
               </div>
               <div class="col-xs-12 col-md-8 col-md-offset-2 subtitle">
                 <p>The greatness of a nation can be judged by how its animals are treated.<br>
-                  (ความยิ่งใหญ่ของประเทศสามารถตัดสินได้ว่าสัตว์ของมันได้รับการปฏิบัติอย่างไร)
+                  (ความยิ่งใหญ่ของชาติหนึ่งชาติใดสามารถตัดสินได้ที่วิธีการที่ปฏิบัติต่อสัตว์ในชาตินั้นๆ)
                   <div class="text-right">- Mahatma Gandhi (มหาตมะคานธี)</div>  
                 </p>
               </div>
