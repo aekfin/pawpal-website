@@ -134,6 +134,16 @@
     },
     created () {
       this.dogForm[0].model = this.dogForm[0].options[0]
+      this.dogForm[1].model = this.dogForm[1].options[0]
+      this.dogForm[2].model = this.dogForm[2].options[0]
+      this.$http.get('/api/breed/')
+        .then(function (response) {
+          var breeds = response.body
+          this.dogForm[0].options = breeds.popular
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     methods: {
       showPosition (position) {
@@ -385,9 +395,9 @@
           { name: 'เวลา', placeholder: 'กรุณาระบบเวลาที่พบ', type: 'time', model: '00:00:00', require: false }
         ],
         dogForm: [
-          { name: 'สายพันธุ์', placeholder: '', type: 'selector', model: '', require: true, options: this.$store.state.breeds },
-          { name: 'สีขนหลัก', placeholder: '', type: 'selector', model: 'น้ำตาล', require: true, options: this.$store.state.colors },
-          { name: 'สีขนรอง', placeholder: '', type: 'selector', model: 'น้ำตาล', require: false, options: this.$store.state.colors },
+          { name: 'สายพันธุ์', placeholder: '', type: 'selector', model: '', require: true, options: [] },
+          { name: 'สีขนหลัก', placeholder: '', type: 'selector', model: '', require: true, options: this.$store.state.colors },
+          { name: 'สีขนรอง', placeholder: '', type: 'selector', model: '', require: false, options: this.$store.state.colors },
           { name: 'ลักษณะเด่น', placeholder: 'มีจุดสีขาวใหญ่บริเวณขาหลังด้านซ้าย', type: 'text', model: '', require: false }
         ],
         finderForm: [
