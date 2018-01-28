@@ -18,7 +18,7 @@
         <h3>ประวัติการฉีดวัคซีนของสุนัข</h3>
         <loading :theme="'dark'" :size="'normal'" v-if="isLoading.record"></loading>
         <div id="vaccine-table" v-else>
-          <div v-if="vaccineRecord && vaccineRecord.length > 0" class="when-vaccination">บันทึกเมื่อวันที่ {{DateFormat(vaccineRecord[0].date_record)}} (สุนัขน้ำหนัก 3 กิโลกรัม)</div>
+          <div v-if="vaccineRecord && vaccineRecord.length > 0" class="when-vaccination">บันทึกเมื่อวันที่ {{DateFormat(vaccineRecord[0].date_record)}} (สุนัขน้ำหนัก {{vaccineRecord[0].weight}} กิโลกรัม)</div>
           <view-table :tableHeader = "tableHeader" :vaccineRecord = "vaccineRecord" style="margin-bottom: 50px;"></view-table>
           <pagination v-if="allVaccineRecord && allVaccineRecord.length > 0" @changePage="ChangePage()" :innerClass="'sm'" :pagination = "pagination"></pagination>
         </div>
