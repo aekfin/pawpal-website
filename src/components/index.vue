@@ -49,6 +49,7 @@
   export default {
     name: 'landing',
     created () {
+      document.title = 'Pawpal - Friend of Best Friend'
       if (this.$store.getters.IsLogin) {
         if (this.$store.getters.IsSelectHospital) {
           this.btnList.push({ name: 'สมุดการนัดหมาย', url: '/doctor/appointment' })

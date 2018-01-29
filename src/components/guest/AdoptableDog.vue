@@ -60,6 +60,7 @@ import $ from 'jquery'
 
 export default {
   mounted () {
+    document.title = 'ประกาศสุนัขที่รอรับการอุปการะ - Pawpal'
     var self = this
     $('#searchImage').change(function (event) {
       var file = event.target.files[0]

@@ -45,6 +45,7 @@ export default {
   },
   created () {
     this.fetchHospital()
+    document.title = 'เลือกโรงพยาบาล - Pawpal'
   },
   methods: {
     fetchHospital () {

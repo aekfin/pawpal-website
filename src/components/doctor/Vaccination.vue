@@ -161,6 +161,7 @@ export default {
         // console.log(vb)
         this.account = vb.account
         this.dog = vb.dog
+        document.title = 'สมุดบันทึกประวัติการฉีดวัคซีนของ' + this.dog.name + ' - Pawpal'
         if (this.dog.image.length === 0) {
           this.dog.image.push({image: require('@/assets/finder/dog-upload.png')})
         }

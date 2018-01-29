@@ -77,6 +77,9 @@ export default {
   components: {
     Loading, Simplert
   },
+  created () {
+    document.title = 'ค้นหาสมุดวัคซีน - Pawpal'
+  },
   data () {
     return {
       alert: [{name: null, class: null}, {name: null, class: null}],

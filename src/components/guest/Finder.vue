@@ -133,6 +133,7 @@
       appForm, Datepicker, Simplert, Loading
     },
     created () {
+      document.title = 'เพิ่มสุนัขที่พบ - Pawpal'
       this.dogForm[1].model = this.dogForm[1].options[0]
       this.dogForm[2].model = this.dogForm[2].options[0]
       this.$http.get('/api/breed/')
