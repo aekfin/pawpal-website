@@ -61,6 +61,7 @@ export default {
   created () {
     this.RefreshTooltip()
     this.InitDates()
+    document.title = 'สมุดการนัดหมาย'
   },
   data () {
     return {

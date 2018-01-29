@@ -48,6 +48,7 @@ export default {
       this.account = response.body.account
       this.isLoading.dog = false
       this.antiparasite = response.body.antiparasite
+      document.title = 'ประวัติการฉีดวัคซีนทั้งหมดของ' + this.dog.name + ' - Pawpal'
       this.SplitPage(response.body.vaccine_record_list)
       this.ChangePage()
     }, error => {

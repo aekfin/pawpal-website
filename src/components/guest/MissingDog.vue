@@ -41,6 +41,7 @@ import Loading from '@/components/common/Loading.vue'
 
 export default {
   mounted () {
+    document.title = 'ประกาศสุนัขสูญหาย - Pawpal'
     this.AddingFilter()
   },
   components: {

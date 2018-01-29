@@ -43,6 +43,9 @@ export default {
   components: {
     DogList, DogFilter, Pagination, Loading
   },
+  created () {
+    document.title = 'ประกาศสุนัขที่พบ - Pawpal'
+  },
   mounted () {
     this.AddingFilter()
   },

@@ -43,6 +43,7 @@ export default {
     NavBar, Loading, appFooter
   },
   created () {
+    document.title = 'เข้าสู่ระบบ - Pawpal'
   },
   methods: {
     CheckRequired () {
