@@ -9,7 +9,7 @@ var route = {
   name: 'GuestPage',
   component: GuestPage,
   children: [
-    { path: '/finder', name: 'FinderPage', meta: {title: 'ระบบเพิ่มสุนัขที่หาย- Pawpal'}, component: FinderPage },
+    { path: '/finder', name: 'FinderPage', component: FinderPage },
     { path: '/found-dog', name: 'FoundPage', component: FoundDogPage },
     { path: '/adoptable-dog', name: 'AdoptableDogPage', component: AdoptableDogPage },
     { path: '/missing-dog', name: 'MissingPage', component: MissingDogPage }
