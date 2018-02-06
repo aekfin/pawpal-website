@@ -106,7 +106,11 @@
         }
         for (var i = 0; i < 7; i++) {
           if (year + i <= new Date().getFullYear()) {
-            if (year + i < new Date().getFullYear() || new Date().getMonth() !== 0) {
+            if (this.tabs === 'first') {
+              if (year + i < new Date().getFullYear() || new Date().getMonth() !== 0) {
+                this.yearSelector.options.push(year + i)
+              }
+            } else {
               this.yearSelector.options.push(year + i)
             }
           }
@@ -173,7 +177,6 @@
           var url = '/api/v2/dashboard/graph/'
         } else {
           url = '/api/statistics/' + request.types + '-graph/'
-          request.year = '2017'
         }
         this.$http.post(url, request).then(response => {
           var dogs = response.body
