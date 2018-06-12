@@ -29,19 +29,19 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api/v2': {
-        target: 'http://161.246.6.240:10102/',
+        target: 'http://202.44.34.112:21003/',
         changeOrigin: true
       },
       '/media/v2': {
-        target: 'http://161.246.6.240:10102/',
+        target: 'http://202.44.34.112:21003/',
         changeOrigin: true
       },
       '/api': {
-          target: 'http://161.246.6.240:10101/',
-          changeOrigin: true
+        target: 'http://202.44.34.112:21002/',
+        changeOrigin: true
       },
       '/media': {
-        target: 'http://161.246.6.240:10101/',
+        target: 'http://202.44.34.112:21002/',
         changeOrigin: true
       },
       '/geocode': {
