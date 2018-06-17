@@ -109,9 +109,7 @@ export default {
       }, this)
     },
     GoToVaccineBook (key) {
-      if (this.dates[0].getTime() === this.date) {
-        this.$router.push('/doctor/vaccination/' + key)
-      }
+      this.$router.push('/doctor/vaccination/' + key)
     },
     GetDateISO (date) {
       return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().substring(0, 10)
