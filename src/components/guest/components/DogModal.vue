@@ -40,7 +40,7 @@
               </div>
             </div>
           </div>
-          <div class="modal-footer" v-if="type !== 'missing'">
+          <div class="modal-footer" v-if="type === 'found'">
             <h4 style="color: white;">สุนัขที่มีลักษณะคล้ายคลึงกัน</h4>
             <loading :theme="'light'" :size="'normal'" v-if="isLoading"></loading>
             <div class="similar-dog" v-for="sd in similarDogs" :key="sd.name" v-else>
