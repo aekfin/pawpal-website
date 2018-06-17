@@ -28,7 +28,7 @@
         <div class="container white-card" style="min-height: 800px;">
           <h1 class="header">
             ข้อมูลสถิติ
-            <a class="btn btn-lg btn-success pull-right" style="margin: 0px;" @click="DownloadTable()" href="http://161.246.6.240:10102/api/v2/dashboard/export/">ดาวน์โหลดข้อมูล</a>
+            <a class="btn btn-lg btn-success pull-right" style="margin: 0px;" @click="DownloadTable()" href="/api/v2/dashboard/export/">ดาวน์โหลดข้อมูล</a>
           </h1>
           <loading style="margin-top: 100px;" :theme="'dark'" :size="'normal'" v-if="isLoading"></loading>
           <dashboard v-else></dashboard>
